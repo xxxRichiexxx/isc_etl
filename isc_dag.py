@@ -10,9 +10,6 @@ from airflow.utils.task_group import TaskGroup
 from airflow.hooks.base import BaseHook
 from airflow.operators.dummy import DummyOperator
 from airflow.contrib.operators.vertica_operator import VerticaOperator
-from airflow.operators.python import BranchPythonOperator
-from airflow.providers.postgres.operators.postgres import PostgresOperator
-from airflow.models import Variable
 
 from scripts.collable import etl
 
