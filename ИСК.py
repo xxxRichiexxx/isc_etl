@@ -26,7 +26,7 @@ command = """
     DECLARE @a date;
     set @a = '2022-03-01'
     DECLARE @b date;
-    set @b = '2022-04-01'
+    set @b = '2022-03-01'
 
     EXECUTE [dbo].[хп_ВыгрузкаДляСайта_ПродажиДилеров] 
     @НачалоПериода = @a,
