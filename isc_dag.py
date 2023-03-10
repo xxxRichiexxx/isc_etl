@@ -69,3 +69,6 @@ with DAG(
             )
 
         tasks
+
+
+    start >> data_to_stage
