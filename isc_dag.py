@@ -59,14 +59,16 @@ with DAG(
         tasks = []
 
         for data_type in data_types:
-            load_data = PythonOperator(
-                task_id=f'get_{data_type}',
-                python_callable=etl,
-                op_kwargs={
-                    'data_type': data_type,
-                    'source_engine': source_engine,
-                    'dwh_engine': dwh_engine,
-                },
+            tasks.append(
+                PythonOperator(
+                    task_id=f'get_{data_type}',
+                    python_callable=etl,
+                    op_kwargs={
+                        'data_type': data_type,
+                        'source_engine': source_engine,
+                        'dwh_engine': dwh_engine,
+                    },
+                )
             )
 
         tasks
