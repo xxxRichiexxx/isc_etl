@@ -57,13 +57,13 @@ def load(dwh_engine, data, data_type, execution_date):
 
         dwh_engine.execute(
             f"""
-            DELETE FROM sttgaz.stage_ISC_1
+            DELETE FROM sttgaz.stage_isc_{data_type}
             WHERE vin IN {vins} 
             """
         )
 
         data.to_sql(
-            f'stg_isc_{data_type}',
+            f'stage_isc_{data_type}',
             dwh_engine,
             schema='XXXRICHIEXXXYANDEXRU__STAGING',
             if_exists='append',
