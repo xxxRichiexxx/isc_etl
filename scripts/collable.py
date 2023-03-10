@@ -65,7 +65,7 @@ def load(dwh_engine, data, data_type, execution_date):
         data.to_sql(
             f'stage_isc_{data_type}',
             dwh_engine,
-            schema='XXXRICHIEXXXYANDEXRU__STAGING',
+            schema='sttgaz',
             if_exists='append',
             index=False,
         )
