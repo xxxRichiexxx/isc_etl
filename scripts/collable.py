@@ -53,14 +53,14 @@ def load(dwh_engine, data, data_type, execution_date):
 
         print(data)
 
-        vins = tuple(data['vin'].values)
+        # vins = tuple(data['vin'].values)
 
-        dwh_engine.execute(
-            f"""
-            DELETE FROM sttgaz.stage_isc_{data_type}
-            WHERE vin IN {vins} 
-            """
-        )
+        # dwh_engine.execute(
+        #     f"""
+        #     DELETE FROM sttgaz.stage_isc_{data_type}
+        #     WHERE vin IN {vins} 
+        #     """
+        # )
 
         data.to_sql(
             f'stage_isc_{data_type}',

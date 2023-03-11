@@ -24,9 +24,9 @@ engine_1 =sa.create_engine(eng_str)
 
 command = """
     DECLARE @a date;
-    set @a = '2022-03-01'
+    set @a = '2022-10-01'
     DECLARE @b date;
-    set @b = '2022-03-01'
+    set @b = '2022-11-01'
 
     EXECUTE [dbo].[хп_ВыгрузкаДляСайта_ПродажиДилеров] 
     @НачалоПериода = @a,
@@ -67,7 +67,7 @@ data.columns = [
     "ProductIdentifier",
 ]
 
-data['load_date'] = '2022-04-01'
+data['load_date'] = '2022-10-01'
 
 ps = quote('s@vy7hSA')
 engine_2 = sa.create_engine(
@@ -76,12 +76,12 @@ engine_2 = sa.create_engine(
 
 vins = tuple(data['vin'].values)
 
-engine_2.execute(
-    f"""
-    DELETE FROM sttgaz.stage_ISC_1
-    WHERE vin IN {vins} 
-    """
-)
+# engine_2.execute(
+#     f"""
+#     DELETE FROM sttgaz.stage_ISC_1
+#     WHERE vin IN {vins} 
+#     """
+# )
 
 data.to_sql(
     'stage_ISC_1',
