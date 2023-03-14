@@ -82,8 +82,8 @@ def etl(source_engine, dwh_engine, data_type, **context):
 
 
 
-def date_check(**context):
+def date_check(taskgroup, **context):
     execution_date = context['execution_date'].date()
     if execution_date.day == 1:
-        return 'monthly_tasks'
-    return 'do_nothing'
+        return taskgroup + '.' + 'monthly_tasks'
+    return taskgroup + '.' + 'do_nothing'
