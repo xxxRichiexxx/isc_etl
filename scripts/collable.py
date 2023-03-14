@@ -79,3 +79,11 @@ def etl(source_engine, dwh_engine, data_type, **context):
     data = extract(source_engine, data_type, execution_date)
     data = transform(data, execution_date)
     load(dwh_engine, data, data_type, execution_date)
+
+
+
+def date_check(**context):
+    execution_date = context['execution_date'].date()
+    if execution_date.day == 1:
+        return 'monthly_tasks'
+    return 'do_nothing'

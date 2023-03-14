@@ -10,8 +10,9 @@ from airflow.utils.task_group import TaskGroup
 from airflow.hooks.base import BaseHook
 from airflow.operators.dummy import DummyOperator
 from airflow.contrib.operators.vertica_operator import VerticaOperator
+from airflow.operators.python import BranchPythonOperator
 
-from isc_etl.scripts.collable import etl
+from isc_etl.scripts.collable import etl, date_check
 
 
 source_con = BaseHook.get_connection('isc')
@@ -51,12 +52,12 @@ with DAG(
 
     start = DummyOperator(task_id='Начало')
 
-    with TaskGroup(f'Загрузка_данных_из_ИСК') as data_to_stage:
+    with TaskGroup(f'Загрузка_данных_в_stage_слой') as data_to_stage:
 
-        tasks = []
+        daily_tasks = []
 
         for data_type in data_types:
-            tasks.append(
+            daily_tasks.append(
                 PythonOperator(
                     task_id=f'get_{data_type}',
                     python_callable=etl,
@@ -68,7 +69,19 @@ with DAG(
                 )
             )
 
-        tasks
+        date_check = BranchPythonOperator(
+            task_id='date_check',
+            python_callable=date_check,
+            op_kwargs={
+                'taskgroup': 'Загрузка_данных_в_stage_слой',
+                },
+        )
+
+        do_nothing = DummyOperator(task_id='do_nothing')
+        monthly_tasks = DummyOperator(task_id='monthly_tasks')
+        collapse = DummyOperator(task_id='collapse', trigger_rule='none_failed')
+
+        daily_tasks >> date_check >> [do_nothing, monthly_tasks] >> collapse
 
 
     start >> data_to_stage
