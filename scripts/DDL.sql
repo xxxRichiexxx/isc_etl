@@ -17,7 +17,7 @@ CREATE TABLE sttgaz.stage_isc_sales (
     "ImplementationProgram" VARCHAR(2000),
     "ShipmentDate" DATE,
     "DateOfSale" DATE,
-    "DateOfEntryIntoDB" DATE,
+    "DateOfEntryIntoDB" VARCHAR(500),
     "SoldAtRetail" INT,
     "SoldToIndividuals" INT,
     "BalanceAtBeginningOfPeriod" INT,

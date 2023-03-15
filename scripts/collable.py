@@ -1,11 +1,14 @@
 import pandas as pd
+import datetime as dt
 
 
 def extract(source_engine, data_type, execution_date):
     """Извлечение данных из источника."""
 
     with open(fr'/home/da/airflow/dags/isc_etl/scripts/stg_{data_type}.sql', 'r') as f:
-        command = f.read().format(execution_date)
+        date_from = execution_date.replace(day=1)
+        date_to = date_from.replace(month=date_from.month + 1) - dt.timedelta(days=1)
+        command = f.read().format(execution_date, date_to)
 
     print(command)
 
@@ -58,7 +61,7 @@ def load(dwh_engine, data, data_type, execution_date):
         dwh_engine.execute(
             f"""
             DELETE FROM sttgaz.stage_isc_{data_type}
-            WHERE ProductIdentifier IN {ProductIdentifiers} 
+            WHERE DATE_TRUNC('MONTH', load_date) = '{execution_date.replace(day=1)}'
             """
         )
 

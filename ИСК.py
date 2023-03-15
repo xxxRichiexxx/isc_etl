@@ -24,9 +24,9 @@ engine_1 =sa.create_engine(eng_str)
 
 command = """
     DECLARE @a date;
-    set @a = '2022-10-01'
+    set @a = '2023-02-01'
     DECLARE @b date;
-    set @b = '2022-11-01'
+    set @b = '2023-02-28'
 
     EXECUTE [dbo].[хп_ВыгрузкаДляСайта_ПродажиДилеров] 
     @НачалоПериода = @a,
@@ -67,7 +67,7 @@ data.columns = [
     "ProductIdentifier",
 ]
 
-data['load_date'] = '2022-10-01'
+data['load_date'] = '2023-03-01'
 
 ps = quote('s@vy7hSA')
 engine_2 = sa.create_engine(
