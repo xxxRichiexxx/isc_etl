@@ -97,7 +97,7 @@ with DAG(
                 VerticaOperator(
                     task_id=f'dds_isc_{data_type}',
                     vertica_conn_id='vertica',
-                    sql=f'dds_{data_type}.sql',
+                    sql=f'scripts/dds_{data_type}.sql',
                 )
             )
         tasks               
