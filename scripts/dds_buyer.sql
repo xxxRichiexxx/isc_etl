@@ -9,7 +9,7 @@ USING
         "LineOfWork",
         "ScopeOfUse"
     FROM sttgaz.stage_isc_sales
-    WHERE load_date = {{execution_date}}) AS src
+    WHERE load_date = {{execution_date.date()}}) AS src
 ON  
     tgt."Регион" = src.BuyersRegion,
     tgt."Название" = src.FinalBuyer,
