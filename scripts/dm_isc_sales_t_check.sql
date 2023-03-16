@@ -8,4 +8,4 @@ SELECT
     AND SUM("Остатки на НП") = {{task_instance.xcom_pull(key='BalanceAtBeginningOfPeriod', task_ids='Загрузка_данных_в_stage_слой.get_sales')}}
     AND SUM("Остатки на КП") = {{task_instance.xcom_pull(key='BalanceAtEndOfPeriod', task_ids='Загрузка_данных_в_stage_слой.get_sales')}}
 FROM sttgaz.dm_isc_sales_t
-WHERE "Период" = '{{execution_date.date().replase(day=1)}}';
+WHERE "Период" = '{{execution_date.date().replace(day=1)}}';
