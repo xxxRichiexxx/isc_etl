@@ -83,8 +83,11 @@ def etl(source_engine, dwh_engine, data_type, **context):
     execution_date = context['execution_date'].date()
     data = extract(source_engine, data_type, execution_date)
     data = transform(data, execution_date)
+    context['ti'].xcom_push(key='SoldAtRetail', value=sum(data['SoldAtRetail']))
+    context['ti'].xcom_push(key='SoldToIndividuals', value=sum(data['SoldToIndividuals']))
+    context['ti'].xcom_push(key='BalanceAtBeginningOfPeriod', value=sum(data['BalanceAtBeginningOfPeriod']))
+    context['ti'].xcom_push(key='BalanceAtEndOfPeriod', value=sum(data['BalanceAtEndOfPeriod']))           
     load(dwh_engine, data, data_type, execution_date)
-
 
 
 def date_check(taskgroup, **context):

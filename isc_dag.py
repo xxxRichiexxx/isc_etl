@@ -131,6 +131,16 @@ with DAG(
                     }
                 )
 
-        [mart_from_stage_view, mart_from_dds_view, mart_from_dds_table]                
+        [mart_from_stage_view, mart_from_dds_view, mart_from_dds_table]
 
-    start >> data_to_stage >> data_to_dds >> data_to_dm
+    with TaskGroup(f'Проверки') as data_checks:
+
+        dm_isc_sales_t_check = VerticaOperator(
+                    task_id=f'dm_isc_sales_t_check',
+                    vertica_conn_id='vertica',
+                    sql=f'scripts/dm_isc_sales_t_check.sql',
+                )
+        
+        dm_isc_sales_t_check           
+
+    start >> data_to_stage >> data_to_dds >> data_to_dm >> data_checks
