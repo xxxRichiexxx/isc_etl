@@ -32,14 +32,14 @@ SELECT
     load_date                       AS "Период"    
 FROM sq                         AS s
 LEFT JOIN sttgaz.dds_isc_dealer AS d
-    ON d."Дивизион" = s.division,
-       d."Территория продаж" = s.SalesTerritory,
-       d."Название" = s.Recipient,
-       d."Полное название (организация)" = s.RecipientFullName
+    ON    d."Дивизион" = s.division
+    AND   d."Территория продаж" = s.SalesTerritory
+    AND   d."Название" = s.Recipient
+    AND   d."Полное название (организация)" = s.RecipientFullName
 LEFT JOIN sttgaz.dds_isc_buyer  AS b
-    ON b."Регион" = s.BuyersRegion,
-       b."Название" = s.FinalBuyer,
-       b."ИНН" = s.BuyerINN,
-       b."ОКВЭД" = s.okved,
-       b."Род занятий(сфера деятельности)" = s.LineOfWork,
-       b."Сфера использования" = s.ScopeOfUse
+    ON    b."Регион" = s.BuyersRegion
+    AND   b."Название" = s.FinalBuyer
+    AND   b."ИНН" = s.BuyerINN
+    AND   b."ОКВЭД" = s.okved
+    AND   b."Род занятий(сфера деятельности)" = s.LineOfWork
+    AND   b."Сфера использования" = s.ScopeOfUse

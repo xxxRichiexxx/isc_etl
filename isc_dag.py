@@ -85,7 +85,6 @@ with DAG(
     with TaskGroup(f'Загрузка_данных_в_dds_слой') as data_to_dds:
 
         data_types = [
-            'sales',
             'dealer',
             'buyer',
         ]
@@ -100,6 +99,13 @@ with DAG(
                     sql=f'scripts/dds_{data_type}.sql',
                 )
             )
-        tasks               
+
+        sales = VerticaOperator(
+            task_id=f'dds_isc_sales',
+            vertica_conn_id='vertica',
+            sql=f'scripts/dds_sales.sql',
+        )
+
+        tasks >> sales              
 
     start >> data_to_stage >> data_to_dds
