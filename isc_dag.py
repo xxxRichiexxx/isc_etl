@@ -2,7 +2,6 @@
 import sqlalchemy as sa
 from urllib.parse import quote
 import datetime as dt
-import sys
 
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
@@ -83,5 +82,24 @@ with DAG(
 
         daily_tasks >> date_check >> [do_nothing, monthly_tasks] >> collapse
 
+    with TaskGroup(f'Загрузка_данных_в_dds_слой') as data_to_dds:
 
-    start >> data_to_stage
+        data_types = [
+            'sales',
+            'dealer',
+            'buyer',
+        ]
+
+        tasks = []
+
+        for data_type in data_types:
+            tasks.append(
+                VerticaOperator(
+                    task_id=f'dds_isc_{data_type}',
+                    vertica_conn_id='vertica',
+                    sql=f'dds_{data_type}.sql',
+                )
+            )
+        tasks               
+
+    start >> data_to_stage >> data_to_dds
