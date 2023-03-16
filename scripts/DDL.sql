@@ -24,4 +24,6 @@ CREATE TABLE sttgaz.stage_isc_sales (
     "BalanceAtEndOfPeriod" INT,
     "ProductIdentifier" INT,
     load_date DATE
-);
+)
+ORDER BY load_date, Recipient, division, SalesTerritory
+PARTITION BY DATE_TRUNC('MONTH', load_date);

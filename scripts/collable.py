@@ -57,9 +57,12 @@ def load(dwh_engine, data, data_type, execution_date):
         print(data)
 
         command = f"""
-            DELETE FROM sttgaz.stage_isc_{data_type}
-            WHERE DATE_TRUNC('MONTH', load_date) = '{execution_date.replace(day=1)}'
-            """
+            SELECT DROP_PARTITIONS(
+                'sttgaz.stage_isc_{data_type}',
+                '{execution_date.replace(day=1)}',
+                '{execution_date.replace(day=1)}'
+            );
+        """
         print(command)
 
         dwh_engine.execute(command)
