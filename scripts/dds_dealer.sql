@@ -7,7 +7,7 @@ USING
         "Recipient",
         "RecipientFullName"
     FROM sttgaz.stage_isc_sales
-    WHERE load_date = {{execution_date.date()}}) AS src
+    WHERE load_date = '{{execution_date.date()}}') AS src
 ON  
     tgt."Дивизион" = src.division
     AND tgt."Территория продаж" = src.SalesTerritory
