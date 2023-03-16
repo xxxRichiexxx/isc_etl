@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW dm_isc_sales_v AS
+CREATE OR REPLACE VIEW sttgaz.dm_isc_sales_v AS
 WITH
     dds_data AS(
         SELECT
