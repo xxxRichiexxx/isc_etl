@@ -1,5 +1,4 @@
-drop view if exists sttgaz.isc_test;
-create view sttgaz.isc_test AS
+CREATE OR REPLACE VIEW dm_isc_sales_v_test
 WITH 
 	sq1 AS(
 		SELECT DISTINCT
@@ -43,4 +42,4 @@ SELECT
 	LAG("Продажи физ лицам", 12) OVER (PARTITION BY "Дивизион", "Дилер", "Территория продаж" ORDER BY "Дата") 		AS "Продажи физ лицам за прошлый год"
 FROM sq4;
 
-GRANT SELECT ON TABLE sttgaz.isc_test TO PowerBI_Integration WITH GRANT OPTION;
+GRANT SELECT ON TABLE dm_isc_sales_v_test TO PowerBI_Integration WITH GRANT OPTION;

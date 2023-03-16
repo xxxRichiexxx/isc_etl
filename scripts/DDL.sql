@@ -80,8 +80,8 @@ ORDER BY id;
 
 ----------marts---------------------
 
-DROP TABLE IF EXISTS sttgaz.dm_isc_sales;
-CREATE TABLE sttgaz.dm_isc_sales (
+DROP TABLE IF EXISTS sttgaz.dm_isc_sales_t;
+CREATE TABLE sttgaz.dm_isc_sales_t (
     id AUTO_INCREMENT PRIMARY KEY,
     "Период" DATE,
     "Дивизион" VARCHAR(50),
@@ -98,3 +98,5 @@ CREATE TABLE sttgaz.dm_isc_sales (
 )
 ORDER BY "Период", "Дивизион", "Дилер"
 PARTITION BY DATE_TRUNC('MONTH', "Период");
+
+GRANT SELECT ON TABLE sttgaz.dm_isc_sales_t TO PowerBI_Integration WITH GRANT OPTION;

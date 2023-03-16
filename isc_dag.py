@@ -106,6 +106,33 @@ with DAG(
             sql=f'scripts/dds_sales.sql',
         )
 
-        tasks >> sales              
+        tasks >> sales
+
+    with TaskGroup(f'Загрузка_данных_в_dm_слой') as data_to_dm:
+
+        mart_from_stage_view = VerticaOperator(
+                    task_id=f'dm_isc_sales_v_test',
+                    vertica_conn_id='vertica',
+                    sql=f'scripts/mart_from_stage_view.sql',
+                )
+
+        mart_from_dds_view = VerticaOperator(
+                    task_id=f'dm_isc_sales_v',
+                    vertica_conn_id='vertica',
+                    sql=f'scripts/mart_from_dds_view.sql',
+                )
+        
+        mart_from_dds_table = VerticaOperator(
+                    task_id=f'dm_isc_sales_t',
+                    vertica_conn_id='vertica',
+                    sql=f'scripts/mart_from_dds_table.sql',
+                    params={
+                        'current_month': f'{{execution_date.date().replace(day=1)}}'
+                        'previous_month': f'{{(execution_date.date().replace(day=1)-dt.timedelta(days=1)).replace(day=1)}}'
+                        'previous_year': f'{{execution_date.date().replace(day=1).replace(year=(execution_date.year-1))}}'                                                    
+                    }
+                )
+
+        tasks >> sales                 
 
     start >> data_to_stage >> data_to_dds
