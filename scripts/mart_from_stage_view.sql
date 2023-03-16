@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW dm_isc_sales_v_test
+CREATE OR REPLACE VIEW dm_isc_sales_v_test AS
 WITH 
 	sq1 AS(
 		SELECT DISTINCT
