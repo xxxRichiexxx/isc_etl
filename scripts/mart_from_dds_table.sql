@@ -28,7 +28,7 @@ WITH
             ON s."Дилер ID" = d.id
         LEFT JOIN sttgaz.dds_isc_buyer AS b 
             ON s."Покупатель ID" = b.id
-    )
+    ),
 	sq1 AS(
 		SELECT DISTINCT
 			"Дивизион",
