@@ -127,9 +127,7 @@ with DAG(
                     vertica_conn_id='vertica',
                     sql=f'scripts/mart_from_dds_table.sql',
                     params={
-                        'current_month': f'{{execution_date.date().replace(day=1)}}',
-                        'previous_month': f'{{(execution_date.date().replace(day=1)-dt.timedelta(days=1)).replace(day=1)}}',
-                        'previous_year': f'{{execution_date.date().replace(day=1).replace(year=(execution_date.year-1))}}',                                                   
+                        'delta': dt.timedelta(days=1),                                          
                     }
                 )
 

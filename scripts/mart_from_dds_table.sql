@@ -20,7 +20,9 @@ WITH
             s."Остатки на КП в пути"
         FROM (
             SELECT * FROM sttgaz.dds_isc_sales WHERE DATE_TRUNC('MONTH', "Период")
-            IN ('{{params.current_month}}', '{{params.previous_month}}', '{{params.previous_year}}')
+            IN ('{{execution_date.date().replace(day=1)}}', 
+				'{{(execution_date.date().replace(day=1) - params.delta).replace(day=1)}}', 
+				'{{execution_date.date().replace(day=1).replace(year=(execution_date.year-1))}}')
         ) AS s
         LEFT JOIN sttgaz.dds_isc_dealer AS d
             ON s."Дилер ID" = d.id
