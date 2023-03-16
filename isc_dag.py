@@ -133,6 +133,6 @@ with DAG(
                     }
                 )
 
-        tasks >> sales                 
+        [mart_from_stage_view, mart_from_dds_view, mart_from_dds_table]                
 
-    start >> data_to_stage >> data_to_dds
+    start >> data_to_stage >> data_to_dm
