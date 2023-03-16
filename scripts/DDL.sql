@@ -77,3 +77,24 @@ CREATE TABLE sttgaz.dds_isc_buyer (
     ts TIMESTAMP
 )
 ORDER BY id;
+
+----------marts---------------------
+
+DROP TABLE IF EXISTS sttgaz.dm_isc_sales;
+CREATE TABLE sttgaz.dm_isc_sales (
+    id AUTO_INCREMENT PRIMARY KEY,
+    "Период" DATE,
+    "Дивизион" VARCHAR(50),
+    "Дилер" VARCHAR(2000), 
+    "Территория продаж" VARCHAR(2000),
+    "Продажи в розницу" INT,
+    "Продажи физ лицам" INT,
+    "Остатки на НП" INT,
+    "Остатки на КП" INT,
+    "Продажи в розницу за прошлый месяц" INT,
+    "Продажи физ лицам за прошлый месяц" INT,
+    "Продажи в розницу за прошлый год" INT,
+    "Продажи физ лицам за прошлый год" INT
+)
+ORDER BY "Период", "Дивизион", "Дилер"
+PARTITION BY DATE_TRUNC('MONTH', "Период");
