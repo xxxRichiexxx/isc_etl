@@ -8,8 +8,7 @@ CREATE TABLE sttgaz.dds_isc_buyer (
     "Род занятий(сфера деятельности)" VARCHAR(500),
     "Сфера использования" VARCHAR(2000)
 )
-ORDER BY id
-PARTITION BY "Регион";
+ORDER BY id;
 
 INSERT INTO sttgaz.dds_isc_buyer 
 ("Регион", "Название", "ИНН", "ОКВЭД", "Род занятий(сфера деятельности)", "Сфера использования")

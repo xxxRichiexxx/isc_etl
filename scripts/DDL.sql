@@ -61,8 +61,7 @@ CREATE TABLE sttgaz.dds_isc_dealer (
     "Название" VARCHAR(2000),
     "Полное название (организация)" VARCHAR(2000)
 )
-ORDER BY id
-PARTITION BY "Территория продаж";
+ORDER BY id;
 
 
 DROP TABLE IF EXISTS sttgaz.dds_isc_buyer;
@@ -75,5 +74,4 @@ CREATE TABLE sttgaz.dds_isc_buyer (
     "Род занятий(сфера деятельности)" VARCHAR(500),
     "Сфера использования" VARCHAR(2000)
 )
-ORDER BY id
-PARTITION BY "Регион";
+ORDER BY id;

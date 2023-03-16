@@ -6,8 +6,7 @@ CREATE TABLE sttgaz.dds_isc_dealer (
     "Название" VARCHAR(2000),
     "Полное название (организация)" VARCHAR(2000)
 )
-ORDER BY id
-PARTITION BY "Территория продаж";
+ORDER BY id;
 
 INSERT INTO sttgaz.dds_isc_dealer
 ("Дивизион", "Территория продаж", "Название", "Полное название (организация)")
