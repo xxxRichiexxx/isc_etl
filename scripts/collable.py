@@ -7,7 +7,7 @@ def extract(source_engine, data_type, execution_date):
 
     with open(fr'/home/da/airflow/dags/isc_etl/scripts/stg_{data_type}.sql', 'r') as f:
         date_from = execution_date.replace(day=1)
-        date_to = date_from.replace(month=date_from.month + 1) - dt.timedelta(days=1)
+        date_to = (execution_date.replace(day=28) + dt.timedelta(days=4)).replace(day=1) - dt.timedelta(days=1)
         command = f.read().format(date_from, date_to)
 
     print(command)
