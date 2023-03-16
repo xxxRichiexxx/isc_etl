@@ -1,24 +1,19 @@
-MERGE
-into sttgaz.dds_isc_dealer AS tgt 
-USING
-    (SELECT
+DROP TABLE IF EXISTS sttgaz.dds_isc_dealer;
+CREATE TABLE sttgaz.dds_isc_dealer (
+    id AUTO_INCREMENT PRIMARY KEY,                         
+    "Дивизион" VARCHAR(50),
+    "Территория продаж" VARCHAR(2000),
+    "Название" VARCHAR(2000),
+    "Полное название (организация)" VARCHAR(2000)
+)
+ORDER BY id
+PARTITION BY "Территория продаж";
+
+INSERT INTO sttgaz.dds_isc_dealer
+("Дивизион", "Территория продаж", "Название", "Полное название (организация)")
+SELECT DISTINCT
         "division",
         "SalesTerritory",
         "Recipient",
         "RecipientFullName"
-    FROM sttgaz.stage_isc_sales
-    WHERE load_date = '{{execution_date.date()}}') AS src
-ON  
-    tgt."Дивизион" = src.division
-    AND tgt."Территория продаж" = src.SalesTerritory
-    AND tgt."Название" = src.Recipient
-    AND tgt."Полное название (организация)" = src.RecipientFullName
-WHEN MATCHED
-    THEN UPDATE SET
-        "Дивизион" = src.division,
-        "Территория продаж" = src.SalesTerritory,
-        "Название" = src.Recipient,
-        "Полное название (организация)" = src.RecipientFullName
-WHEN NOT MATCHED
-    THEN INSERT("Дивизион", "Территория продаж", "Название", "Полное название (организация)", ts)
-    VALUES(src.division, src.SalesTerritory, src.Recipient, src.RecipientFullName, now()); 
+FROM sttgaz.stage_isc_sales; 

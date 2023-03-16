@@ -59,8 +59,7 @@ CREATE TABLE sttgaz.dds_isc_dealer (
     "Дивизион" VARCHAR(50),
     "Территория продаж" VARCHAR(2000),
     "Название" VARCHAR(2000),
-    "Полное название (организация)" VARCHAR(2000),
-    ts TIMESTAMP
+    "Полное название (организация)" VARCHAR(2000)
 )
 ORDER BY id
 PARTITION BY "Территория продаж";
@@ -74,8 +73,7 @@ CREATE TABLE sttgaz.dds_isc_buyer (
     "ИНН" VARCHAR(500),
     "ОКВЭД"  VARCHAR(500),
     "Род занятий(сфера деятельности)" VARCHAR(500),
-    "Сфера использования" VARCHAR(2000),
-    ts TIMESTAMP
+    "Сфера использования" VARCHAR(2000)
 )
 ORDER BY id
 PARTITION BY "Регион";
