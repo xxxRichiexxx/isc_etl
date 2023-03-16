@@ -11,12 +11,12 @@ USING
     FROM sttgaz.stage_isc_sales
     WHERE load_date = {{execution_date.date()}}) AS src
 ON  
-    tgt."Регион" = src.BuyersRegion,
-    tgt."Название" = src.FinalBuyer,
-    tgt."ИНН" = src.BuyerINN,
-    tgt."ОКВЭД" = src.okved,
-    tgt."Род занятий(сфера деятельности)" = src.LineOfWork,
-    tgt."Сфера использования" = src.ScopeOfUse
+    tgt."Регион" = src.BuyersRegion
+    AND tgt."Название" = src.FinalBuyer
+    AND tgt."ИНН" = src.BuyerINN
+    AND tgt."ОКВЭД" = src.okved
+    AND tgt."Род занятий(сфера деятельности)" = src.LineOfWork
+    AND tgt."Сфера использования" = src.ScopeOfUse
 WHEN MATCHED
     THEN UPDATE SET
         "Регион" = src.BuyersRegion,

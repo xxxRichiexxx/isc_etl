@@ -9,10 +9,10 @@ USING
     FROM sttgaz.stage_isc_sales
     WHERE load_date = {{execution_date.date()}}) AS src
 ON  
-    tgt."Дивизион" = src.division,
-    tgt."Территория продаж" = src.SalesTerritory,
-    tgt."Название" = src.Recipient,
-    tgt."Полное название (организация)" = src.RecipientFullName
+    tgt."Дивизион" = src.division
+    AND tgt."Территория продаж" = src.SalesTerritory
+    AND tgt."Название" = src.Recipient
+    AND tgt."Полное название (организация)" = src.RecipientFullName
 WHEN MATCHED
     THEN UPDATE SET
         "Дивизион" = src.division,
