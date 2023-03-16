@@ -1,5 +1,5 @@
 SELECT DROP_PARTITIONS(
-    'sttgaz.dds_isc_{{params.data_type}}',
+    'sttgaz.dds_isc_sales',
     '{{execution_date.replace(day=1)}}',
     '{{execution_date.replace(day=1)}}'
 );
