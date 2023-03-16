@@ -1,18 +1,17 @@
-DROP TABLE IF EXISTS sttgaz.dds_isc_dealer;
-CREATE TABLE sttgaz.dds_isc_dealer (
-    id AUTO_INCREMENT PRIMARY KEY,                         
-    "Дивизион" VARCHAR(50),
-    "Территория продаж" VARCHAR(2000),
-    "Название" VARCHAR(2000),
-    "Полное название (организация)" VARCHAR(2000)
-)
-ORDER BY id;
-
 INSERT INTO sttgaz.dds_isc_dealer
-("Дивизион", "Территория продаж", "Название", "Полное название (организация)")
+("Дивизион", "Территория продаж", "Название", "Полное название (организация)", ts)
+WITH 
+    sq AS(
+        SELECT HASH("Дивизион", "Территория продаж", "Название", "Полное название (организация)")
+        FROM sttgaz.dds_isc_dealer
+    )
 SELECT DISTINCT
         "division",
         "SalesTerritory",
         "Recipient",
-        "RecipientFullName"
-FROM sttgaz.stage_isc_sales; 
+        "RecipientFullName",
+        NOW()
+FROM sttgaz.stage_isc_sales
+WHERE load_date = '{{execution_date.date()}}'
+    AND HASH("division", "SalesTerritory", "Recipient", "RecipientFullName")
+        NOT IN (SELECT * FROM sq); 
