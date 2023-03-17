@@ -110,28 +110,28 @@ with DAG(
 
     with TaskGroup(f'Загрузка_данных_в_dm_слой') as data_to_dm:
 
-        mart_from_stage_view = VerticaOperator(
-                    task_id=f'dm_isc_sales_v_test',
-                    vertica_conn_id='vertica',
-                    sql=f'scripts/mart_from_stage_view.sql',
-                )
-
-        mart_from_dds_view = VerticaOperator(
+        dm_isc_sales_v = VerticaOperator(
                     task_id=f'dm_isc_sales_v',
                     vertica_conn_id='vertica',
-                    sql=f'scripts/mart_from_dds_view.sql',
+                    sql=f'scripts/dm_isc_sales_v.sql',
                 )
         
-        mart_from_dds_table = VerticaOperator(
+        dm_isc_sales_t = VerticaOperator(
                     task_id=f'dm_isc_sales_t',
                     vertica_conn_id='vertica',
-                    sql=f'scripts/mart_from_dds_table.sql',
+                    sql=f'scripts/dm_isc_sales_t.sql',
                     params={
                         'delta': dt.timedelta(days=1),                                          
                     }
                 )
+        
+        dm_isc_sales_v_for_model = VerticaOperator(
+                    task_id=f'dm_isc_sales_v',
+                    vertica_conn_id='vertica',
+                    sql=f'scripts/dm_isc_sales_v_for_model.sql',
+                )
 
-        [mart_from_stage_view, mart_from_dds_view, mart_from_dds_table]
+        [dm_isc_sales_v, dm_isc_sales_t, dm_isc_sales_v_for_model]
 
     with TaskGroup(f'Проверки') as data_checks:
 

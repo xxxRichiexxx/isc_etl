@@ -29,6 +29,25 @@ ORDER BY load_date, Recipient, division, SalesTerritory
 PARTITION BY DATE_TRUNC('MONTH', load_date);
 
 
+DROP TABLE IF EXISTS sttgaz.stage_isc_classifier;
+CREATE TABLE sttgaz.stage_isc_classifier (
+    "Stsep" VARCHAR(500),
+    "BHKID" INT,
+    "Vnutrenicod" VARCHAR(500),
+    "Options"  VARCHAR(500),
+    "Dvigatel" VARCHAR(500),
+    "Division" VARCHAR(100),
+    "Kuzov" VARCHAR(100),
+    "Pocolenie" VARCHAR(100),
+    "Semeistvo" VARCHAR(100),
+    "Naznachenie" VARCHAR(100),
+    "PodrMesta" VARCHAR(100),
+    "Razmer" VARCHAR(100),
+    "Privid" VARCHAR(100),
+    "Dvigatel2" VARCHAR(100),
+    "Options2" VARCHAR(100),
+    "GruppaAEB" VARCHAR(100)
+)
 ---------------DDS------------------------
 DROP TABLE IF EXISTS sttgaz.dds_isc_sales;
 CREATE TABLE sttgaz.dds_isc_sales (
@@ -77,6 +96,30 @@ CREATE TABLE sttgaz.dds_isc_buyer (
     ts TIMESTAMP
 )
 ORDER BY id;
+
+
+DROP TABLE IF EXISTS sttgaz.dds_isc_classifier;
+CREATE TABLE sttgaz.dds_isc_classifier (
+    id AUTO_INCREMENT PRIMARY KEY,
+    "Сцеп" VARCHAR(2000),
+    "ВнК_ID" INT,
+    "Внутренний код" VARCHAR(500),
+    "Опции"  VARCHAR(500),
+    "Двигатель" VARCHAR(500),
+    "Гр1 Дивизион" VARCHAR(100),
+    "Гр2 Кузов" VARCHAR(100),
+    "Гр3 Поколение" VARCHAR(100),
+    "Гр4 Семейство" VARCHAR(100),
+    "Гр5 Назначение" VARCHAR(100),
+    "Гр6 Подр (места)" VARCHAR(100),
+    "Гр7 Размер" VARCHAR(100),
+    "Гр8 Привод" VARCHAR(100),
+    "Гр9 Двигатель" VARCHAR(100),
+    "Гр10 Опции" VARCHAR(100),
+    "Гр11 группа АЕБ" VARCHAR(100)
+)
+ORDER BY id;
+
 
 ----------marts---------------------
 
