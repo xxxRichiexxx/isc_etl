@@ -39,7 +39,7 @@ with DAG(
         'isc',
         default_args=default_args,
         description='Получение данных из ИСК.',
-        start_date=dt.datetime(2022, 12, 25),
+        start_date=dt.datetime(2020, 1, 1),
         schedule_interval='@daily',
         catchup=True,
         max_active_runs=1
