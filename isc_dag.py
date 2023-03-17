@@ -126,7 +126,7 @@ with DAG(
                 )
         
         dm_isc_sales_v_for_model = VerticaOperator(
-                    task_id=f'dm_isc_sales_v',
+                    task_id=f'dm_isc_sales_v_for_model',
                     vertica_conn_id='vertica',
                     sql=f'scripts/dm_isc_sales_v_for_model.sql',
                 )
