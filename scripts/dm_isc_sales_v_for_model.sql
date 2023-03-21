@@ -2,7 +2,6 @@ CREATE OR REPLACE VIEW sttgaz.dm_isc_sales_v_for_model AS
 WITH
     dds_data AS(
         SELECT
-            d."Дивизион",
             d.id AS "Дилер ID",
             d."Территория продаж",
             s."Дата продажи",
@@ -16,7 +15,6 @@ WITH
     ),
 	sq1 AS(
 		SELECT DISTINCT
-			"Дивизион",
 			"Дилер ID",
 			"Территория продаж",
 			"Внутренний код"
@@ -35,21 +33,18 @@ WITH
 	sq4 AS(
 		SELECT 
 			to_char(sq3."Дата",'DD.MM.YYYY') 										AS "Дата",
-			sq3."Дивизион",
 			sq3."Дилер ID",
 			sq3."Территория продаж",
 			sq3."Внутренний код",
-			SUM("Продано в розницу") 												AS "Продажи в розницу"
+			COALESCE(SUM("Продано в розницу"), 0)									AS "Продажи в розницу"
 		FROM sq3
 		LEFT JOIN dds_data AS s
 			ON sq3."Дата" = s."Дата продажи" 
 			AND sq3."Дилер ID" = s."Дилер ID"
-			AND sq3."Дивизион" = s."Дивизион" 
 			AND sq3."Территория продаж" = s."Территория продаж"
 			AND sq3."Внутренний код" = s."Внутренний код"
 		GROUP BY
 			to_char(sq3."Дата",'DD.MM.YYYY'),
-			sq3."Дивизион",
 			sq3."Дилер ID",
 			sq3."Территория продаж",
 			sq3."Внутренний код" 

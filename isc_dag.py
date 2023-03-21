@@ -131,7 +131,13 @@ with DAG(
                     sql=f'scripts/dm_isc_sales_v_for_model.sql',
                 )
 
-        [dm_isc_sales_v, dm_isc_sales_t, dm_isc_sales_v_for_model]
+        dm_isc_sales_v_detailed = VerticaOperator(
+                    task_id=f'dm_isc_sales_v_detailed',
+                    vertica_conn_id='vertica',
+                    sql=f'scripts/dm_isc_sales_v_detailed.sql',
+                )
+
+        [dm_isc_sales_v, dm_isc_sales_t, dm_isc_sales_v_for_model, dm_isc_sales_v_detailed]
 
     with TaskGroup(f'Проверки') as data_checks:
 
