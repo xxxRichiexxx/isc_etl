@@ -32,7 +32,7 @@ CREATE TABLE sttgaz.stage_isc_sales (
     "clientsHolding" VARCHAR(500),
     "BalanceAtBeginningOfPeriod" INT,
     "BalanceAtEndOfPeriod" INT,
-    "load_date" DATE,
+    "load_date" DATE
 )
 ORDER BY load_date, Recipient, division, SalesTerritory
 PARTITION BY DATE_TRUNC('MONTH', load_date);
@@ -84,8 +84,7 @@ CREATE TABLE sttgaz.dds_isc_sales (
     "Двигатель" VARCHAR(200),
     "Остатки на НП" INT,
     "Остатки на КП" INT,
-    "Период" DATE,
-)
+    "Период" DATE
 )
 ORDER BY "Период", "Дилер ID", "Покупатель ID"
 PARTITION BY DATE_TRUNC('MONTH', "Период");
