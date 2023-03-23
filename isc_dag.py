@@ -40,7 +40,7 @@ with DAG(
         default_args=default_args,
         description='Получение данных из ИСК.',
         start_date=dt.datetime(2020, 1, 1),
-        schedule_interval='@monthly',
+        schedule_interval='@daily',
         catchup=True,
         max_active_runs=1
 ) as dag:
@@ -77,17 +77,16 @@ with DAG(
         )
 
         do_nothing = DummyOperator(task_id='do_nothing')
-        monthly_tasks = DummyOperator(task_id='monthly_tasks')
-        # monthly_tasks = PythonOperator(
-        #             task_id=f'monthly_tasks',
-        #             python_callable=etl,
-        #             op_kwargs={
-        #                 'data_type': 'sales',
-        #                 'source_engine': source_engine,
-        #                 'dwh_engine': dwh_engine,
-        #                  'monthly_tasks=True,
-        #             },
-        #         )
+        monthly_tasks = PythonOperator(
+                    task_id=f'monthly_tasks',
+                    python_callable=etl,
+                    op_kwargs={
+                        'data_type': 'sales',
+                        'source_engine': source_engine,
+                        'dwh_engine': dwh_engine,
+                        'monthly_tasks'=True,
+                    },
+                )
         collapse = DummyOperator(task_id='collapse', trigger_rule='none_failed')
 
         daily_tasks >> date_check >> [do_nothing, monthly_tasks] >> collapse

@@ -20,30 +20,6 @@ def extract(source_engine, data_type, execution_date):
 
 def transform(data, execution_date):
     """Преобразование/трансформация данных."""
-    # data.columns = [
-    #     "ModelYear",
-    #     "vin",
-    #     "division",
-    #     "code",
-    #     "SalesTerritory",
-    #     "Recipient",
-    #     "RecipientFullName",
-    #     "BuyersRegion",
-    #     "FinalBuyer",
-    #     "BuyerINN",
-    #     "okved",
-    #     "LineOfWork",
-    #     "ScopeOfUse",
-    #     "ImplementationProgram",
-    #     "ShipmentDate",
-    #     "DateOfSale",
-    #     "DateOfEntryIntoDB",
-    #     "SoldAtRetail",
-    #     "SoldToIndividuals",
-    #     "BalanceAtBeginningOfPeriod",
-    #     "BalanceAtEndOfPeriod",
-    #     "ProductIdentifier",
-    # ]
 
     data.columns = [
         "ModelYear",
