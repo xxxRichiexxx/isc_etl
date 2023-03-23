@@ -36,7 +36,7 @@ SELECT
     "DirectionOfImplementationWithUKP"          AS "Направление реализации с учетом УКП",
     "DirectionOfImplementationPlace"            AS "Направление реализации площадки",
     "BuildOption"                               AS "Вариант сборки",
-    "BuildOptionСollapsed"                      AS "Вариант сборки свернутый"
+    "BuildOptionСollapsed"                      AS "Вариант сборки свернутый",
     "Engine"                                    AS "Двигатель",
     "BalanceAtBeginningOfPeriod"                AS "Остатки на НП",
     "BalanceAtEndOfPeriod"                      AS "Остатки на КП",
