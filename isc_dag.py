@@ -84,7 +84,7 @@ with DAG(
                         'data_type': 'sales',
                         'source_engine': source_engine,
                         'dwh_engine': dwh_engine,
-                        'monthly_tasks'=True,
+                        'monthly_tasks': True,
                     },
                 )
         collapse = DummyOperator(task_id='collapse', trigger_rule='none_failed')
