@@ -78,6 +78,16 @@ with DAG(
 
         do_nothing = DummyOperator(task_id='do_nothing')
         monthly_tasks = DummyOperator(task_id='monthly_tasks')
+        # monthly_tasks = PythonOperator(
+        #             task_id=f'monthly_tasks',
+        #             python_callable=etl,
+        #             op_kwargs={
+        #                 'data_type': 'sales',
+        #                 'source_engine': source_engine,
+        #                 'dwh_engine': dwh_engine,
+        #                  'monthly_tasks=True,
+        #             },
+        #         )
         collapse = DummyOperator(task_id='collapse', trigger_rule='none_failed')
 
         daily_tasks >> date_check >> [do_nothing, monthly_tasks] >> collapse

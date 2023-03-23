@@ -20,6 +20,31 @@ def extract(source_engine, data_type, execution_date):
 
 def transform(data, execution_date):
     """Преобразование/трансформация данных."""
+    # data.columns = [
+    #     "ModelYear",
+    #     "vin",
+    #     "division",
+    #     "code",
+    #     "SalesTerritory",
+    #     "Recipient",
+    #     "RecipientFullName",
+    #     "BuyersRegion",
+    #     "FinalBuyer",
+    #     "BuyerINN",
+    #     "okved",
+    #     "LineOfWork",
+    #     "ScopeOfUse",
+    #     "ImplementationProgram",
+    #     "ShipmentDate",
+    #     "DateOfSale",
+    #     "DateOfEntryIntoDB",
+    #     "SoldAtRetail",
+    #     "SoldToIndividuals",
+    #     "BalanceAtBeginningOfPeriod",
+    #     "BalanceAtEndOfPeriod",
+    #     "ProductIdentifier",
+    # ]
+
     data.columns = [
         "ModelYear",
         "vin",
@@ -40,9 +65,18 @@ def transform(data, execution_date):
         "DateOfEntryIntoDB",
         "SoldAtRetail",
         "SoldToIndividuals",
+        "BalanceAtBeginningOfPeriodOnRoad",
+        "BalanceAtEndOfPeriodOnRoad",
+        "ProductIdentifier",
+        "DirectionOfImplementationByApplication",
+        "DirectionOfImplementationWithUKP",
+        "DirectionOfImplementationPlace",
+        "BuildOption",
+        "BuildOptionСollapsed",
+        "Engine",
+        "clientsHolding",
         "BalanceAtBeginningOfPeriod",
         "BalanceAtEndOfPeriod",
-        "ProductIdentifier",
     ]
 
     data['load_date'] = execution_date
@@ -78,9 +112,13 @@ def load(dwh_engine, data, data_type, execution_date):
         print('Нет новых данных для загрузки.')
 
 
-def etl(source_engine, dwh_engine, data_type, **context):
+def etl(source_engine, dwh_engine, data_type, monthly_tasks=False, **context):
     """Запускаем ETL-процесс для заданного типа данных."""
-    execution_date = context['execution_date'].date()
+    if monthly_tasks:
+        execution_date = (context['execution_date'].date().replace(day=1) - dt.timedelta(days=1)) \
+                            .replace(day=1)
+    else:
+        execution_date = context['execution_date'].date()
     data = extract(source_engine, data_type, execution_date)
     data = transform(data, execution_date)
     context['ti'].xcom_push(key='SoldAtRetail', value=sum(data['SoldAtRetail']))
@@ -92,6 +130,6 @@ def etl(source_engine, dwh_engine, data_type, **context):
 
 def date_check(taskgroup, **context):
     execution_date = context['execution_date'].date()
-    if execution_date.day == 1:
+    if execution_date.day in (1, 2, 3, 4):
         return taskgroup + '.' + 'monthly_tasks'
     return taskgroup + '.' + 'do_nothing'

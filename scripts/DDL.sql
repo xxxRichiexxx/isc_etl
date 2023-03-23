@@ -1,29 +1,38 @@
 ---------------STAGE--------------------------
 DROP TABLE IF EXISTS sttgaz.stage_isc_sales;
 CREATE TABLE sttgaz.stage_isc_sales (
-    "ModelYear" INT,
-    "vin" VARCHAR(500),
-    "division" VARCHAR(50),
-    "code" VARCHAR(500),
-    "SalesTerritory" VARCHAR(2000),
-    "Recipient" VARCHAR(2000),
-    "RecipientFullName" VARCHAR(2000),
-    "BuyersRegion" VARCHAR(2000),
-    "FinalBuyer" VARCHAR(2000),
-    "BuyerINN" VARCHAR(500),
-    "okved"  VARCHAR(500),
-    "LineOfWork" VARCHAR(500),
-    "ScopeOfUse" VARCHAR(2000),
-    "ImplementationProgram" VARCHAR(2000),
-    "ShipmentDate" DATE,
-    "DateOfSale" DATE,
-    "DateOfEntryIntoDB" VARCHAR(500),
-    "SoldAtRetail" INT,
-    "SoldToIndividuals" INT,
+    "ModelYear" INT,  --"Модельный год"
+    "vin" VARCHAR(500), --"ВИН"
+    "division" VARCHAR(50), --"Дивизион"
+    "code" VARCHAR(500), --"Внутренний код"
+    "SalesTerritory" VARCHAR(2000), --"Территория продаж"
+    "Recipient" VARCHAR(2000), --"Название" (Дилер)
+    "RecipientFullName" VARCHAR(2000), --"Полное название (организация)"
+    "BuyersRegion" VARCHAR(2000), --"Регион"
+    "FinalBuyer" VARCHAR(2000), --"Название" (Покупатель)
+    "BuyerINN" VARCHAR(500), --"ИНН"
+    "okved"  VARCHAR(500), --"ОКВЭД"
+    "LineOfWork" VARCHAR(500), --"Род занятий(сфера деятельности)"
+    "ScopeOfUse" VARCHAR(2000), --"Сфера использования"
+    "ImplementationProgram" VARCHAR(2000), --"Спец программа реализации"
+    "ShipmentDate" DATE, --"Дата отгрузки"
+    "DateOfSale" DATE, --"Дата продажи"
+    "DateOfEntryIntoDB" VARCHAR(500), --"Дата записи продажи в БД"
+    "SoldAtRetail" INT, --"Продано в розницу"
+    "SoldToIndividuals" INT, --"Продано физ лицам"
+    "BalanceAtBeginningOfPeriodOnRoad" INT, --"Остатки на НП в пути"
+    "BalanceAtEndOfPeriodOnRoad" INT, --"Остатки на КП в пути"
+    "ProductIdentifier" INT, --"Номерной товар ИД"
+    "DirectionOfImplementationByApplication" VARCHAR(500),
+    "DirectionOfImplementationWithUKP" VARCHAR(500),
+    "DirectionOfImplementationPlace" VARCHAR(500),
+    "BuildOption" VARCHAR(500),
+    "BuildOptionСollapsed" VARCHAR(500),
+    "Engine" VARCHAR(200),
+    "clientsHolding" VARCHAR(500),
     "BalanceAtBeginningOfPeriod" INT,
     "BalanceAtEndOfPeriod" INT,
-    "ProductIdentifier" INT,
-    load_date DATE
+    "load_date" DATE,
 )
 ORDER BY load_date, Recipient, division, SalesTerritory
 PARTITION BY DATE_TRUNC('MONTH', load_date);
@@ -52,21 +61,31 @@ CREATE TABLE sttgaz.stage_isc_classifier (
 DROP TABLE IF EXISTS sttgaz.dds_isc_sales;
 CREATE TABLE sttgaz.dds_isc_sales (
     id AUTO_INCREMENT PRIMARY KEY,
-    "Модельный год" INT,
-    "ВИН" VARCHAR(500),
+    "Модельный год" INT,  --"ModelYear"
+    "ВИН" VARCHAR(500),  --"vin"
     "Дилер ID" INT,                         
-    "Внутренний код" VARCHAR(500),
+    "Внутренний код" VARCHAR(500), --"code"
+    "Территория продаж" VARCHAR(2000), --"SalesTerritory"
     "Покупатель ID" INT,                                                                     
-    "Спец программа реализации" VARCHAR(2000),
-    "Дата отгрузки" DATE,
-    "Дата продажи" DATE,
-    "Дата записи продажи в БД" VARCHAR(500),
-    "Продано в розницу" INT,
-    "Продано физ лицам" INT,
-    "Остатки на НП в пути" INT,
-    "Остатки на КП в пути" INT,
-    "Номерной товар ИД" INT,
-    "Период" DATE
+    "Спец программа реализации" VARCHAR(2000), --"ImplementationProgram"
+    "Дата отгрузки" DATE, --"ShipmentDate"
+    "Дата продажи" DATE, --"DateOfSale"
+    "Дата записи продажи в БД" VARCHAR(500), --"DateOfEntryIntoDB"
+    "Продано в розницу" INT,  --"SoldAtRetail"
+    "Продано физ лицам" INT,  --"SoldToIndividuals"
+    "Остатки на НП в пути" INT, --"BalanceAtBeginningOfPeriodOnRoad"
+    "Остатки на КП в пути" INT, --"BalanceAtEndOfPeriodOnRoad"
+    "Номерной товар ИД" INT, --"ProductIdentifier"
+    "Направление реализации по приложению" VARCHAR(500),
+    "Направление реализации с учетом УКП" VARCHAR(500),
+    "Направление реализации площадки" VARCHAR(500),
+    "Вариант сборки" VARCHAR(500),
+    "Вариант сборки свернутый" VARCHAR(500),
+    "Двигатель" VARCHAR(200),
+    "Остатки на НП" INT,
+    "Остатки на КП" INT,
+    "Период" DATE,
+)
 )
 ORDER BY "Период", "Дилер ID", "Покупатель ID"
 PARTITION BY DATE_TRUNC('MONTH', "Период");
@@ -75,10 +94,9 @@ PARTITION BY DATE_TRUNC('MONTH', "Период");
 DROP TABLE IF EXISTS sttgaz.dds_isc_dealer;
 CREATE TABLE sttgaz.dds_isc_dealer (
     id AUTO_INCREMENT PRIMARY KEY,                         
-    "Дивизион" VARCHAR(50),
-    "Территория продаж" VARCHAR(2000),
-    "Название" VARCHAR(2000),
-    "Полное название (организация)" VARCHAR(2000),
+    "Дивизион" VARCHAR(50),  --"division"
+    "Название" VARCHAR(2000), --"Recipient"
+    "Полное название (организация)" VARCHAR(2000), --"RecipientFullName"
     ts TIMESTAMP
 )
 ORDER BY id;
@@ -87,12 +105,13 @@ ORDER BY id;
 DROP TABLE IF EXISTS sttgaz.dds_isc_buyer;
 CREATE TABLE sttgaz.dds_isc_buyer (
     id AUTO_INCREMENT PRIMARY KEY,
-    "Регион" VARCHAR(2000),
-    "Название" VARCHAR(2000),
-    "ИНН" VARCHAR(500),
-    "ОКВЭД"  VARCHAR(500),
-    "Род занятий(сфера деятельности)" VARCHAR(500),
-    "Сфера использования" VARCHAR(2000),
+    "Регион" VARCHAR(2000), --"BuyersRegion"
+    "Название" VARCHAR(2000), --"FinalBuyer"
+    "ИНН" VARCHAR(500), --"BuyerINN"
+    "ОКВЭД"  VARCHAR(500), --"okved"
+    "Род занятий(сфера деятельности)" VARCHAR(500), --"LineOfWork"
+    "Сфера использования" VARCHAR(2000), --"ScopeOfUse"
+    "Холдинг" VARCHAR(500),
     ts TIMESTAMP
 )
 ORDER BY id;
