@@ -106,6 +106,10 @@ with DAG(
                     task_id=f'dds_isc_{data_type}',
                     vertica_conn_id='vertica',
                     sql=f'scripts/dds_{data_type}.sql',
+                    params={
+                        'delta_1': dt.timedelta(days=1),
+                        'delta_2': dt.timedelta(days=4),                               
+                    }
                 )
             )
 
@@ -113,6 +117,10 @@ with DAG(
             task_id=f'dds_isc_sales',
             vertica_conn_id='vertica',
             sql=f'scripts/dds_sales.sql',
+            params={
+                'delta_1': dt.timedelta(days=1),
+                'delta_2': dt.timedelta(days=4),                               
+            }
         )
 
         tasks >> sales
