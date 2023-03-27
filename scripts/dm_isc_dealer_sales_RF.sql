@@ -13,7 +13,7 @@ WITH
 		SELECT *
 		FROM sttgaz.dds_isc_sales 
 		WHERE "Направление реализации с учетом УКП" LIKE 'РФ-%'
-			AND "Период" IN (
+			AND DATE_TRUNC('MONTH', "Период") IN (
 				'{{execution_date.date().replace(day=1)}}',
 				'{{(execution_date.date().replace(day=1) - params.delta_1).replace(day=1)}}',
 				'{{execution_date.date().replace(day=1).replace(year=(execution_date.year-1))}}',
