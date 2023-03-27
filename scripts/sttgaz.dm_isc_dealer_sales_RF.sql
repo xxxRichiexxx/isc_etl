@@ -1,10 +1,10 @@
 SELECT DROP_PARTITIONS(
-    'sttgaz.dm_isc_продажи_дилеров_РФ',
+    'sttgaz.dm_isc_dealer_sales_RF',
     '{{(execution_date.date().replace(day=1) - params.delta).replace(day=1)}}',
     '{{execution_date.date().replace(day=1)}}'
 );
 
-INSERT INTO sttgaz.dm_isc_продажи_дилеров_РФ 
+INSERT INTO sttgaz.dm_isc_dealer_sales_RF
 WITH
 	sales AS(
 		SELECT *

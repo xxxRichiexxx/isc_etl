@@ -125,10 +125,10 @@ with DAG(
                     sql=f'scripts/dm_isc_sales_v.sql',
                 )
         
-        dm_isc_sales_t_1 = VerticaOperator(
-                    task_id=f'dm_isc_продажи_дилеров_РФ',
+        dm_isc_dealer_sales_RF = VerticaOperator(
+                    task_id=f'dm_isc_dealer_sales_RF',
                     vertica_conn_id='vertica',
-                    sql=f'scripts/dm_isc_продажи_дилеров_РФ.sql',
+                    sql=f'scripts/dm_isc_dealer_sales_RF.sql',
                     params={
                         'delta': dt.timedelta(days=1),                              
                     }
@@ -146,7 +146,7 @@ with DAG(
                     sql=f'scripts/dm_isc_sales_v_detailed.sql',
                 )
 
-        [dm_isc_sales_v, dm_isc_sales_t_1, dm_isc_sales_v_for_model, dm_isc_sales_v_detailed]
+        [dm_isc_sales_v, dm_isc_dealer_sales_RF, dm_isc_sales_v_for_model, dm_isc_sales_v_detailed]
 
     with TaskGroup(f'Проверки') as data_checks:
 

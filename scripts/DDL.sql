@@ -159,8 +159,8 @@ CREATE TABLE sttgaz.dds_isc_classifier_2 (
 
 ----------marts---------------------
 
-DROP TABLE IF EXISTS sttgaz.dm_isc_продажи_дилеров_РФ;
-CREATE TABLE sttgaz.dm_isc_продажи_дилеров_РФ (
+DROP TABLE IF EXISTS sttgaz.dm_isc_dealer_sales_RF;
+CREATE TABLE sttgaz.dm_isc_dealer_sales_RF (
     id AUTO_INCREMENT PRIMARY KEY,
     "Продажа Дата" DATE,
     "Площадка получателя" VARCHAR(2000), 
@@ -181,4 +181,4 @@ CREATE TABLE sttgaz.dm_isc_продажи_дилеров_РФ (
 ORDER BY "Продажа Дата", "Дивизион", "Напр реализ по прилож с учетом УКП"
 PARTITION BY "Месяц";
 
-GRANT SELECT ON TABLE sttgaz.dm_isc_продажи_дилеров_РФ TO PowerBI_Integration WITH GRANT OPTION;
+GRANT SELECT ON TABLE sttgaz.dm_isc_dealer_sales_RF TO PowerBI_Integration WITH GRANT OPTION;
