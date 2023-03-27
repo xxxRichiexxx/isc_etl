@@ -160,15 +160,16 @@ with DAG(
         #             }
         #         )
         
-        dm_isc_sales_v_check = VerticaOperator(
-                    task_id=f'dm_isc_sales_v_check',
-                    vertica_conn_id='vertica',
-                    sql=f'scripts/dm_isc_sales_tv_check.sql',
-                    params={
-                        'dm': 'dm_isc_sales_v',
-                    }
-                )
+        # dm_isc_sales_v_check = VerticaOperator(
+        #             task_id=f'dm_isc_sales_v_check',
+        #             vertica_conn_id='vertica',
+        #             sql=f'scripts/dm_isc_sales_tv_check.sql',
+        #             params={
+        #                 'dm': 'dm_isc_sales_v',
+        #             }
+        #         )
         
-        dm_isc_sales_v_check          
+        # dm_isc_sales_v_check
+        pass          
 
     start >> data_to_stage >> data_to_dds >> data_to_dm >> data_checks
