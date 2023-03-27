@@ -14,7 +14,7 @@ INSERT INTO sttgaz.dds_isc_sales
 WITH sq AS(
     SELECT *
     FROM sttgaz.stage_isc_sales
-    WHERE load_date = '{{execution_date.date()}}'
+    WHERE DATE_TRUNC('MONTH', load_date) = '{{execution_date.date().replace(day=1)}}'
 )
 SELECT
     "ModelYear"                                 AS "Модельный год",
