@@ -1,6 +1,6 @@
 SELECT DROP_PARTITIONS(
     'sttgaz.dm_isc_dealer_sales_RF',
-    '{{(execution_date.date().replace(day=1) - params.delta).replace(day=1)}}',
+    '{{(execution_date.date().replace(day=1) - params.delta_1).replace(day=1)}}',
     '{{execution_date.date().replace(day=1)}}'
 );
 
