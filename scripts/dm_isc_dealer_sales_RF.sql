@@ -15,9 +15,9 @@ WITH
 		WHERE "Направление реализации с учетом УКП" LIKE 'РФ-%'
 			AND "Период" IN (
 				'{{execution_date.date().replace(day=1)}}',
-				'{{(execution_date.date().replace(day=1) - params.delta).replace(day=1)}}',
+				'{{(execution_date.date().replace(day=1) - params.delta_1).replace(day=1)}}',
 				'{{execution_date.date().replace(day=1).replace(year=(execution_date.year-1))}}',
-				'{{(execution_date.date().replace(day=1).replace(year=(execution_date.year-1)) - params.delta).replace(day=1)}}'
+				'{{(execution_date.date().replace(day=1).replace(year=(execution_date.year-1)) - params.delta_1).replace(day=1)}}'
 			)
 	),
 	dds_data AS(
