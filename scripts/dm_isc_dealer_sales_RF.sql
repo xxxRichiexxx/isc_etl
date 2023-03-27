@@ -131,7 +131,9 @@ WITH
 	),
 	sq2 AS(
         SELECT DISTINCT DATE_TRUNC('DAY', ts)::date AS "Дата"
-        FROM (SELECT '{{(execution_date.date().replace(day=1) - params.delta).replace(day=1)}}'::timestamp as tm UNION ALL SELECT NOW()) AS t
+        FROM (SELECT '{{(execution_date.date().replace(day=1) - params.delta_1).replace(day=1)}}'::timestamp as tm 
+			  UNION ALL
+			  SELECT '{{(execution_date.date().replace(day=28) + params.delta_2).replace(day=1) - params.delta_1}}') AS t
         TIMESERIES ts as '1 DAY' OVER (ORDER BY t.tm)
 	),
 	sq3 AS(

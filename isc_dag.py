@@ -130,7 +130,8 @@ with DAG(
                     vertica_conn_id='vertica',
                     sql=f'scripts/dm_isc_dealer_sales_RF.sql',
                     params={
-                        'delta': dt.timedelta(days=1),                              
+                        'delta_1': dt.timedelta(days=1),
+                        'delta_2': dt.timedelta(days=4),                               
                     }
                 )
         
