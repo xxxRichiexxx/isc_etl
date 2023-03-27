@@ -44,7 +44,7 @@ with DAG(
         catchup=True,
         max_active_runs=1
 ) as dag:
-    
+
     data_types = [
             'sales',
         ]
@@ -125,12 +125,12 @@ with DAG(
                     sql=f'scripts/dm_isc_sales_v.sql',
                 )
         
-        dm_isc_sales_t = VerticaOperator(
-                    task_id=f'dm_isc_sales_t',
+        dm_isc_sales_t_1 = VerticaOperator(
+                    task_id=f'dm_isc_продажи_дилеров_РФ',
                     vertica_conn_id='vertica',
-                    sql=f'scripts/dm_isc_sales_t.sql',
+                    sql=f'scripts/dm_isc_продажи_дилеров_РФ.sql',
                     params={
-                        'delta': dt.timedelta(days=1),                                          
+                        'delta': dt.timedelta(days=1),                              
                     }
                 )
         
@@ -146,7 +146,7 @@ with DAG(
                     sql=f'scripts/dm_isc_sales_v_detailed.sql',
                 )
 
-        [dm_isc_sales_v, dm_isc_sales_t, dm_isc_sales_v_for_model, dm_isc_sales_v_detailed]
+        [dm_isc_sales_v, dm_isc_sales_t_1, dm_isc_sales_v_for_model, dm_isc_sales_v_detailed]
 
     with TaskGroup(f'Проверки') as data_checks:
 

@@ -56,7 +56,17 @@ CREATE TABLE sttgaz.stage_isc_classifier (
     "Dvigatel2" VARCHAR(100),
     "Options2" VARCHAR(100),
     "GruppaAEB" VARCHAR(100)
-)
+);
+
+DROP TABLE IF EXISTS sttgaz.stage_isc_classifier_2;
+CREATE TABLE sttgaz.stage_isc_classifier_2 (
+    "Item" VARCHAR(500),
+    "Value" VARCHAR(500),
+    "ItemType"  VARCHAR(500),
+    "ProductType"  VARCHAR(500)
+);
+
+
 ---------------DDS------------------------
 DROP TABLE IF EXISTS sttgaz.dds_isc_sales;
 CREATE TABLE sttgaz.dds_isc_sales (
@@ -138,28 +148,37 @@ CREATE TABLE sttgaz.dds_isc_classifier (
 )
 ORDER BY id;
 
+DROP TABLE IF EXISTS sttgaz.dds_isc_classifier_2;
+CREATE TABLE sttgaz.dds_isc_classifier_2 (
+    id AUTO_INCREMENT PRIMARY KEY,
+    "Внутренний код" VARCHAR(500),
+    "Значение" VARCHAR(500),
+    "Вид товара"  VARCHAR(500),
+    "Вид продукции"  VARCHAR(500)
+);
 
 ----------marts---------------------
 
-DROP TABLE IF EXISTS sttgaz.dm_isc_sales_t;
-CREATE TABLE sttgaz.dm_isc_sales_t (
+DROP TABLE IF EXISTS sttgaz.dm_isc_продажи_дилеров_РФ;
+CREATE TABLE sttgaz.dm_isc_продажи_дилеров_РФ (
     id AUTO_INCREMENT PRIMARY KEY,
-    "Период" DATE,
+    "Продажа Дата" DATE,
+    "Площадка получателя" VARCHAR(2000), 
     "Дивизион" VARCHAR(50),
-    "Дилер" VARCHAR(2000), 
-    "Территория продаж" VARCHAR(2000),
+    "Территория РФ" VARCHAR(2000),
+    "Напр реализ по прилож с учетом УКП" VARCHAR(500),
     "Внутренний код" VARCHAR(500),
-    "Направление реализации по приложению" VARCHAR(500),
-    "Продажи в розницу" INT,
-    "Продажи физ лицам" INT,
-    "Остатки на НП" INT,
-    "Остатки на КП" INT,
-    "Продажи в розницу за прошлый месяц" INT,
-    "Продажи физ лицам за прошлый месяц" INT,
-    "Продажи в розницу за прошлый год" INT,
-    "Продажи физ лицам за прошлый год" INT
+    "ВИН" VARCHAR(500),
+    "Вариант сборки" VARCHAR(500),
+    "Номерной товар ИД" INT,
+    "Розница ТП" INT,
+    "Остаток НП+ВПути" INT,
+    "Остаток КП+ВПути" INT,
+    "Розница АППГ (по дате продажи)" INT,
+    "Розница АППГ (по дате записи в БД)" INT,
+    "Месяц" DATE
 )
-ORDER BY "Период", "Дивизион", "Дилер"
-PARTITION BY DATE_TRUNC('MONTH', "Период");
+ORDER BY "Продажа Дата", "Дивизион", "Напр реализ по прилож с учетом УКП"
+PARTITION BY "Месяц";
 
-GRANT SELECT ON TABLE sttgaz.dm_isc_sales_t TO PowerBI_Integration WITH GRANT OPTION;
+GRANT SELECT ON TABLE sttgaz.dm_isc_продажи_дилеров_РФ TO PowerBI_Integration WITH GRANT OPTION;
