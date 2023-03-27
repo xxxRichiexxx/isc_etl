@@ -150,14 +150,14 @@ with DAG(
 
     with TaskGroup(f'Проверки') as data_checks:
 
-        dm_isc_sales_t_check = VerticaOperator(
-                    task_id=f'dm_isc_sales_t_check',
-                    vertica_conn_id='vertica',
-                    sql=f'scripts/dm_isc_sales_tv_check.sql',
-                    params={
-                        'dm': 'dm_isc_sales_t',
-                    }
-                )
+        # dm_isc_sales_t_check = VerticaOperator(
+        #             task_id=f'dm_isc_sales_t_check',
+        #             vertica_conn_id='vertica',
+        #             sql=f'scripts/dm_isc_sales_tv_check.sql',
+        #             params={
+        #                 'dm': 'dm_isc_продажи_дилеров_РФ',
+        #             }
+        #         )
         
         dm_isc_sales_v_check = VerticaOperator(
                     task_id=f'dm_isc_sales_v_check',
@@ -168,6 +168,6 @@ with DAG(
                     }
                 )
         
-        dm_isc_sales_t_check           
+        dm_isc_sales_v_check          
 
     start >> data_to_stage >> data_to_dds >> data_to_dm >> data_checks
