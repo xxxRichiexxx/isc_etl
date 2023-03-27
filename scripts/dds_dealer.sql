@@ -11,6 +11,9 @@ SELECT DISTINCT
         "RecipientFullName",
         NOW()
 FROM sttgaz.stage_isc_sales
-WHERE load_date = '{{execution_date.date()}}'
+WHERE DATE_TRUNC('MONTH', load_date) IN(
+				'{{execution_date.date().replace(day=1)}}',
+				'{{(execution_date.date().replace(day=1) - params.delta_1).replace(day=1)}}'
+            )
     AND HASH("division", "Recipient", "RecipientFullName")
         NOT IN (SELECT * FROM sq); 

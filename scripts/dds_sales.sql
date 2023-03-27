@@ -1,6 +1,6 @@
 SELECT DROP_PARTITIONS(
     'sttgaz.dds_isc_sales',
-    '{{execution_date.date().replace(day=1)}}',
+    '{{(execution_date.date().replace(day=1) - params.delta_1).replace(day=1)}}',
     '{{execution_date.date().replace(day=1)}}'
 );
 
@@ -14,7 +14,10 @@ INSERT INTO sttgaz.dds_isc_sales
 WITH sq AS(
     SELECT *
     FROM sttgaz.stage_isc_sales
-    WHERE DATE_TRUNC('MONTH', load_date) = '{{execution_date.date().replace(day=1)}}'
+    WHERE DATE_TRUNC('MONTH', load_date) IN(
+                    '{{execution_date.date().replace(day=1)}}',
+                    '{{(execution_date.date().replace(day=1) - params.delta_1).replace(day=1)}}'
+                )
 )
 SELECT
     "ModelYear"                                 AS "Модельный год",
