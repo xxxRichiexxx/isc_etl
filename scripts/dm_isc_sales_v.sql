@@ -28,7 +28,7 @@ WITH
 		FROM dds_data
 	),
 	sq2 AS(
-		SELECT DISTINCT "Период"
+		SELECT DISTINCT DATE_TRUNC('MONTH', "Период") AS "Период"
 		FROM dds_data	
 	),
 	sq3 AS(
@@ -50,7 +50,7 @@ WITH
 			SUM("Остатки на КП в пути") 											AS "Остатки на КП"
 		FROM sq3
 		LEFT JOIN dds_data AS s
-			ON sq3."Период" = s."Период" 
+			ON DATE_TRUNC('MONTH', sq3."Период") = DATE_TRUNC('MONTH', s."Период") 
 			AND sq3."Дилер" = s."Дилер"
 			AND sq3."Дивизион" = s."Дивизион" 
 			AND sq3."Территория продаж" = s."Территория продаж"

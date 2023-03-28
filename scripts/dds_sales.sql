@@ -43,7 +43,7 @@ SELECT
     "Engine"                                    AS "Двигатель",
     "BalanceAtBeginningOfPeriod"                AS "Остатки на НП",
     "BalanceAtEndOfPeriod"                      AS "Остатки на КП",
-    "load_date"                                 AS "Период"    
+    DATE_TRUNC('MONTH', load_date)              AS "Период"    
 FROM sq                         AS s
 LEFT JOIN sttgaz.dds_isc_dealer AS d
     ON    d."Дивизион" = s.division
