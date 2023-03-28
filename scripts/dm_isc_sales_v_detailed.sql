@@ -89,7 +89,9 @@ WITH
 	),
 	sq2 AS(
         SELECT DISTINCT DATE_TRUNC('DAY', ts)::date AS "Дата"
-        FROM (SELECT '2020-01-01 00:00:00'::TIMESTAMP as tm UNION ALL SELECT NOW()) AS t
+        FROM (SELECT '2022-01-01 00:00:00'::TIMESTAMP as tm 
+			  UNION ALL
+			  SELECT NOW()) AS t
         TIMESERIES ts as '1 DAY' OVER (ORDER BY t.tm)
 	),
 	sq3 AS(
