@@ -182,3 +182,29 @@ ORDER BY "Продажа Дата", "Дивизион", "Напр реализ �
 PARTITION BY "Месяц";
 
 GRANT SELECT ON TABLE sttgaz.dm_isc_dealer_sales_RF TO PowerBI_Integration WITH GRANT OPTION;
+
+
+DROP TABLE IF EXISTS sttgaz.dm_isc_sales_RF_CIS;
+CREATE TABLE sttgaz.dm_isc_sales_RF_CIS (
+    id AUTO_INCREMENT PRIMARY KEY,
+    "Продажа Дата" DATE,
+    "Дивизион" VARCHAR(50),
+    "Территория РФ" VARCHAR(2000),
+    "Напр реализ по прилож с учетом УКП" VARCHAR(500),
+    "Внутренний код" VARCHAR(500),
+    "ВИН" VARCHAR(500),
+    "Вариант сборки" VARCHAR(500),
+    "Номерной товар ИД" INT,
+    "Розница ТП" INT,
+    "Остаток НП+ВПути" INT,
+    "Остаток КП+ВПути" INT,
+    "Остаток НП" INT,
+    "Остаток КП" INT,
+    "Розница АППГ (по дате продажи)" INT,
+    "Розница АППГ (по дате записи в БД)" INT,
+    "Месяц" DATE
+)
+ORDER BY "Продажа Дата", "Дивизион", "Напр реализ по прилож с учетом УКП"
+PARTITION BY "Месяц";
+
+GRANT SELECT ON TABLE sttgaz.dm_isc_sales_RF_CIS TO PowerBI_Integration WITH GRANT OPTION;
