@@ -3,7 +3,7 @@ WITH
     dds_data AS(
         SELECT
             d.id AS "Дилер ID",
-            s."Территория продаж",
+            t.id AS "Территория продаж",
             s."Дата продажи",
             c.id AS "Классификатор ID",
             s."Продано в розницу"
@@ -12,6 +12,8 @@ WITH
             ON s."Дилер ID" = d.id
         LEFT JOIN sttgaz.dds_isc_classifier_2 AS c
         	ON s."Внутренний код" = c."Внутренний код"
+        LEFT JOIN sttgaz.dds_isc_sales_territory AS t
+        	ON s."Территория продаж" = t.name
 		WHERE d."Дивизион" IN ('LCV', 'MCV')
 			AND s."Направление реализации по приложению" LIKE 'РФ-%'
     ),
