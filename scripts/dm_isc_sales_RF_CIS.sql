@@ -11,10 +11,11 @@ INSERT INTO sttgaz.dm_isc_sales_RF_CIS
 WITH
 	sales AS(
 		SELECT *
-		FROM sttgaz.dds_isc_sales 
+		FROM sttgaz.dds_isc_sales
 		WHERE ("Направление реализации с учетом УКП" LIKE 'РФ-%'
 			OR "Направление реализации с учетом УКП" LIKE 'СНГ-%'
-			OR "Направление реализации с учетом УКП" = 'Товарный')
+			OR "Направление реализации с учетом УКП" = 'Товарный'
+			OR "Направление реализации с учетом УКП" = 'УКП - Московский регион')
 			AND DATE_TRUNC('MONTH', "Период") IN (
 				'{{execution_date.date().replace(day=1)}}',
 				'{{(execution_date.date().replace(day=1) - params.delta_1).replace(day=1)}}',
