@@ -29,6 +29,6 @@ sq3 AS(
 )
 SELECT 
 	'{{params.dm}}',
-	'checking_for_accuracy_of_execution',
+	'checking_for_accuracy_of_execution: '||(SELECT "Продажи" FROM sq1) ||'='||(SELECT "Продажи" FROM sq2) ||'&'|| (SELECT "Остатки" FROM sq1) ||'='|| (SELECT "Остатки" FROM sq3),
 	'{{execution_date.date()}}',
 	(SELECT "Продажи" FROM sq1) = (SELECT "Продажи" FROM sq2) AND (SELECT "Остатки" FROM sq1) = (SELECT "Остатки" FROM sq3); 
