@@ -178,24 +178,21 @@ with DAG(
                     }
                 )
         
-        dm_isc_dealer_sales_RF_check = VerticaOperator(
-                    task_id=f'dm_isc_dealer_sales_RF_check',
-                    vertica_conn_id='vertica',
-                    sql=f'scripts/dm_isc_dealer_sales_RF_check.sql',
-                    params={
-                        'dm': 'dm_isc_dealer_sales_RF',
-                    }
-                )
+        marts = ('dm_isc_dealer_sales_RF', 'dm_isc_sales_RF_CIS')
+        check_tasks = []
 
-        dm_isc_sales_RF_CIS_check = VerticaOperator(
-                    task_id=f'dm_isc_sales_RF_CIS_check',
+        for mart in marts:
+            check_tasks.append(
+                VerticaOperator(
+                    task_id=f'{mart}_check',
                     vertica_conn_id='vertica',
-                    sql=f'scripts/dm_isc_sales_RF_CIS_check.sql',
+                    sql=f'scripts/dm_isc_sales_t_check.sql',
                     params={
-                        'dm': 'dm_isc_sales_RF_CIS',
+                        'dm': mart,
                     }
                 )
+            )
         
-        [dm_isc_sales_v_check, dm_isc_dealer_sales_RF_check, dm_isc_sales_RF_CIS_check]      
+        [dm_isc_sales_v_check] + check_tasks     
 
     start >> data_to_stage >> data_to_dds >> data_to_dm >> data_checks

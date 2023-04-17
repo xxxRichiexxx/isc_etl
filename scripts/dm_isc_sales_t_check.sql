@@ -12,7 +12,7 @@ sq1 AS(
 sq2 AS(	
 	SELECT
 		SUM("Розница ТП") AS "Продажи"
-	FROM sttgaz.dm_isc_sales_RF_CIS s
+	FROM sttgaz.{{params.dm}} s
 	WHERE ("Напр реализ по прилож с учетом УКП" LIKE 'РФ-%'
 		OR "Напр реализ по прилож с учетом УКП" = 'Товарный'
 		OR "Напр реализ по прилож с учетом УКП" = 'УКП - Московский регион')
@@ -22,7 +22,7 @@ sq2 AS(
 sq3 AS(	
 	SELECT
 		SUM("Остаток НП+ВПути") AS "Остатки"
-	FROM sttgaz.dm_isc_sales_RF_CIS s
+	FROM sttgaz.{{params.dm}} s
 	WHERE ("Напр реализ по прилож с учетом УКП" LIKE 'РФ-%')
 		AND "Продажа Дата" = '{{execution_date.date().replace(day=1)}}'
 		AND "Дивизион" IN ('LCV', 'MCV')
