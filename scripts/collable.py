@@ -5,9 +5,12 @@ import datetime as dt
 def extract(source_engine, data_type, execution_date):
     """Извлечение данных из источника."""
 
-    with open(fr'/home/da/airflow/dags/isc_etl/scripts/stg_{data_type}.sql', 'r') as f:
+    with open(
+        fr'/home/da/airflow/dags/isc_etl/scripts/stg_{data_type}.sql', 'r'
+    ) as f:
         date_from = execution_date.replace(day=1)
-        date_to = (execution_date.replace(day=28) + dt.timedelta(days=4)).replace(day=1) - dt.timedelta(days=1)
+        date_to = (execution_date.replace(day=28) + dt.timedelta(days=4)) \
+            .replace(day=1) - dt.timedelta(days=1)
         command = f.read().format(date_from, date_to)
 
     print(command)
@@ -155,10 +158,22 @@ def etl(source_engine, dwh_engine, data_type, monthly_tasks=False, **context):
         execution_date = context['execution_date'].date()
     data = extract(source_engine, data_type, execution_date)
     data = transform(data, execution_date, data_type)
-    context['ti'].xcom_push(key='SoldAtRetail', value=sum(data['SoldAtRetail']))
-    context['ti'].xcom_push(key='SoldToIndividuals', value=sum(data['SoldToIndividuals']))
-    context['ti'].xcom_push(key="BalanceAtBeginningOfPeriodOnRoad", value=sum(data["BalanceAtBeginningOfPeriodOnRoad"]))
-    context['ti'].xcom_push(key="BalanceAtEndOfPeriodOnRoad", value=sum(data["BalanceAtEndOfPeriodOnRoad"]))           
+    context['ti'].xcom_push(
+        key='SoldAtRetail',
+        value=sum(data['SoldAtRetail'])
+    )
+    context['ti'].xcom_push(
+        key='SoldToIndividuals',
+        value=sum(data['SoldToIndividuals'])
+    )
+    context['ti'].xcom_push(
+        key="BalanceAtBeginningOfPeriodOnRoad",
+        value=sum(data["BalanceAtBeginningOfPeriodOnRoad"])
+    )
+    context['ti'].xcom_push(
+        key="BalanceAtEndOfPeriodOnRoad",
+        value=sum(data["BalanceAtEndOfPeriodOnRoad"])
+    )
     load(dwh_engine, data, data_type, execution_date)
 
 
