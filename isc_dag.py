@@ -183,10 +183,19 @@ with DAG(
                     vertica_conn_id='vertica',
                     sql=f'scripts/dm_isc_dealer_sales_RF_check.sql',
                     params={
-                        'dm': 'dm_isc_dealer_sales_RF_check',
+                        'dm': 'dm_isc_dealer_sales_RF',
+                    }
+                )
+
+        dm_isc_sales_RF_CIS_check = VerticaOperator(
+                    task_id=f'dm_isc_sales_RF_CIS_check',
+                    vertica_conn_id='vertica',
+                    sql=f'scripts/dm_isc_sales_RF_CIS_check.sql',
+                    params={
+                        'dm': 'dm_isc_sales_RF_CIS',
                     }
                 )
         
-        [dm_isc_sales_v_check, dm_isc_dealer_sales_RF_check]      
+        [dm_isc_sales_v_check, dm_isc_dealer_sales_RF_check, dm_isc_sales_RF_CIS_check]      
 
     start >> data_to_stage >> data_to_dds >> data_to_dm >> data_checks
