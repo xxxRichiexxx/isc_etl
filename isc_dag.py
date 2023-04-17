@@ -199,4 +199,6 @@ with DAG(
 
         [dm_isc_sales_v_check] + check_tasks
 
-    start >> data_to_stage >> data_to_dds >> data_to_dm >> data_checks
+    end = DummyOperator(task_id='Конец')
+
+    start >> data_to_stage >> data_to_dds >> data_to_dm >> data_checks >> end
