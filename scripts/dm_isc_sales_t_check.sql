@@ -3,7 +3,7 @@ WITH
 sq1 AS(
 	SELECT
 		SUM(SoldAtRetail) AS "Продажи",
-		SUM(BalanceAtBeginningOfPeriodOnRoad) AS "Остатки"
+		SUM(BalanceAtEndOfPeriodOnRoad) AS "Остатки"
 	FROM sttgaz.stage_isc_sales sis
 	WHERE (DirectionOfImplementationWithUKP LIKE 'РФ-%')
 		AND DATE_TRUNC('month', load_date) = '{{execution_date.date().replace(day=1)}}'
@@ -19,7 +19,7 @@ sq2 AS(
 ),
 sq3 AS(	
 	SELECT
-		SUM("Остаток НП+ВПути") AS "Остатки"
+		SUM("Остаток КП+ВПути") AS "Остатки"
 	FROM sttgaz.{{params.dm}} s
 	WHERE ("Напр реализ по прилож с учетом УКП" LIKE 'РФ-%')
 		AND "Продажа Дата" = '{{execution_date.date().replace(day=1)}}'
