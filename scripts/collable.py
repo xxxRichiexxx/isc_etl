@@ -109,6 +109,7 @@ def transform(data, execution_date, data_type):
             "SumMOTotal",
             "ProductIdentifier2",
             "DocID",
+            "RecipientID",
             "ClassifierCabType",
             "ClassifierDrive",
             "ClassifierDetailedByDivision",
@@ -116,7 +117,6 @@ def transform(data, execution_date, data_type):
             "ClassifierGBO",
             "ClassifierNumberOfSeats",
             "ClassifierEcologicalClass",
-            "RecipientID",
         ]
 
     data['load_date'] = execution_date.replace(day=1)
