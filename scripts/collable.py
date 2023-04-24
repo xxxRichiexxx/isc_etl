@@ -63,6 +63,7 @@ def transform(data, execution_date, data_type):
     elif data_type == 'realization':
         data.columns = [
             "Client",
+            "Recipient",
             "Doc",
             "BuildOption",
             "BuildOptionСollapsed",
@@ -115,7 +116,6 @@ def transform(data, execution_date, data_type):
             "ClassifierGBO",
             "ClassifierNumberOfSeats",
             "ClassifierEcologicalClass",
-            "Recipient",
             "RecipientID",
         ]
 
