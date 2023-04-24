@@ -67,6 +67,68 @@ CREATE TABLE sttgaz.stage_isc_classifier_2 (
 );
 
 
+DROP TABLE IF EXISTS sttgaz.stage_isc_realization;
+CREATE TABLE sttgaz.stage_isc_realization(
+    "Client" VARCHAR(500),
+    "Doc" VARCHAR(500),
+    "BuildOption" VARCHAR(100),
+    "BuildOptionСollapsed" VARCHAR(100),
+    "PaymentType" VARCHAR(100),
+    "PproductTypeByDivision" VARCHAR(100), 
+    "vin" VARCHAR(500),
+    "AttachmentDate" DATE,
+    "Discharge date" DATE,
+    "Engine" VARCHAR(500),
+    "Day" DATE,
+    "Division" VARCHAR(50),
+    "Contract" VARCHAR(500),
+    "Month" DATE,
+    "PlaneMonth" DATE,
+    "DirectionOfImplementation" VARCHAR(500),
+    "DirectionOfImplementationWithUKP" VARCHAR(500),
+    "AttachmentNumber" VARCHAR(100),
+    "DischargeNumber" INT,
+    "ProductIdentifier" INT,
+    "RecipientFullName" VARCHAR(500),
+    "Company" VARCHAR(500),
+    "Seller" VARCHAR(500),
+    "Warehouse" VARCHAR(500),
+    "Manufacturer" VARCHAR(200),
+    "Product" VARCHAR(500),
+    "ProductCode65" VARCHAR(500),
+    "ProductNumber" INT,
+    "Color" VARCHAR(500),
+    "RequestNumber" INT,
+    "RequestDischarge" VARCHAR(500),
+    "RequestResource" INT,
+    "ClientHolding" VARCHAR(500),
+    "Availability" INT,
+    "Turnover" INT,
+    "ExpenseVAT" NUMERIC(12,2),
+    "TurnoverWithoutVAT" NUMERIC(12,2),
+    "Price" NUMERIC(12,2),
+    "RefundAmount" NUMERIC(12,2),
+    "RefundsVAT" NUMERIC(12,2),
+    "RefundWithoutVAT" NUMERIC(12,2),
+    "SumMO" NUMERIC(12,2),
+    "MOVAT" NUMERIC(12,2),
+    "SumMOTotal" NUMERIC(12,2),
+    "ProductIdentifier2" INT,
+    "DocID" INT,
+    "ClassifierCabType" VARCHAR(500),
+    "ClassifierDrive" VARCHAR(500),
+    "ClassifierDetailedByDivision" VARCHAR(500),
+    "ClassifierProductType" VARCHAR(500),
+    "ClassifierGBO" VARCHAR(500),
+    "ClassifierNumberOfSeats" VARCHAR(100),
+    "ClassifierEcologicalClass" INT,
+    "Recipient" VARCHAR(500),
+    "RecipientID" INT,
+    "load_date" DATE
+)
+ORDER BY load_date
+PARTITION BY DATE_TRUNC('month', "load_date");
+
 ---------------DDS------------------------
 DROP TABLE IF EXISTS sttgaz.dds_isc_sales;
 CREATE TABLE sttgaz.dds_isc_sales (

@@ -116,7 +116,7 @@ def transform(data, execution_date, data_type):
             "RecipientID",
         ]
 
-    data['load_date'] = execution_date
+    data['load_date'] = execution_date.replace(day=1)
     return data
 
 
@@ -158,22 +158,29 @@ def etl(source_engine, dwh_engine, data_type, monthly_tasks=False, **context):
         execution_date = context['execution_date'].date()
     data = extract(source_engine, data_type, execution_date)
     data = transform(data, execution_date, data_type)
-    context['ti'].xcom_push(
-        key='SoldAtRetail',
-        value=sum(data['SoldAtRetail'])
-    )
-    context['ti'].xcom_push(
-        key='SoldToIndividuals',
-        value=sum(data['SoldToIndividuals'])
-    )
-    context['ti'].xcom_push(
-        key="BalanceAtBeginningOfPeriodOnRoad",
-        value=sum(data["BalanceAtBeginningOfPeriodOnRoad"])
-    )
-    context['ti'].xcom_push(
-        key="BalanceAtEndOfPeriodOnRoad",
-        value=sum(data["BalanceAtEndOfPeriodOnRoad"])
-    )
+    if data_type == 'sales': 
+        context['ti'].xcom_push(
+            key='SoldAtRetail',
+            value=sum(data['SoldAtRetail'])
+        )
+        context['ti'].xcom_push(
+            key='SoldToIndividuals',
+            value=sum(data['SoldToIndividuals'])
+        )
+        context['ti'].xcom_push(
+            key="BalanceAtBeginningOfPeriodOnRoad",
+            value=sum(data["BalanceAtBeginningOfPeriodOnRoad"])
+        )
+        context['ti'].xcom_push(
+            key="BalanceAtEndOfPeriodOnRoad",
+            value=sum(data["BalanceAtEndOfPeriodOnRoad"])
+        )
+    elif data_type == 'realization':
+        context['ti'].xcom_push(
+            key='RealizationCount',
+            value=sum(data['Availability'])
+        )
+
     load(dwh_engine, data, data_type, execution_date)
 
 
