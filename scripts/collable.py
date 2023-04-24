@@ -5,6 +5,7 @@ import datetime as dt
 def extract(source_engine, data_type, execution_date):
     """Извлечение данных из источника."""
 
+    print('ИЗВЛЕЧЕНИЕ ДАННЫХ')
     with open(
         fr'/home/da/airflow/dags/isc_etl/scripts/stg_{data_type}.sql', 'r'
     ) as f:
@@ -23,6 +24,8 @@ def extract(source_engine, data_type, execution_date):
 
 def transform(data, execution_date, data_type):
     """Преобразование/трансформация данных."""
+
+    print('ТРАНСФОРМАЦИЯ ДАННЫХ')
     if data_type == 'sales':
         data.columns = [
             "ModelYear",
@@ -123,6 +126,7 @@ def transform(data, execution_date, data_type):
 def load(dwh_engine, data, data_type, execution_date):
     """Загрузка данных в хранилище."""
 
+    print('ЗАГРУЗКА ДАННЫХ')
     if not data.empty:
 
         print(data)
