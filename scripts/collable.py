@@ -70,7 +70,7 @@ def transform(data, execution_date, data_type):
             "PproductTypeByDivision",
             "vin",
             "AttachmentDate",
-            "Discharge date",
+            "DischargeDate",
             "Engine",
             "Day",
             "Division",
