@@ -19,6 +19,7 @@ def extract(source_engine, data_type, execution_date):
     return pd.read_sql_query(
         command,
         source_engine,
+        dtype_backend='pyarrow',
     )
 
 
