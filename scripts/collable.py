@@ -180,11 +180,11 @@ def etl(source_engine, dwh_engine, data_type, monthly_tasks=False, **context):
             key="BalanceAtEndOfPeriodOnRoad",
             value=sum(data["BalanceAtEndOfPeriodOnRoad"])
         )
-    # elif data_type == 'realization':
-    #     context['ti'].xcom_push(
-    #         key='RealizationCount',
-    #         value=sum(data['Availability'])
-    #     )
+    elif data_type == 'realization':
+        context['ti'].xcom_push(
+            key='RealizationCount',
+            value=sum(data['Availability'])
+        )
 
     load(dwh_engine, data, data_type, execution_date)
 

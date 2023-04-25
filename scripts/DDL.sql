@@ -80,7 +80,7 @@ CREATE TABLE sttgaz.stage_isc_realization(
     "AttachmentDate" VARCHAR(500),
     "DischargeDate" VARCHAR(500),
     "Engine" VARCHAR(500),
-    "Day" VARCHAR(500),
+    "Day" DATE,
     "Division" VARCHAR(50),
     "Contract" VARCHAR(500),
     "Month" VARCHAR(500),
@@ -99,12 +99,12 @@ CREATE TABLE sttgaz.stage_isc_realization(
     "ProductCode65" VARCHAR(500),
     "ProductNumber" VARCHAR(500),
     "Color" VARCHAR(500),
-    "RequestNumber" VARCHAR(500),
+    "RequestNumber" INT,
     "RequestDischarge" VARCHAR(500),
-    "RequestResource" VARCHAR(500),
+    "RequestResource" INT,
     "ClientHolding" VARCHAR(500),
-    "Availability" VARCHAR(500),
-    "Turnover" VARCHAR(500),
+    "Availability" INT,
+    "Turnover" NUMERIC(12,2),
     "ExpenseVAT" NUMERIC(12,2),
     "TurnoverWithoutVAT" NUMERIC(12,2),
     "Price" NUMERIC(12,2),
@@ -114,20 +114,21 @@ CREATE TABLE sttgaz.stage_isc_realization(
     "SumMO" NUMERIC(12,2),
     "MOVAT" NUMERIC(12,2),
     "SumMOTotal" NUMERIC(12,2),
-    "ProductIdentifier2" VARCHAR(500),
-    "DocID" VARCHAR(500),
-    "RecipientID" VARCHAR(500),
+    "ProductIdentifier2" INT,
+    "DocID" INT,
+    "RecipientID" INT,
     "ClassifierCabType" VARCHAR(500),
     "ClassifierDrive" VARCHAR(500),
     "ClassifierDetailedByDivision" VARCHAR(500),
     "ClassifierProductType" VARCHAR(500),
     "ClassifierGBO" VARCHAR(500),
     "ClassifierNumberOfSeats" VARCHAR(100),
-    "ClassifierEcologicalClass" VARCHAR(500),
+    "ClassifierEcologicalClass" INT,
     "load_date" DATE
 )
 ORDER BY load_date
 PARTITION BY DATE_TRUNC('month', "load_date");
+
 
 ---------------DDS------------------------
 DROP TABLE IF EXISTS sttgaz.dds_isc_sales;
