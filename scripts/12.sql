@@ -1,0 +1,77 @@
+INSERT INTO sttgaz.dds_isc_realization
+   ("Контрагент ID",  ---
+	"Документ", ----
+	"Транспортное средство ID", ---
+	"Вид оплаты", ---
+	"Дата приложения",---
+	"Дата разнарядки", ---
+	"День документа", ---
+	"Договор", ---
+	"Месяц документа", ---
+	"Месяц планирования", ---
+	"Направление реализации", ---
+	"Направление реализации с учетом УКП ID", ---
+	"Номер приложения", ---
+	"Номер разнярядки", ---
+	"Фирма", ---
+	"Продавец", ---
+	"Склад", ---
+	"Заявка номер", ---
+	"Заявка разнарядка",---
+	"Заявка ресурс", ---
+	"Холдинг конечного клиента",---
+	"Наличие", ---
+	"Оборот",---
+	"НДС Расхода",---
+	"Оборот без НДС",--
+	"Цена",---
+	"Сумма возмещения",---
+	"НДС возмещения",---
+	"Сумма возмещения без НДС",---
+	"Сумма МО",---
+	"НДС МО",--
+	"Сумма МО Общ",---
+	"Документ ISC ID",---
+	"Период")
+SELECT
+	c.id,---
+	Doc,---
+	p.id,---
+	r.PaymentType,---
+	r.AttachmentDate,---
+	r.DischargeDate,---
+	"Day",---
+	Contract,---
+	"Month",----
+	PlaneMonth,---
+	DirectionOfImplementation,---
+	d.id,----
+	AttachmentNumber,---
+	DischargeNumber,---
+	Company,---
+	Seller,---
+	Warehouse,---
+	RequestNumber,---
+	RequestDischarge,---
+	RequestResource,---
+	ClientHolding,---
+	Availability,---
+	Turnover,---
+	ExpenseVAT,--
+	TurnoverWithoutVAT,--
+	Price,---
+	RefundAmount,---
+	RefundsVAT,--
+	RefundWithoutVAT,---
+	SumMO,----
+	MOVAT,---
+	SumMOTotal,---
+	DocID,---
+	load_date	---
+FROM sttgaz.stage_isc_realization AS r
+LEFT JOIN sttgaz.dds_isc_counteragent_stt AS c
+	ON HASH(r.Client, r.RecipientFullName, r.RecipientID, r.Recipient) = HASH(c.Клиент, c.Получатель, c."Площадка дилера ISK ID", c."Площадка дилера")
+LEFT JOIN sttgaz.dds_isc_product AS p
+	ON r.vin = p.ВИН
+LEFT JOIN sttgaz.dds_isc_DirectionOfImplementationWithUKP AS d
+	ON r.DirectionOfImplementationWithUKP = d."Направление реализации с учетом УКП"; 

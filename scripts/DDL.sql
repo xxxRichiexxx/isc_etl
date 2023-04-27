@@ -70,7 +70,7 @@ CREATE TABLE sttgaz.stage_isc_classifier_2 (
 DROP TABLE IF EXISTS sttgaz.stage_isc_realization;
 CREATE TABLE sttgaz.stage_isc_realization(
     "Client" VARCHAR(500),
-    "Recipient" VARCHAR(500),
+    "DealersUnit" VARCHAR(500),
     "Doc" VARCHAR(500),
     "BuildOption" VARCHAR(100),
     "BuildOptionСollapsed" VARCHAR(100),
@@ -90,7 +90,7 @@ CREATE TABLE sttgaz.stage_isc_realization(
     "AttachmentNumber" VARCHAR(100),
     "DischargeNumber" INT,
     "ProductIdentifier" INT,
-    "RecipientFullName" VARCHAR(500),
+    "Recipient" VARCHAR(500),
     "Company" VARCHAR(500),
     "Seller" VARCHAR(500),
     "Warehouse" VARCHAR(500),
@@ -116,7 +116,7 @@ CREATE TABLE sttgaz.stage_isc_realization(
     "SumMOTotal" NUMERIC(12,2),
     "ProductIdentifier2" INT,
     "DocID" INT,
-    "RecipientID" INT,
+    "DealersUnitID" INT,
     "ClassifierCabType" VARCHAR(500),
     "ClassifierDrive" VARCHAR(500),
     "ClassifierDetailedByDivision" VARCHAR(500),
@@ -219,6 +219,106 @@ CREATE TABLE sttgaz.dds_isc_classifier_2 (
     "Вид товара"  VARCHAR(500),
     "Вид продукции"  VARCHAR(500)
 );
+
+DROP TABLE IF EXISTS sttgaz.dds_isc_realization;
+CREATE TABLE sttgaz.dds_isc_realization (
+	"id" AUTO_INCREMENT,
+	"Контрагент ID" INT,
+	"Документ" VARCHAR(500),
+	"Транспортное средство ID" INT,
+	"Вид оплаты" VARCHAR(100), 
+	"Дата приложения" VARCHAR(500),
+	"Дата разнарядки" VARCHAR(500),
+	"День документа" DATE,
+	"Договор" VARCHAR(500),
+	"Месяц документа" VARCHAR(500),
+	"Месяц планирования" VARCHAR(500),
+	"Направление реализации" VARCHAR(500), 
+	"Направление реализации с учетом УКП ID" VARCHAR(500),
+	"Номер приложения" VARCHAR(100),
+	"Номер разнярядки" INT,
+	"Фирма" VARCHAR(500),
+	"Продавец" VARCHAR(500),
+	"Склад" VARCHAR(500),
+	"Заявка номер" INT,
+	"Заявка разнарядка" VARCHAR(500),
+	"Заявка ресурс" INT,
+	"Холдинг конечного клиента" VARCHAR(500),
+	"Наличие" INT,
+	"Оборот" NUMERIC(12,2),
+	"НДС Расхода" NUMERIC(12,2),
+	"Оборот без НДС" NUMERIC(12,2),
+	"Цена" NUMERIC(12,2),
+	"Сумма возмещения" NUMERIC(12,2),
+	"НДС возмещения" NUMERIC(12,2),
+	"Сумма возмещения без НДС" NUMERIC(12,2),
+	"Сумма МО" NUMERIC(12,2),
+	"НДС МО" NUMERIC(12,2),
+	"Сумма МО Общ" NUMERIC(12,2),
+	"Документ ISC ID" INT,
+	"Период" DATE
+)
+ORDER BY "Период", "Контрагент ID", "Транспортное средство ID"
+PARTITION BY DATE_TRUNC('month', "Период");
+
+DROP TABLE IF EXISTS sttgaz.dds_isc_DirectionOfImplementationWithUKP;
+CREATE TABLE sttgaz.dds_isc_DirectionOfImplementationWithUKP (
+	"id" AUTO_INCREMENT,
+	"Направление реализации с учетом УКП" VARCHAR(500)
+);
+
+DROP TABLE IF EXISTS sttgaz.dds_isc_counteragent_stt;
+CREATE TABLE sttgaz.dds_isc_counteragent_stt (
+	"id" AUTO_INCREMENT,
+	"Клиент" VARCHAR(500),
+    "Получатель" VARCHAR(500),
+	"Площадка дилера ISK ID" INT,
+	"Площадка дилера" VARCHAR(500)
+);
+
+
+DROP TABLE IF EXISTS sttgaz.dds_isc_product;
+CREATE TABLE sttgaz.dds_isc_product (
+	"id" AUTO_INCREMENT,
+	"Вариант сборки" VARCHAR(100),
+	"Вариант сборки свернутый" VARCHAR(100),
+	"Вид товара по дивизиону" VARCHAR(100),
+	"ВИН" VARCHAR(500),
+	"Двигатель по прайсу" VARCHAR(500),
+	"Дивизион ID" INT,
+	"ИД номерного товара" INT,
+    "Производитель ID" INT,
+	"Товар" VARCHAR(500),
+	"ТоварКод65" VARCHAR(500),
+	"Номерной товар" VARCHAR(100),
+	"Цвет" VARCHAR(100),
+	"Номерной товар ИД" INT,
+	"Классификатор дивизион тип кабины" VARCHAR(500),
+	"Классификатор привод" VARCHAR(500),
+	"Классификатор подробно по дивизионам 22" VARCHAR(500),
+	"Классификатор вид товара" VARCHAR(500),
+	"Классификатор ГБО" VARCHAR(500),
+	"Классификатор число посадочных мест" VARCHAR(500),
+	"Классификатор экологический класс" INT
+)
+ORDER BY id;
+
+
+DROP TABLE IF EXISTS sttgaz.dds_isc_manufacturer;
+CREATE TABLE sttgaz.dds_isc_manufacturer(
+	"id" AUTO_INCREMENT,
+	"Производитель" VARCHAR(200)
+)
+ORDER BY id;
+
+
+DROP TABLE IF EXISTS sttgaz.dds_isc_division;
+CREATE TABLE sttgaz.dds_isc_division(
+	"id" AUTO_INCREMENT,
+	"Дивизион" VARCHAR(50)
+)
+ORDER BY id;
+
 
 ----------marts---------------------
 

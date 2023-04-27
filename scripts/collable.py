@@ -64,7 +64,7 @@ def transform(data, execution_date, data_type):
     elif data_type == 'realization':
         data.columns = [
             "Client",
-            "Recipient",
+            "DealersUnit",
             "Doc",
             "BuildOption",
             "BuildOptionСollapsed",
@@ -84,7 +84,7 @@ def transform(data, execution_date, data_type):
             "AttachmentNumber",
             "DischargeNumber",
             "ProductIdentifier",
-            "RecipientFullName",
+            "Recipient",
             "Company",
             "Seller",
             "Warehouse",
@@ -110,7 +110,7 @@ def transform(data, execution_date, data_type):
             "SumMOTotal",
             "ProductIdentifier2",
             "DocID",
-            "RecipientID",
+            "DealersUnitID",
             "ClassifierCabType",
             "ClassifierDrive",
             "ClassifierDetailedByDivision",
