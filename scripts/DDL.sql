@@ -273,9 +273,9 @@ CREATE TABLE sttgaz.dds_isc_counteragent_stt (
 	"Клиент" VARCHAR(500),
     "Получатель" VARCHAR(500),
 	"Площадка дилера ISK ID" INT,
-	"Площадка дилера" VARCHAR(500)
+	"Площадка дилера" VARCHAR(500),
+	"Дивизион" VARCHAR(10) 
 );
-
 
 DROP TABLE IF EXISTS sttgaz.dds_isc_product;
 CREATE TABLE sttgaz.dds_isc_product (
@@ -308,14 +308,6 @@ DROP TABLE IF EXISTS sttgaz.dds_isc_manufacturer;
 CREATE TABLE sttgaz.dds_isc_manufacturer(
 	"id" AUTO_INCREMENT,
 	"Производитель" VARCHAR(200)
-)
-ORDER BY id;
-
-
-DROP TABLE IF EXISTS sttgaz.dds_isc_division;
-CREATE TABLE sttgaz.dds_isc_division(
-	"id" AUTO_INCREMENT,
-	"Дивизион" VARCHAR(50)
 )
 ORDER BY id;
 
