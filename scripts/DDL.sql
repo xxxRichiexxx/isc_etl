@@ -258,7 +258,6 @@ CREATE TABLE sttgaz.dds_isc_product (
 	"Вид товара по дивизиону" VARCHAR(100),
 	"ВИН" VARCHAR(500),
 	"Двигатель по прайсу" VARCHAR(500),
-	"Дивизион ID" INT,
 	"ИД номерного товара" INT,
     "Производитель ID" INT REFERENCES sttgaz.dds_isc_manufacturer(id),
 	"Товар" VARCHAR(500),
@@ -281,7 +280,7 @@ CREATE TABLE sttgaz.dds_isc_realization (
 	"id" AUTO_INCREMENT PRIMARY KEY,
 	"Контрагент ID" INT REFERENCES sttgaz.dds_isc_counteragent_stt(id),
 	"Документ" VARCHAR(500),
-	"Транспортное средство ID" INT REFERENCES sttgaz.dds_isc_product(id),
+	"Продукт ID" INT REFERENCES sttgaz.dds_isc_product(id),
 	"Вид оплаты" VARCHAR(100), 
 	"Дата приложения" VARCHAR(500),
 	"Дата разнарядки" VARCHAR(500),
@@ -314,7 +313,7 @@ CREATE TABLE sttgaz.dds_isc_realization (
 	"Документ ISC ID" INT,
 	"Период" DATE
 )
-ORDER BY "Период", "Контрагент ID", "Транспортное средство ID"
+ORDER BY "Период", "Контрагент ID", "Продукт ID"
 PARTITION BY DATE_TRUNC('month', "Период");
 
 ----------marts---------------------
