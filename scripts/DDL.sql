@@ -220,12 +220,68 @@ CREATE TABLE sttgaz.dds_isc_classifier_2 (
     "Вид продукции"  VARCHAR(500)
 );
 
+
+
+
 DROP TABLE IF EXISTS sttgaz.dds_isc_realization;
+DROP TABLE IF EXISTS sttgaz.dds_isc_product;
+DROP TABLE IF EXISTS sttgaz.dds_isc_manufacturer;
+DROP TABLE IF EXISTS sttgaz.dds_isc_counteragent_stt;
+DROP TABLE IF EXISTS sttgaz.dds_isc_DirectionOfImplementationWithUKP;
+
+
+CREATE TABLE sttgaz.dds_isc_DirectionOfImplementationWithUKP (
+	"id" AUTO_INCREMENT PRIMARY KEY,
+	"Направление реализации с учетом УКП" VARCHAR(500)
+);
+
+CREATE TABLE sttgaz.dds_isc_counteragent_stt (
+	"id" AUTO_INCREMENT PRIMARY KEY,
+	"Клиент" VARCHAR(500),
+    "Получатель" VARCHAR(500),
+	"Площадка дилера ISK ID" INT,
+	"Площадка дилера" VARCHAR(500),
+	"Дивизион" VARCHAR(10),
+    "ts" TIMESTAMP 
+);
+
+CREATE TABLE sttgaz.dds_isc_manufacturer(
+	"id" AUTO_INCREMENT PRIMARY KEY,
+	"Производитель" VARCHAR(200)
+)
+ORDER BY id;
+
+CREATE TABLE sttgaz.dds_isc_product (
+	"id" AUTO_INCREMENT PRIMARY KEY,
+	"Вариант сборки" VARCHAR(100),
+	"Вариант сборки свернутый" VARCHAR(100),
+	"Вид товара по дивизиону" VARCHAR(100),
+	"ВИН" VARCHAR(500),
+	"Двигатель по прайсу" VARCHAR(500),
+	"Дивизион ID" INT,
+	"ИД номерного товара" INT,
+    "Производитель ID" INT REFERENCES sttgaz.dds_isc_manufacturer(id),
+	"Товар" VARCHAR(500),
+	"ТоварКод65" VARCHAR(500),
+	"Номерной товар" VARCHAR(100),
+	"Цвет" VARCHAR(100),
+	"Номерной товар ИД" INT,
+	"Классификатор дивизион тип кабины" VARCHAR(500),
+	"Классификатор привод" VARCHAR(500),
+	"Классификатор подробно по дивизионам 22" VARCHAR(500),
+	"Классификатор вид товара" VARCHAR(500),
+	"Классификатор ГБО" VARCHAR(500),
+	"Классификатор число посадочных мест" VARCHAR(500),
+	"Классификатор экологический класс" INT,
+    ts TIMESTAMP
+)
+ORDER BY id;
+
 CREATE TABLE sttgaz.dds_isc_realization (
-	"id" AUTO_INCREMENT,
-	"Контрагент ID" INT,
+	"id" AUTO_INCREMENT PRIMARY KEY,
+	"Контрагент ID" INT REFERENCES sttgaz.dds_isc_counteragent_stt(id),
 	"Документ" VARCHAR(500),
-	"Транспортное средство ID" INT,
+	"Транспортное средство ID" INT REFERENCES sttgaz.dds_isc_product(id),
 	"Вид оплаты" VARCHAR(100), 
 	"Дата приложения" VARCHAR(500),
 	"Дата разнарядки" VARCHAR(500),
@@ -234,7 +290,7 @@ CREATE TABLE sttgaz.dds_isc_realization (
 	"Месяц документа" VARCHAR(500),
 	"Месяц планирования" VARCHAR(500),
 	"Направление реализации" VARCHAR(500), 
-	"Направление реализации с учетом УКП ID" VARCHAR(500),
+	"Направление реализации с учетом УКП ID" INT REFERENCES sttgaz.dds_isc_DirectionOfImplementationWithUKP(id),
 	"Номер приложения" VARCHAR(100),
 	"Номер разнярядки" INT,
 	"Фирма" VARCHAR(500),
@@ -260,57 +316,6 @@ CREATE TABLE sttgaz.dds_isc_realization (
 )
 ORDER BY "Период", "Контрагент ID", "Транспортное средство ID"
 PARTITION BY DATE_TRUNC('month', "Период");
-
-DROP TABLE IF EXISTS sttgaz.dds_isc_DirectionOfImplementationWithUKP;
-CREATE TABLE sttgaz.dds_isc_DirectionOfImplementationWithUKP (
-	"id" AUTO_INCREMENT,
-	"Направление реализации с учетом УКП" VARCHAR(500)
-);
-
-DROP TABLE IF EXISTS sttgaz.dds_isc_counteragent_stt;
-CREATE TABLE sttgaz.dds_isc_counteragent_stt (
-	"id" AUTO_INCREMENT,
-	"Клиент" VARCHAR(500),
-    "Получатель" VARCHAR(500),
-	"Площадка дилера ISK ID" INT,
-	"Площадка дилера" VARCHAR(500),
-	"Дивизион" VARCHAR(10) 
-);
-
-DROP TABLE IF EXISTS sttgaz.dds_isc_product;
-CREATE TABLE sttgaz.dds_isc_product (
-	"id" AUTO_INCREMENT,
-	"Вариант сборки" VARCHAR(100),
-	"Вариант сборки свернутый" VARCHAR(100),
-	"Вид товара по дивизиону" VARCHAR(100),
-	"ВИН" VARCHAR(500),
-	"Двигатель по прайсу" VARCHAR(500),
-	"Дивизион ID" INT,
-	"ИД номерного товара" INT,
-    "Производитель ID" INT,
-	"Товар" VARCHAR(500),
-	"ТоварКод65" VARCHAR(500),
-	"Номерной товар" VARCHAR(100),
-	"Цвет" VARCHAR(100),
-	"Номерной товар ИД" INT,
-	"Классификатор дивизион тип кабины" VARCHAR(500),
-	"Классификатор привод" VARCHAR(500),
-	"Классификатор подробно по дивизионам 22" VARCHAR(500),
-	"Классификатор вид товара" VARCHAR(500),
-	"Классификатор ГБО" VARCHAR(500),
-	"Классификатор число посадочных мест" VARCHAR(500),
-	"Классификатор экологический класс" INT
-)
-ORDER BY id;
-
-
-DROP TABLE IF EXISTS sttgaz.dds_isc_manufacturer;
-CREATE TABLE sttgaz.dds_isc_manufacturer(
-	"id" AUTO_INCREMENT,
-	"Производитель" VARCHAR(200)
-)
-ORDER BY id;
-
 
 ----------marts---------------------
 

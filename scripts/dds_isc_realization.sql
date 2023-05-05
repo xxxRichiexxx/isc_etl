@@ -85,7 +85,7 @@ SELECT
 	load_date	---
 FROM sq AS r
 LEFT JOIN sttgaz.dds_isc_counteragent_stt AS c
-	ON HASH(r.Client, r.RecipientFullName, r.RecipientID, r.Recipient) = HASH(c.Клиент, c.Получатель, c."Площадка дилера ISK ID", c."Площадка дилера")
+	ON HASH(r.Client, r.Recipient, r.DealersUnitID, r.DealersUnit, r.Division) = HASH(c.Клиент, c.Получатель, c."Площадка дилера ISK ID", c."Площадка дилера", c."Дивизион")
 LEFT JOIN sttgaz.dds_isc_product AS p
 	ON r.vin = p.ВИН
 LEFT JOIN sttgaz.dds_isc_DirectionOfImplementationWithUKP AS d

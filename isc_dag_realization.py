@@ -94,39 +94,53 @@ with DAG(
 
         daily_tasks >> date_check >> [do_nothing, monthly_tasks] >> collapse
 
-    # with TaskGroup('Загрузка_данных_в_dds_слой') as data_to_dds:
+    with TaskGroup('Загрузка_данных_в_dds_слой') as data_to_dds:
 
-    #     data_types = [
-    #         'dealer',
-    #         'buyer',
-    #     ]
+        data_types = [
+            'DirectionOfImplementationWithUKP',
+            'counteragent_stt',
+            'manufacturer',
+            # 'product',
+            # 'realization',
+        ]
 
-    #     tasks = []
+        tasks = []
 
-    #     for data_type in data_types:
-    #         tasks.append(
-    #             VerticaOperator(
-    #                 task_id=f'dds_isc_{data_type}',
-    #                 vertica_conn_id='vertica',
-    #                 sql=f'scripts/dds_{data_type}.sql',
-    #                 params={
-    #                     'delta_1': dt.timedelta(days=1),
-    #                     'delta_2': dt.timedelta(days=4),
-    #                 }
-    #             )
-    #         )
+        for data_type in data_types:
+            tasks.append(
+                VerticaOperator(
+                    task_id=f'dds_isc_{data_type}',
+                    vertica_conn_id='vertica',
+                    sql=f'scripts/dds_isc_{data_type}.sql',
+                    params={
+                        'delta_1': dt.timedelta(days=1),
+                        'delta_2': dt.timedelta(days=4),
+                    }
+                )
+            )
 
-    #     sales = VerticaOperator(
-    #         task_id='dds_isc_sales',
-    #         vertica_conn_id='vertica',
-    #         sql='scripts/dds_sales.sql',
-    #         params={
-    #             'delta_1': dt.timedelta(days=1),
-    #             'delta_2': dt.timedelta(days=4),
-    #         }
-    #     )
+        product = VerticaOperator(
+            task_id=f'dds_isc_product',
+            vertica_conn_id='vertica',
+            sql=f'scripts/dds_isc_product.sql',
+            params={
+                'delta_1': dt.timedelta(days=1),
+                'delta_2': dt.timedelta(days=4),
+            }
+        )
 
-    #     tasks >> sales
+        realization = VerticaOperator(
+            task_id=f'dds_isc_realization',
+            vertica_conn_id='vertica',
+            sql=f'scripts/dds_isc_realization.sql',
+            params={
+                'delta_1': dt.timedelta(days=1),
+                'delta_2': dt.timedelta(days=4),
+            }
+        )
+
+
+        tasks >> product >> realization
 
     # with TaskGroup('Загрузка_данных_в_dm_слой') as data_to_dm:
 
@@ -199,7 +213,6 @@ with DAG(
 
     #     [dm_isc_sales_v_check] + check_tasks
 
-    # end = DummyOperator(task_id='Конец')
+    end = DummyOperator(task_id='Конец')
 
-    # start >> data_to_stage >> data_to_dds >> data_to_dm >> data_checks >> end
-    start >> data_to_stage
+    start >> data_to_stage >> data_to_dds >> end
