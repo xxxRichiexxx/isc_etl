@@ -226,7 +226,8 @@ CREATE TABLE sttgaz.dds_isc_classifier_2 (
 DROP TABLE IF EXISTS sttgaz.dds_isc_realization;
 DROP TABLE IF EXISTS sttgaz.dds_isc_product;
 DROP TABLE IF EXISTS sttgaz.dds_isc_manufacturer;
-DROP TABLE IF EXISTS sttgaz.dds_isc_counteragent_stt;
+DROP TABLE IF EXISTS sttgaz.dds_isc_client_stt;
+DROP TABLE IF EXISTS sttgaz.dds_isc_recipient_stt;
 DROP TABLE IF EXISTS sttgaz.dds_isc_DirectionOfImplementationWithUKP;
 
 
