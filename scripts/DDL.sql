@@ -227,7 +227,7 @@ DROP TABLE IF EXISTS sttgaz.dds_isc_realization;
 DROP TABLE IF EXISTS sttgaz.dds_isc_product;
 DROP TABLE IF EXISTS sttgaz.dds_isc_manufacturer;
 DROP TABLE IF EXISTS sttgaz.dds_isc_client_stt;
-DROP TABLE IF EXISTS sttgaz.dds_isc_recipient_stt;
+DROP TABLE IF EXISTS sttgaz.dds_isc_recipient;
 DROP TABLE IF EXISTS sttgaz.dds_isc_DirectionOfImplementationWithUKP;
 
 
@@ -320,7 +320,7 @@ CREATE TABLE sttgaz.dds_isc_realization (
 	"Документ ISC ID" INT,
 	"Период" DATE
 )
-ORDER BY "Период", "Контрагент ID", "Продукт ID"
+ORDER BY "Период", "Получатель ID", "Продукт ID"
 PARTITION BY DATE_TRUNC('month', "Период");
 
 ----------marts---------------------
