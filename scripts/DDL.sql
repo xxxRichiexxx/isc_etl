@@ -72,8 +72,8 @@ CREATE TABLE sttgaz.stage_isc_realization(
     "Client" VARCHAR(500),
     "DealersUnit" VARCHAR(500),
     "Doc" VARCHAR(500),
-    "BuildOption" VARCHAR(100),
-    "BuildOptionСollapsed" VARCHAR(100),
+    "BuildOption" VARCHAR(200),
+    "BuildOptionСollapsed" VARCHAR(200),
     "PaymentType" VARCHAR(100),
     "PproductTypeByDivision" VARCHAR(100), 
     "vin" VARCHAR(500),
@@ -235,9 +235,14 @@ CREATE TABLE sttgaz.dds_isc_DirectionOfImplementationWithUKP (
 	"Направление реализации с учетом УКП" VARCHAR(500)
 );
 
-CREATE TABLE sttgaz.dds_isc_counteragent_stt (
+CREATE TABLE sttgaz.dds_isc_client_stt (
 	"id" AUTO_INCREMENT PRIMARY KEY,
 	"Клиент" VARCHAR(500),
+    "ts" TIMESTAMP 
+);
+
+CREATE TABLE sttgaz.dds_isc_recipient (
+	"id" AUTO_INCREMENT PRIMARY KEY,
     "Получатель" VARCHAR(500),
 	"Площадка дилера ISK ID" INT,
 	"Площадка дилера" VARCHAR(500),
@@ -254,8 +259,8 @@ ORDER BY id;
 CREATE TABLE sttgaz.dds_isc_product (
 	"id" AUTO_INCREMENT PRIMARY KEY,
 	"Вариант сборки" VARCHAR(100),
-	"Вариант сборки свернутый" VARCHAR(100),
-	"Вид товара по дивизиону" VARCHAR(100),
+	"Вариант сборки свернутый" VARCHAR(200),
+	"Вид товара по дивизиону" VARCHAR(200),
 	"ВИН" VARCHAR(500),
 	"Двигатель по прайсу" VARCHAR(500),
 	"ИД номерного товара" INT,
@@ -278,7 +283,8 @@ ORDER BY id;
 
 CREATE TABLE sttgaz.dds_isc_realization (
 	"id" AUTO_INCREMENT PRIMARY KEY,
-	"Контрагент ID" INT REFERENCES sttgaz.dds_isc_counteragent_stt(id),
+	"Клиент ID" INT REFERENCES sttgaz.dds_isc_client_stt(id),
+    "Получатель ID" INT REFERENCES sttgaz.dds_isc_recipient(id),
 	"Документ" VARCHAR(500),
 	"Продукт ID" INT REFERENCES sttgaz.dds_isc_product(id),
 	"Вид оплаты" VARCHAR(100), 

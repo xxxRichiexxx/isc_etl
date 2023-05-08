@@ -1,6 +1,5 @@
-INSERT INTO sttgaz.dds_isc_counteragent_stt
-	("Клиент",
-	 "Получатель",
+INSERT INTO sttgaz.dds_isc_recipient
+	("Получатель",
 	 "Площадка дилера ISK ID",
 	 "Площадка дилера",
 	 "Дивизион",
@@ -8,16 +7,14 @@ INSERT INTO sttgaz.dds_isc_counteragent_stt
 WITH 
 sq1 AS(
 	SELECT DISTINCT HASH(
-		"Клиент",
 	 	"Получатель",
 	 	"Площадка дилера ISK ID",
 	 	"Площадка дилера",
 	 	"Дивизион"
 	)
-	FROM sttgaz.dds_isc_counteragent_stt
+	FROM sttgaz.dds_isc_recipient
 )
 SELECT DISTINCT
-	Client,
 	"Recipient",
 	"DealersUnitID",
 	"DealersUnit",
@@ -28,4 +25,4 @@ WHERE DATE_TRUNC('MONTH', load_date) IN(
 		'{{execution_date.date().replace(day=1)}}',
 		'{{(execution_date.date().replace(day=1) - params.delta_1).replace(day=1)}}'
 	)
-    AND HASH(Client, "Recipient", "DealersUnitID", "DealersUnit", "Division") NOT IN (SELECT * FROM sq1);
+    AND HASH("Recipient", "DealersUnitID", "DealersUnit", "Division") NOT IN (SELECT * FROM sq1);

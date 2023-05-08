@@ -5,7 +5,8 @@ SELECT DROP_PARTITIONS(
 );
 
 INSERT INTO sttgaz.dds_isc_realization
-   ("Контрагент ID",  ---
+   ("Клиент ID",  ---
+    "Получатель ID",  ---
 	"Документ", ----
 	"Продукт ID", ---
 	"Вид оплаты", ---
@@ -50,6 +51,7 @@ sq AS(
 )
 SELECT
 	c.id,---
+	rec.id, ---
 	Doc,---
 	p.id,---
 	r.PaymentType,---
@@ -84,8 +86,10 @@ SELECT
 	DocID,---
 	load_date	---
 FROM sq AS r
-LEFT JOIN sttgaz.dds_isc_counteragent_stt AS c
-	ON HASH(r.Client, r.Recipient, r.DealersUnitID, r.DealersUnit, r.Division) = HASH(c.Клиент, c.Получатель, c."Площадка дилера ISK ID", c."Площадка дилера", c."Дивизион")
+LEFT JOIN sttgaz.dds_isc_client_stt AS c
+	ON HASH(r.Client) = HASH(c.Клиент)
+LEFT JOIN sttgaz.dds_isc_recipient AS rec
+	ON HASH(r.Recipient, r.DealersUnitID, r.DealersUnit, r.Division) = HASH(rec.Получатель, rec."Площадка дилера ISK ID", rec."Площадка дилера", rec."Дивизион")
 LEFT JOIN sttgaz.dds_isc_product AS p
 	ON r.vin = p.ВИН
 LEFT JOIN sttgaz.dds_isc_DirectionOfImplementationWithUKP AS d

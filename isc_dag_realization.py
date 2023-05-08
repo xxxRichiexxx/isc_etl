@@ -98,10 +98,9 @@ with DAG(
 
         data_types = [
             'DirectionOfImplementationWithUKP',
-            'counteragent_stt',
+            'client_stt',
+            'recipient',
             'manufacturer',
-            # 'product',
-            # 'realization',
         ]
 
         tasks = []
@@ -139,79 +138,7 @@ with DAG(
             }
         )
 
-
         tasks >> product >> realization
-
-    # with TaskGroup('Загрузка_данных_в_dm_слой') as data_to_dm:
-
-    #     dm_isc_sales_v = VerticaOperator(
-    #                 task_id='dm_isc_sales_v',
-    #                 vertica_conn_id='vertica',
-    #                 sql='scripts/dm_isc_sales_v.sql',
-    #             )
-
-    #     dm_isc_dealer_sales_RF = VerticaOperator(
-    #                 task_id='dm_isc_dealer_sales_RF',
-    #                 vertica_conn_id='vertica',
-    #                 sql='scripts/dm_isc_dealer_sales_RF.sql',
-    #                 params={
-    #                     'delta_1': dt.timedelta(days=1),
-    #                     'delta_2': dt.timedelta(days=4),
-    #                 }
-    #             )
-
-    #     dm_isc_sales_RF_CIS = VerticaOperator(
-    #                 task_id='dm_isc_sales_RF_CIS',
-    #                 vertica_conn_id='vertica',
-    #                 sql='scripts/dm_isc_sales_RF_CIS.sql',
-    #                 params={
-    #                     'delta_1': dt.timedelta(days=1),
-    #                     'delta_2': dt.timedelta(days=4),
-    #                 }
-    #             )
-
-    #     dm_isc_sales_v_for_model = VerticaOperator(
-    #                 task_id='dm_isc_sales_v_for_model',
-    #                 vertica_conn_id='vertica',
-    #                 sql='scripts/dm_isc_sales_v_for_model.sql',
-    #             )
-
-    #     dm_isc_sales_v_detailed = VerticaOperator(
-    #                 task_id='dm_isc_sales_v_detailed',
-    #                 vertica_conn_id='vertica',
-    #                 sql='scripts/dm_isc_sales_v_detailed.sql',
-    #             )
-
-    #     [dm_isc_sales_v, dm_isc_dealer_sales_RF,
-    #      dm_isc_sales_v_for_model, dm_isc_sales_v_detailed]
-
-    # with TaskGroup('Проверки') as data_checks:
-
-    #     dm_isc_sales_v_check = VerticaOperator(
-    #                 task_id='dm_isc_sales_v_check',
-    #                 vertica_conn_id='vertica',
-    #                 sql='scripts/dm_isc_sales_v_check.sql',
-    #                 params={
-    #                     'dm': 'dm_isc_sales_v',
-    #                 }
-    #             )
-
-    #     marts = ('dm_isc_dealer_sales_RF', 'dm_isc_sales_RF_CIS')
-    #     check_tasks = []
-
-    #     for mart in marts:
-    #         check_tasks.append(
-    #             VerticaOperator(
-    #                 task_id=f'{mart}_check',
-    #                 vertica_conn_id='vertica',
-    #                 sql='scripts/dm_isc_sales_t_check.sql',
-    #                 params={
-    #                     'dm': mart,
-    #                 }
-    #             )
-    #         )
-
-    #     [dm_isc_sales_v_check] + check_tasks
 
     end = DummyOperator(task_id='Конец')
 
