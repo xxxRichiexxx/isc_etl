@@ -259,7 +259,7 @@ ORDER BY id;
 
 CREATE TABLE sttgaz.dds_isc_product (
 	"id" AUTO_INCREMENT PRIMARY KEY,
-	"Вариант сборки" VARCHAR(100),
+	"Вариант сборки" VARCHAR(200),
 	"Вариант сборки свернутый" VARCHAR(200),
 	"Вид товара по дивизиону" VARCHAR(200),
 	"ВИН" VARCHAR(500),
@@ -268,7 +268,7 @@ CREATE TABLE sttgaz.dds_isc_product (
     "Производитель ID" INT REFERENCES sttgaz.dds_isc_manufacturer(id),
 	"Товар" VARCHAR(500),
 	"ТоварКод65" VARCHAR(500),
-	"Номерной товар" VARCHAR(100),
+	"Номерной товар" VARCHAR(200),
 	"Цвет" VARCHAR(100),
 	"Номерной товар ИД" INT,
 	"Классификатор дивизион тип кабины" VARCHAR(500),
