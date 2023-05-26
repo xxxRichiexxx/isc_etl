@@ -1,4 +1,5 @@
 INSERT INTO sttgaz.dds_isc_dealer_unit
+("Наименование_дилера", "Площадка_дилера_ISK_ID", "Площадка_дилера")
 WITH sq1 AS(
     SELECT DISTINCT
         HASH("Наименование_дилера",
