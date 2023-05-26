@@ -98,9 +98,10 @@ with DAG(
 
         data_types = [
             'DirectionOfImplementationWithUKP',
-            'client_stt',
-            'recipient',
+            'counteragent'
             'manufacturer',
+            'division',
+            'dealer_unit',
         ]
 
         tasks = []
