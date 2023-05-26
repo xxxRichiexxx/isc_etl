@@ -98,7 +98,7 @@ with DAG(
 
         data_types = [
             'DirectionOfImplementationWithUKP',
-            'counteragent'
+            'counteragent',
             'manufacturer',
             'division',
             'dealer_unit',
