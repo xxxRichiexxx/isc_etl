@@ -92,7 +92,7 @@ LEFT JOIN sttgaz.dds_isc_counteragent AS c
 	ON HASH(sq.Client) = HASH(c."Наименование")
 LEFT JOIN sttgaz.dds_isc_counteragent AS r
 	ON HASH(sq.Recipient) = HASH(r."Наименование")
-LEFT JOIN sttgaz.dealer_unit AS du
+LEFT JOIN sttgaz.dds_isc_dealer_unit AS du
 	ON HASH(sq."DealersName", sq."DealersUnitID", sq."DealersUnit")
 	= HASH(du."Наименование_дилера", du."Площадка_дилера_ISK_ID", du."Площадка_дилера")
 LEFT JOIN sttgaz.dds_isc_product AS p
