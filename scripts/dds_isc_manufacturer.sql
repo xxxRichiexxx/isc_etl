@@ -1,8 +1,8 @@
 INSERT INTO sttgaz.dds_isc_manufacturer
-("Производитель")
+("Наименование")
 WITH 
 sq1 AS(
-	SELECT DISTINCT HASH("Производитель")
+	SELECT DISTINCT HASH("Наименование")
 	FROM sttgaz.dds_isc_manufacturer
 )
 SELECT DISTINCT Manufacturer 
