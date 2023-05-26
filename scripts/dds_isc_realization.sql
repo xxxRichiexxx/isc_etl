@@ -6,6 +6,8 @@ SELECT DROP_PARTITIONS(
 
 INSERT INTO sttgaz.dds_isc_realization
    ("Контрагент ID",  ---
+    "Получатель ID",
+	"Площадка дилера ID",
 	"Документ", ----
 	"Продукт ID", ---
 	"Вид оплаты", ---
@@ -50,6 +52,8 @@ sq AS(
 )
 SELECT
 	c.id,---
+	r.id,
+	du.id,
 	Doc,---
 	p.id,---
 	PaymentType,---
@@ -85,9 +89,14 @@ SELECT
 	load_date	---
 FROM sq 
 LEFT JOIN sttgaz.dds_isc_counteragent AS c
-	ON HASH(sq.Client, sq.Recipient, sq.DealersUnitID, sq.DealersUnit, sq.Division)
-		= HASH(c.Клиент, c.Получатель, c."Площадка дилера ISK ID", c."Площадка дилера", c."Дивизион")
+	ON HASH(sq.Client) = HASH(c."Наименование")
+LEFT JOIN sttgaz.dds_isc_counteragent AS r
+	ON HASH(sq.Recipient) = HASH(r."Наименование")
+LEFT JOIN sttgaz.dealer_unit AS du
+	ON HASH(sq."DealersName", sq."DealersUnitID", sq."DealersUnit")
+	= HASH(du."Наименование_дилера", du."Площадка_дилера_ISK_ID", du."Площадка_дилера")
 LEFT JOIN sttgaz.dds_isc_product AS p
-	ON HASH(sq.vin, sq.ProductIdentifier) = HASH(p.ВИН, p."ИД номерного товара");
+	ON HASH(sq.vin, sq.ProductIdentifier, sq.BuildOption, sq.BuildOptionСollapsed) 
+	= HASH(p."ВИН", p."ИД номерного товара", p."Вариант сборки", p."Вариант сборки свернутый")
 LEFT JOIN sttgaz.dds_isc_DirectionOfImplementationWithUKP AS d
 	ON sq.DirectionOfImplementationWithUKP = d."Направление реализации с учетом УКП";
