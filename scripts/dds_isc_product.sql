@@ -40,7 +40,7 @@ SELECT DISTINCT
 	NOW()
 FROM sq1 								AS r
 LEFT JOIN sttgaz.dds_isc_manufacturer 	AS m
-	ON r.Manufacturer = m.Производитель
+	ON r.Manufacturer = m."Наименование"
 LEFT JOIN sttgaz.dds_isc_division 		AS d 
 	ON r.Division = d."Наименование"
 WHERE HASH(vin, ProductIdentifier, BuildOption, BuildOptionСollapsed) NOT IN (SELECT * FROM sq2);
