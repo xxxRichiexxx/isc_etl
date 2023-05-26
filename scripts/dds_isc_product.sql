@@ -13,8 +13,8 @@ sq1 AS(
 	)
 ),
 sq2 AS(
-	SELECT DISTINCT "ВИН"
-	FROM sttgaz.dds_isc_product 
+	SELECT DISTINCT HASH("ВИН", "ИД номерного товара", "Вариант сборки", "Вариант сборки свернутый")
+	FROM sttgaz.dds_isc_product
 )
 SELECT DISTINCT
 	BuildOption 						AS "Вариант сборки",
@@ -36,8 +36,11 @@ SELECT DISTINCT
 	ClassifierGBO 						AS "Классификатор ГБО",
 	ClassifierNumberOfSeats 			AS "Классификатор число посадочных мест",
 	ClassifierEcologicalClass 			AS "Классификатор экологический класс",
+	d.id 								AS "Дивизион",
 	NOW()
 FROM sq1 								AS r
 LEFT JOIN sttgaz.dds_isc_manufacturer 	AS m
 	ON r.Manufacturer = m.Производитель
-WHERE r.vin NOT IN (SELECT * FROM sq2); 
+LEFT JOIN sttgaz.dds_isc_division 		AS d 
+	ON r.Division = d."Наименование"
+WHERE HASH(vin, ProductIdentifier, BuildOption, BuildOptionСollapsed) NOT IN (SELECT * FROM sq2);

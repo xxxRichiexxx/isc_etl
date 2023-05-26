@@ -65,6 +65,7 @@ def transform(data, execution_date, data_type):
         data.columns = [
             "Client",
             "DealersUnit",
+            "DealersName",
             "Doc",
             "BuildOption",
             "BuildOptionСollapsed",

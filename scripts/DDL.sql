@@ -71,6 +71,7 @@ DROP TABLE IF EXISTS sttgaz.stage_isc_realization;
 CREATE TABLE sttgaz.stage_isc_realization(
     "Client" VARCHAR(500),
     "DealersUnit" VARCHAR(500),
+    "DealersName" VARCHAR(500),
     "Doc" VARCHAR(500),
     "BuildOption" VARCHAR(200),
     "BuildOptionСollapsed" VARCHAR(200),
@@ -224,10 +225,12 @@ CREATE TABLE sttgaz.dds_isc_classifier_2 (
 
 
 DROP TABLE IF EXISTS sttgaz.dds_isc_realization;
+DROP TABLE IF EXISTS sttgaz.dds_isc_dealer_sales;
 DROP TABLE IF EXISTS sttgaz.dds_isc_product;
 DROP TABLE IF EXISTS sttgaz.dds_isc_manufacturer;
-DROP TABLE IF EXISTS sttgaz.dds_isc_client_stt;
-DROP TABLE IF EXISTS sttgaz.dds_isc_recipient;
+DROP TABLE IF EXISTS sttgaz.dds_isc_division;
+DROP TABLE IF EXISTS sttgaz.dds_isc_counteragent;
+DROP TABLE IF EXISTS sttgaz.dds_isc_dealer_unit;
 DROP TABLE IF EXISTS sttgaz.dds_isc_DirectionOfImplementationWithUKP;
 
 
@@ -236,24 +239,28 @@ CREATE TABLE sttgaz.dds_isc_DirectionOfImplementationWithUKP (
 	"Направление реализации с учетом УКП" VARCHAR(500)
 );
 
-CREATE TABLE sttgaz.dds_isc_client_stt (
+CREATE TABLE sttgaz.dds_isc_counteragent (
 	"id" AUTO_INCREMENT PRIMARY KEY,
-	"Клиент" VARCHAR(500),
-    "ts" TIMESTAMP 
+    "Наименование" VARCHAR(500)
 );
 
-CREATE TABLE sttgaz.dds_isc_recipient (
+CREATE TABLE sttgaz.dds_isc_dealer_unit (
 	"id" AUTO_INCREMENT PRIMARY KEY,
-    "Получатель" VARCHAR(500),
-	"Площадка дилера ISK ID" INT,
-	"Площадка дилера" VARCHAR(500),
-	"Дивизион" VARCHAR(10),
+    "Наименование_дилера" VARCHAR(500),
+    "Площадка_дилера_ISK_ID" INT,
+    "Площадка_дилера" VARCHAR(500),
     "ts" TIMESTAMP 
 );
 
 CREATE TABLE sttgaz.dds_isc_manufacturer(
 	"id" AUTO_INCREMENT PRIMARY KEY,
-	"Производитель" VARCHAR(200)
+	"Наименование" VARCHAR(200)
+)
+ORDER BY id;
+
+CREATE TABLE sttgaz.dds_isc_division(
+	"id" AUTO_INCREMENT PRIMARY KEY,
+	"Наименование" VARCHAR(20)
 )
 ORDER BY id;
 
@@ -278,14 +285,18 @@ CREATE TABLE sttgaz.dds_isc_product (
 	"Классификатор ГБО" VARCHAR(500),
 	"Классификатор число посадочных мест" VARCHAR(500),
 	"Классификатор экологический класс" INT,
-    ts TIMESTAMP
+    "Дивизион ID" INT REFERENCES sttgaz.dds_isc_division(id),
+    ts TIMESTAMP,
+
+    CONSTRAINT dds_isc_product_unique UNIQUE("Вариант сборки", "Вариант сборки свернутый", "ВИН", "Номерной товар ИД")
 )
 ORDER BY id;
 
 CREATE TABLE sttgaz.dds_isc_realization (
 	"id" AUTO_INCREMENT PRIMARY KEY,
-	"Клиент ID" INT REFERENCES sttgaz.dds_isc_client_stt(id),
-    "Получатель ID" INT REFERENCES sttgaz.dds_isc_recipient(id),
+    "Контрагент ID" INT REFERENCES sttgaz.dds_isc_counteragent(id),
+    "Получатель ID" INT REFERENCES sttgaz.dds_isc_counteragent(id),
+    "Площадка дилера ID" INT REFERENCES sttgaz.dds_isc_dealer_unit(id),
 	"Документ" VARCHAR(500),
 	"Продукт ID" INT REFERENCES sttgaz.dds_isc_product(id),
 	"Вид оплаты" VARCHAR(100), 
@@ -320,8 +331,35 @@ CREATE TABLE sttgaz.dds_isc_realization (
 	"Документ ISC ID" INT,
 	"Период" DATE
 )
-ORDER BY "Период", "Получатель ID", "Продукт ID"
+ORDER BY "Период", "Контрагент ID", "Продукт ID"
 PARTITION BY DATE_TRUNC('month', "Период");
+
+CREATE TABLE sttgaz.dds_isc_dealer_sales
+(
+    id  IDENTITY PRIMARY KEY,
+    "Продукт ID" int REFERENCES sttgaz.dds_isc_product(id),
+    "Площадка дилера ID" INT REFERENCES sttgaz.dds_isc_dealer_unit(id),
+    "Территория продаж" varchar(2000),
+    "Конечный клиент ID" int REFERENCES sttgaz.dds_isc_buyer(id),
+    "Спец программа реализации" varchar(2000),
+    "Дата отгрузки" date,
+    "Дата продажи" date,
+    "Дата записи продажи в БД" varchar(500),
+    "Продано в розницу" int,
+    "Продано физ лицам" int,
+    "Остатки на НП" int,
+    "Остатки на НП в пути" int,
+    "Остатки на КП" int,
+    "Остатки на КП в пути" int,
+    "Направление реализации по приложению" varchar(500),
+    "Направление реализации с учетом УКП ID" INT REFERENCES sttgaz.dds_isc_DirectionOfImplementationWithUKP(id),
+    "Направление реализации площадки" varchar(500),
+    Период date
+)   
+PARTITION BY (date_trunc('MONTH', "Период"));
+
+
+
 
 ----------marts---------------------
 
