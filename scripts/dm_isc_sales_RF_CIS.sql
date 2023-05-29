@@ -42,7 +42,6 @@ WITH
 		FROM sales																	AS s
 		LEFT JOIN sttgaz.dds_isc_dealer				 								AS d
         ON s."Дилер ID" = d.id
-		WHERE d.Название NOT iLIKE '%прямая продажа%'
 	),
     sales_1 AS(
         SELECT

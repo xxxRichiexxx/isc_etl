@@ -36,4 +36,43 @@ LEFT JOIN sttgaz.dds_isc_product AS p
 	ON s."Продукт ID" = p.id 
 LEFT JOIN sttgaz.dds_isc_DirectionOfImplementationWithUKP dir 
 	ON s."Направление реализации с учетом УКП ID" = dir.id 
-	
+
+
+
+
+
+
+SELECT
+	DATE_TRUNC('month', "День документа")::date		AS "Месяц",
+	d."Направление реализации с учетом УКП",
+	div.Наименование								AS "Дивизион",
+	m.Наименование									AS "Производитель",
+	"Классификатор подробно по дивизионам 22",
+	"Товар",
+	SUM("Наличие")									AS "Наличие",
+	SUM("Оборот")									AS "Оборот",
+	SUM("Оборот без НДС")							AS "Оборот без НДС",
+	SUM("Сумма возмещения без НДС")					AS "Сумма возмещения без НДС"
+FROM sttgaz.dds_isc_realization 		AS r 
+LEFT JOIN sttgaz.dds_isc_counteragent 	AS c
+	ON r."Контрагент ID"  = c.id 
+LEFT JOIN sttgaz.dds_isc_counteragent 	AS rec
+	ON r."Получатель ID"  = rec.id 
+LEFT JOIN sttgaz.dds_isc_dealer_unit 	AS du
+	ON r."Площадка дилера ID" = du.id 
+LEFT JOIN sttgaz.dds_isc_product 		AS p
+	ON r."Продукт ID" = p.id 
+LEFT JOIN sttgaz.dds_isc_DirectionOfImplementationWithUKP AS d
+	ON r."Направление реализации с учетом УКП ID" =d.id
+LEFT JOIN sttgaz.dds_isc_manufacturer 	AS m 
+	ON p."Производитель ID"  = m.id
+LEFT JOIN sttgaz.dds_isc_division  		AS div
+	ON p."Дивизион ID"  = div.id
+GROUP BY
+	"День документа",
+	d."Направление реализации с учетом УКП",
+	div.Наименование,
+	m.Наименование,
+	"Классификатор подробно по дивизионам 22",
+	"Товар"
+ORDER BY "Месяц";
