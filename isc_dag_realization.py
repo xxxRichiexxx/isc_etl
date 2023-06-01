@@ -40,7 +40,7 @@ with DAG(
         default_args=default_args,
         description='Получение данных из ИСК. Реализация.',
         start_date=dt.datetime(2018, 1, 1),
-        schedule_interval='@monthly',
+        schedule_interval='@daily',
         catchup=True,
         max_active_runs=1
 ) as dag:
