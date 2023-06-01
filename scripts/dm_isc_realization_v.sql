@@ -27,7 +27,7 @@ sq1 AS(
 		ON p."Производитель ID"  = m.id
 	LEFT JOIN sttgaz.dds_isc_division  		AS div
 		ON p."Дивизион ID"  = div.id
-	WHERE DATE_TRUNC('month', r.Период)::date >= DATE_TRUNC('year', '{{execution_date}}')::date -  INTERVAL '2 YEAR'
+	WHERE DATE_TRUNC('month', r.Период)::date >= DATE_TRUNC('year', '{{execution_date}}'::date)::date -  INTERVAL '2 YEAR'
 	GROUP BY
 		"Месяц",
 		d."Направление реализации с учетом УКП",
