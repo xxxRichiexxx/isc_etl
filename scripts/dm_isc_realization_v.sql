@@ -1,3 +1,5 @@
+DROP VIEW IF EXISTS sttgaz.dm_isc_realization_v;
+
 CREATE OR REPLACE VIEW sttgaz.dm_isc_realization_v AS
 WITH 
 sq1 AS(
