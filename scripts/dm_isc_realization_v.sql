@@ -41,7 +41,7 @@ sq1 AS(
 ),
 sq2 AS(
 	SELECT DISTINCT DATE_TRUNC('MONTH', ts)::date AS "Месяц"
-	FROM (SELECT (DATE_TRUNC('year', NOW()) -  INTERVAL '2 YEAR') as tm UNION ALL SELECT NOW()) as t
+	FROM (SELECT (DATE_TRUNC('year', '{{execution_date}}'::date) -  INTERVAL '2 YEAR') as tm UNION ALL SELECT '{{execution_date}}'::date) as t
 	TIMESERIES ts as '1 DAY' OVER (ORDER BY t.tm)
 ),
 sq3 AS(
