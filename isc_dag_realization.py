@@ -141,6 +141,14 @@ with DAG(
 
         tasks >> product >> realization
 
+    with TaskGroup('Загрузка_данных_в_dm_слой') as data_to_dm:
+
+        dm_isc_realization_v = VerticaOperator(
+                    task_id='dm_isc_realization_v',
+                    vertica_conn_id='vertica',
+                    sql='scripts/dm_isc_realization_v.sql',
+                )
+
     end = DummyOperator(task_id='Конец')
 
-    start >> data_to_stage >> data_to_dds >> end
+    start >> data_to_stage >> data_to_dds >> data_to_dm >> end
