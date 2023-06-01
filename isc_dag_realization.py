@@ -148,7 +148,18 @@ with DAG(
                     vertica_conn_id='vertica',
                     sql='scripts/dm_isc_realization_v.sql',
                 )
+        
+    with TaskGroup('Проверки') as data_checks:
+
+        dm_isc_realization_v_check = VerticaOperator(
+                    task_id='dm_isc_realization_v_check',
+                    vertica_conn_id='vertica',
+                    sql='scripts/dm_isc_realization_v_check.sql',
+                    params={
+                        'dm': 'dm_isc_realization_v',
+                    }
+                )
 
     end = DummyOperator(task_id='Конец')
 
-    start >> data_to_stage >> data_to_dds >> data_to_dm >> end
+    start >> data_to_stage >> data_to_dds >> data_to_dm >> data_checks >> end
