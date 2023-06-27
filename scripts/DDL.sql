@@ -131,6 +131,24 @@ ORDER BY load_date
 PARTITION BY DATE_TRUNC('month', "load_date");
 
 
+CREATE TABLE sttgaz.stage_isc_acceptance (
+    "ProductCode65" VARCHAR(500),
+    "Color" VARCHAR(500),
+    "BuildOption" VARCHAR(200),
+    "ModelYear" INT,
+    "AdditionalProps14" VARCHAR(200),
+    "IGC" VARCHAR(500),
+    "DirectionOfImplementation" VARCHAR(500),
+    "Buyer" VARCHAR(500),
+    "ShipmentStatus" VARCHAR(500),
+    "Status" VARCHAR(500),
+    "quantity" INT,
+    "load_date" DATE
+)
+ORDER BY "DirectionOfImplementation", "Buyer"
+PARTITION BY DATE_TRUNC('month', "load_date");
+
+
 ---------------DDS------------------------
 DROP TABLE IF EXISTS sttgaz.dds_isc_sales;
 CREATE TABLE sttgaz.dds_isc_sales (

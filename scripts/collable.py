@@ -122,6 +122,20 @@ def transform(data, execution_date, data_type):
             "ClassifierNumberOfSeats",
             "ClassifierEcologicalClass",
         ]
+    elif data_type == 'acceptance':
+        data.columns = [
+            "ProductCode65",
+            "Color",
+            "BuildOption",
+            "ModelYear",
+            "AdditionalProps14",
+            "IGC",
+            "DirectionOfImplementation",
+            "Buyer",
+            "ShipmentStatus",
+            "Status",
+            "quantity",            
+        ]
 
     data['load_date'] = execution_date.replace(day=1)
     return data
