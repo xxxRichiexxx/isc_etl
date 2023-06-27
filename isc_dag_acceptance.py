@@ -38,7 +38,7 @@ default_args = {
 with DAG(
         'isc_acceptance',
         default_args=default_args,
-        description='Получение данных из ИСК. Реализация.',
+        description='Получение данных из ИСК. Акцептование.',
         start_date=dt.datetime(2018, 1, 1),
         schedule_interval='@monthly',
         catchup=True,
