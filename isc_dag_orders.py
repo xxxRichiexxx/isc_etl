@@ -35,6 +35,8 @@ months = [
             '{{ (((execution_date.date().replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1) }}',
         ]
 
+test = '{{ execution_date.date().replace(day=1) }}'
+
 default_args = {
     'owner': 'Швейников Андрей',
     'email': ['xxxRichiexxx@yandex.ru'],
@@ -60,7 +62,7 @@ with DAG(
         for month in months:
             tasks.append(
                 PythonOperator(
-                    task_id=f'get_orders_{month}',
+                    task_id=f'get_orders_{test}',
                     python_callable=etl,
                     op_kwargs={
                         'data_type': 'orders',
