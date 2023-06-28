@@ -122,7 +122,7 @@ def transform(data, execution_date, data_type):
             "ClassifierNumberOfSeats",
             "ClassifierEcologicalClass",
         ]
-    elif data_type == 'acceptance':
+    elif data_type == 'orders':
         data.columns = [
             "ProductCode65",
             "Color",
