@@ -28,6 +28,12 @@ dwh_engine = sa.create_engine(
     f'vertica+vertica_python://{dwh_con.login}:{ps}@{dwh_con.host}:{dwh_con.port}/sttgaz'
 )
 
+months = [
+            '{{ execution_date.date().replace(day=1) }}',
+            '{{ (execution_date.date().replace(day=1) - dt.timedelta(days=1)).replace(day=1) }}',
+            '{{ ((execution_date.date().replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1) }}',
+            '{{ (((execution_date.date().replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1) }}',
+        ]
 
 default_args = {
     'owner': 'Швейников Андрей',
@@ -44,13 +50,6 @@ with DAG(
         catchup=True,
         max_active_runs=1
 ) as dag:
-
-    months = [
-            '{{ execution_date.date().replace(day=1) }}',
-            '{{ (execution_date.date().replace(day=1) - dt.timedelta(days=1)).replace(day=1) }}',
-            '{{ ((execution_date.date().replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1) }}',
-            '{{ (((execution_date.date().replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1) }}',
-        ]
 
     start = DummyOperator(task_id='Начало')
 
