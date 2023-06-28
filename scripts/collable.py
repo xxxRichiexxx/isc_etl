@@ -215,6 +215,11 @@ def etl(source_engine, dwh_engine, data_type, monthly_tasks=False, month=None, *
             key='RealizationCount',
             value=sum(data['Availability'])
         )
+    elif data_type == 'orders':
+        context['ti'].xcom_push(
+            key='OrdersCount',
+            value=sum(data['quantity'])
+        )
 
     load(dwh_engine, data, data_type, execution_date)
 

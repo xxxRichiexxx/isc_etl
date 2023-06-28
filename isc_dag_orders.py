@@ -95,26 +95,22 @@ with DAG(
 
     with TaskGroup('Загрузка_данных_в_dm_слой') as data_to_dm:
 
-        pass
-
-        # dm_isc_realization_v = VerticaOperator(
-        #             task_id='dm_isc_realization_v',
-        #             vertica_conn_id='vertica',
-        #             sql='scripts/dm_isc_realization_v.sql',
-        #         )
+        dm_isc_orders_v = VerticaOperator(
+                    task_id='dm_isc_orders_v',
+                    vertica_conn_id='vertica',
+                    sql='scripts/dm_isc_orders_v.sql',
+                )
         
     with TaskGroup('Проверки') as data_checks:
 
-        pass
-
-        # dm_isc_realization_v_check = VerticaOperator(
-        #             task_id='dm_isc_realization_v_check',
-        #             vertica_conn_id='vertica',
-        #             sql='scripts/dm_isc_realization_v_check.sql',
-        #             params={
-        #                 'dm': 'dm_isc_realization_v',
-        #             }
-        #         )
+        dm_isc_orders_v_check = VerticaOperator(
+                    task_id='dm_isc_orders_v_check',
+                    vertica_conn_id='vertica',
+                    sql='scripts/dm_isc_orders_v_check.sql',
+                    params={
+                        'dm': 'dm_isc_orders_v',
+                    }
+                )
 
     end = DummyOperator(task_id='Конец')
 
