@@ -142,6 +142,11 @@ CREATE TABLE sttgaz.stage_isc_orders (
     "Buyer" VARCHAR(500),
     "ShipmentStatus" VARCHAR(500),
     "Status" VARCHAR(500),
+    "ContractPeriod" VARCHAR(200),
+    "ShipmentMonth" VARCHAR(200),
+    "ProductionMonth" VARCHAR(200),
+    "City" VARCHAR(200),
+    "Manufacturer" VARCHAR(200),
     "quantity" INT,
     "load_date" DATE
 )
@@ -379,6 +384,7 @@ PARTITION BY (date_trunc('MONTH', "Период"));
 
 
 
+DROP TABLE IF EXISTS sttgaz.dds_isc_orders;
 CREATE TABLE sttgaz.dds_isc_orders (
     "Товар_Код65" VARCHAR(500),               ------"ProductCode65" 
     "Цвет" VARCHAR(500),                       ------"Color"
@@ -390,11 +396,16 @@ CREATE TABLE sttgaz.dds_isc_orders (
     "Покупатель ID" INT,                       ------"Buyer"
     "Статус отгрузки" VARCHAR(500),              ------"ShipmentStatus"
     "Статус" VARCHAR(500),                      ------"Status"
+    "Период контрактации ИСК" VARCHAR(200),             ----"ContractPeriod"
+    "Месяц отгрузки" VARCHAR(200),              ----"ShipmentMonth"
+    "Месяц производства" VARCHAR(200),             ----"ProductionMonth"
+    "Город" VARCHAR(200),                        ---"City"
+    "Производитель" VARCHAR(200),                ----"Manufacturer"
     "Количество" INT,                             ------"quantity"
-    "Период контрактации" DATE                            ------"load_date"
+    "Период контрактации VERTICA" DATE                            ------"load_date"
 )
-ORDER BY "Период контрактации", "Направление реализации", "Покупатель ID"
-PARTITION BY DATE_TRUNC('month', "Период контрактации");
+ORDER BY "Период контрактации VERTICA", "Направление реализации", "Покупатель ID"
+PARTITION BY DATE_TRUNC('month', "Период контрактации VERTICA");
 
 
 

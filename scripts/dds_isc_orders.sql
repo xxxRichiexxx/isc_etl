@@ -16,6 +16,11 @@ INSERT INTO sttgaz.dds_isc_orders
         c.id,
         "ShipmentStatus",
         "Status",
+        "ContractPeriod",
+        "ShipmentMonth",
+        "ProductionMonth",
+        "City",
+        "Manufacturer",
         "quantity",
         "load_date"
     FROM sttgaz.stage_isc_orders AS o

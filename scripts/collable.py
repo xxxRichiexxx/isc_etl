@@ -134,6 +134,11 @@ def transform(data, execution_date, data_type):
             "Buyer",
             "ShipmentStatus",
             "Status",
+            "ContractPeriod",
+            "ShipmentMonth",
+            "ProductionMonth",
+            "City",
+            "Manufacturer",
             "quantity",            
         ]
 
