@@ -12,7 +12,7 @@ sq2 AS(
 		"Buyer"
 	FROM sttgaz.stage_isc_orders AS o
     WHERE load_date >= '{{(((execution_date.date().replace(day=1) - params.delta_1).replace(day=1) - params.delta_1).replace(day=1) - params.delta_1).replace(day=1)}}'
-        AND load_date <= '{{execution_date.date().replace(day=1)}}';
+        AND load_date <= '{{execution_date.date().replace(day=1)}}'
 )
 SELECT DISTINCT
 	"Buyer"
