@@ -61,7 +61,7 @@ with DAG(
         for month in months:
             tasks.append(
                 PythonOperator(
-                    task_id=f'get_orders',
+                    task_id=f'get_orders_{month}',
                     python_callable=etl,
                     op_kwargs={
                         'data_type': 'orders',
