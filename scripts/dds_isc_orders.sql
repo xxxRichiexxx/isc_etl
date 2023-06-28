@@ -1,6 +1,6 @@
 SELECT DROP_PARTITIONS(
     'sttgaz.dds_isc_orders',
-    '{{(((execution_date.date().replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1)}}',
+    '{{(((execution_date.date().replace(day=1) - params.delta_1).replace(day=1) - params.delta_1).replace(day=1) - params.delta_1).replace(day=1)}}',
     '{{execution_date.date().replace(day=1)}}'
 );
 

@@ -75,20 +75,20 @@ with DAG(
             task_id='dds_isc_counteragent',
             vertica_conn_id='vertica',
             sql='scripts/dds_isc_counteragent_pt_2.sql',
-            # params={
-            #     'delta_1': dt.timedelta(days=1),
-            #     'delta_2': dt.timedelta(days=4),
-            # }
+            params={
+                'delta_1': dt.timedelta(days=1),
+                'delta_2': dt.timedelta(days=4),
+            }
         )
 
         orders = VerticaOperator(
             task_id='dds_isc_orders',
             vertica_conn_id='vertica',
             sql='scripts/dds_isc_orders.sql',
-            # params={
-            #     'delta_1': dt.timedelta(days=1),
-            #     'delta_2': dt.timedelta(days=4),
-            # }
+            params={
+                'delta_1': dt.timedelta(days=1),
+                'delta_2': dt.timedelta(days=4),
+            }
         )
 
         counteragent >> orders
