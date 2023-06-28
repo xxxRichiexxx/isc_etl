@@ -130,7 +130,7 @@ CREATE TABLE sttgaz.stage_isc_realization(
 ORDER BY load_date
 PARTITION BY DATE_TRUNC('month', "load_date");
 
-
+DROP TABLE IF EXISTS sttgaz.stage_isc_orders;
 CREATE TABLE sttgaz.stage_isc_orders (
     "ProductCode65" VARCHAR(500),
     "Color" VARCHAR(500),
@@ -250,6 +250,7 @@ DROP TABLE IF EXISTS sttgaz.dds_isc_division;
 DROP TABLE IF EXISTS sttgaz.dds_isc_counteragent;
 DROP TABLE IF EXISTS sttgaz.dds_isc_dealer_unit;
 DROP TABLE IF EXISTS sttgaz.dds_isc_DirectionOfImplementationWithUKP;
+DROP TABLE IF EXISTS sttgaz.dds_isc_orders;
 
 
 CREATE TABLE sttgaz.dds_isc_DirectionOfImplementationWithUKP (
@@ -375,6 +376,25 @@ CREATE TABLE sttgaz.dds_isc_dealer_sales
     Период date
 )   
 PARTITION BY (date_trunc('MONTH', "Период"));
+
+
+
+CREATE TABLE sttgaz.dds_isc_orders (
+    "Товар_Код65" VARCHAR(500),               ------"ProductCode65" 
+    "Цвет" VARCHAR(500),                       ------"Color"
+    "ВариантСборки" VARCHAR(200),                 ------"BuildOption"
+    "Модельный год" INT,                            ------"ModelYear"
+    "Доп реквизит 14" VARCHAR(200),           ------"AdditionalProps14"
+    "ИГК" VARCHAR(500),                         ------"IGC"
+    "Направление реализации" VARCHAR(500),   ------"DirectionOfImplementation"
+    "Покупатель ID" INT,                       ------"Buyer"
+    "Статус отгрузки" VARCHAR(500),              ------"ShipmentStatus"
+    "Статус" VARCHAR(500),                      ------"Status"
+    "Количество" INT,                             ------"quantity"
+    "Период контрактации" DATE                            ------"load_date"
+)
+ORDER BY "Период контрактации", "Направление реализации", "Покупатель ID"
+PARTITION BY DATE_TRUNC('month', "Период контрактации");
 
 
 

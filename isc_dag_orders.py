@@ -71,52 +71,27 @@ with DAG(
 
     with TaskGroup('Загрузка_данных_в_dds_слой') as data_to_dds:
 
-        pass
+        counteragent = VerticaOperator(
+            task_id=f'dds_isc_counteragent',
+            vertica_conn_id='vertica',
+            sql=f'scripts/dds_isc_counteragent_pt_2.sql',
+            # params={
+            #     'delta_1': dt.timedelta(days=1),
+            #     'delta_2': dt.timedelta(days=4),
+            # }
+        )
 
-        # data_types = [
-        #     'DirectionOfImplementationWithUKP',
-        #     'counteragent',
-        #     'manufacturer',
-        #     'division',
-        #     'dealer_unit',
-        # ]
+        orders = VerticaOperator(
+            task_id=f'dds_isc_orders',
+            vertica_conn_id='vertica',
+            sql=f'scripts/dds_isc_orders.sql',
+            # params={
+            #     'delta_1': dt.timedelta(days=1),
+            #     'delta_2': dt.timedelta(days=4),
+            # }
+        )
 
-        # tasks = []
-
-        # for data_type in data_types:
-        #     tasks.append(
-        #         VerticaOperator(
-        #             task_id=f'dds_isc_{data_type}',
-        #             vertica_conn_id='vertica',
-        #             sql=f'scripts/dds_isc_{data_type}.sql',
-        #             params={
-        #                 'delta_1': dt.timedelta(days=1),
-        #                 'delta_2': dt.timedelta(days=4),
-        #             }
-        #         )
-        #     )
-
-        # product = VerticaOperator(
-        #     task_id=f'dds_isc_product',
-        #     vertica_conn_id='vertica',
-        #     sql=f'scripts/dds_isc_product.sql',
-        #     params={
-        #         'delta_1': dt.timedelta(days=1),
-        #         'delta_2': dt.timedelta(days=4),
-        #     }
-        # )
-
-        # realization = VerticaOperator(
-        #     task_id=f'dds_isc_realization',
-        #     vertica_conn_id='vertica',
-        #     sql=f'scripts/dds_isc_realization.sql',
-        #     params={
-        #         'delta_1': dt.timedelta(days=1),
-        #         'delta_2': dt.timedelta(days=4),
-        #     }
-        # )
-
-        # tasks >> product >> realization
+        counteragent >> orders
 
     with TaskGroup('Загрузка_данных_в_dm_слой') as data_to_dm:
 
