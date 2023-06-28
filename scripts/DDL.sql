@@ -131,7 +131,7 @@ ORDER BY load_date
 PARTITION BY DATE_TRUNC('month', "load_date");
 
 
-CREATE TABLE sttgaz.stage_isc_acceptance (
+CREATE TABLE sttgaz.stage_isc_orders (
     "ProductCode65" VARCHAR(500),
     "Color" VARCHAR(500),
     "BuildOption" VARCHAR(200),
