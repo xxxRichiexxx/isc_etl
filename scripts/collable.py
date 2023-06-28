@@ -171,17 +171,23 @@ def load(dwh_engine, data, data_type, execution_date):
         print('Нет новых данных для загрузки.')
 
 
-def etl(source_engine, dwh_engine, data_type, monthly_tasks=False, **context):
+def etl(source_engine, dwh_engine, data_type, monthly_tasks=False, month=None, **context):
     """Запускаем ETL-процесс для заданного типа данных."""
-    if monthly_tasks:
+    if monthly_tasks or month == 2:
         execution_date = (context['execution_date'].date().replace(day=1) - dt.timedelta(days=1)) \
                             .replace(day=1)
-    elif data_type == 'orders':
-        execution_date = context['date']
+    elif month == 1:
+        execution_date = context['execution_date'].date().replace(day=1)
+    elif month == 3:
+        execution_date = ((context['execution_date'].date().replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1)
+    elif month == 4:
+        execution_date = (((context['execution_date'].date().replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1)
     else:
         execution_date = context['execution_date'].date()
+
     data = extract(source_engine, data_type, execution_date)
     data = transform(data, execution_date, data_type)
+
     if data_type == 'sales': 
         context['ti'].xcom_push(
             key='SoldAtRetail',

@@ -28,14 +28,6 @@ dwh_engine = sa.create_engine(
     f'vertica+vertica_python://{dwh_con.login}:{ps}@{dwh_con.host}:{dwh_con.port}/sttgaz'
 )
 
-months = [
-            '{{ execution_date.date().replace(day=1) }}',
-            '{{ (execution_date.date().replace(day=1) - dt.timedelta(days=1)).replace(day=1) }}',
-            '{{ ((execution_date.date().replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1) }}',
-            '{{ (((execution_date.date().replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1) }}',
-        ]
-
-test = '{{ execution_date.date().replace(day=1) }}'
 
 default_args = {
     'owner': 'Швейников Андрей',
@@ -57,18 +49,20 @@ with DAG(
 
     with TaskGroup('Загрузка_данных_в_stage_слой') as data_to_stage:
 
+        months = [1, 2, 3, 4]
+
         tasks = []
 
         for month in months:
             tasks.append(
                 PythonOperator(
-                    task_id=f'get_orders_{test}',
+                    task_id=f'get_orders_{month}',
                     python_callable=etl,
                     op_kwargs={
                         'data_type': 'orders',
                         'source_engine': source_engine,
                         'dwh_engine': dwh_engine,
-                        'date': month
+                        'month': month
                     },
                 )
             )
