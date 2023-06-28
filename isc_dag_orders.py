@@ -72,9 +72,9 @@ with DAG(
     with TaskGroup('Загрузка_данных_в_dds_слой') as data_to_dds:
 
         counteragent = VerticaOperator(
-            task_id=f'dds_isc_counteragent',
+            task_id='dds_isc_counteragent',
             vertica_conn_id='vertica',
-            sql=f'scripts/dds_isc_counteragent_pt_2.sql',
+            sql='scripts/dds_isc_counteragent_pt_2.sql',
             # params={
             #     'delta_1': dt.timedelta(days=1),
             #     'delta_2': dt.timedelta(days=4),
@@ -82,9 +82,9 @@ with DAG(
         )
 
         orders = VerticaOperator(
-            task_id=f'dds_isc_orders',
+            task_id='dds_isc_orders',
             vertica_conn_id='vertica',
-            sql=f'scripts/dds_isc_orders.sql',
+            sql='scripts/dds_isc_orders.sql',
             # params={
             #     'delta_1': dt.timedelta(days=1),
             #     'delta_2': dt.timedelta(days=4),
