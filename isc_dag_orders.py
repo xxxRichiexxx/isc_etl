@@ -39,7 +39,7 @@ with DAG(
         'isc_orders',
         default_args=default_args,
         description='Получение данных из ИСК. Заявки дилеров',
-        start_date=dt.datetime(2020, 1, 1),
+        start_date=dt.datetime(2023, 1, 1),
         schedule_interval='@monthly',
         catchup=True,
         max_active_runs=1
