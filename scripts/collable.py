@@ -176,6 +176,8 @@ def etl(source_engine, dwh_engine, data_type, monthly_tasks=False, **context):
     if monthly_tasks:
         execution_date = (context['execution_date'].date().replace(day=1) - dt.timedelta(days=1)) \
                             .replace(day=1)
+    elif data_type == 'orders':
+        execution_date = context['date']
     else:
         execution_date = context['execution_date'].date()
     data = extract(source_engine, data_type, execution_date)

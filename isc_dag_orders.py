@@ -36,65 +36,43 @@ default_args = {
     'retry_delay': dt.timedelta(minutes=30),
 }
 with DAG(
-        'isc_acceptance',
+        'isc_orders',
         default_args=default_args,
-        description='Получение данных из ИСК. Акцептование.',
+        description='Получение данных из ИСК. Заявки дилеров',
         start_date=dt.datetime(2018, 1, 1),
         schedule_interval='@monthly',
         catchup=True,
         max_active_runs=1
 ) as dag:
 
-    data_types = [
-            'acceptance',
+    months = [
+            '{{ execution_date.date().replace(day=1) }}',
+            '{{ (execution_date.date().replace(day=1) - dt.timedelta(days=1)).replace(day=1) }}',
+            '{{ ((execution_date.date().replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1) }}',
+            '{{ (((execution_date.date().replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1) }}',
         ]
 
     start = DummyOperator(task_id='Начало')
 
     with TaskGroup('Загрузка_данных_в_stage_слой') as data_to_stage:
 
-        daily_tasks = []
+        tasks = []
 
-        for data_type in data_types:
-            daily_tasks.append(
+        for month in months:
+            tasks.append(
                 PythonOperator(
-                    task_id=f'get_{data_type}',
+                    task_id=f'get_orders',
                     python_callable=etl,
                     op_kwargs={
-                        'data_type': data_type,
+                        'data_type': 'orders',
                         'source_engine': source_engine,
                         'dwh_engine': dwh_engine,
+                        'date': month
                     },
                 )
             )
 
-        date_check = BranchPythonOperator(
-            task_id='date_check',
-            python_callable=date_check,
-            op_kwargs={
-                'taskgroup': 'Загрузка_данных_в_stage_слой',
-                },
-        )
-
-        do_nothing = DummyOperator(task_id='do_nothing')
-
-        monthly_tasks = PythonOperator(
-                    task_id='monthly_tasks',
-                    python_callable=etl,
-                    op_kwargs={
-                        'data_type': 'acceptance',
-                        'source_engine': source_engine,
-                        'dwh_engine': dwh_engine,
-                        'monthly_tasks': True,
-                    },
-                )
-        
-        collapse = DummyOperator(
-            task_id='collapse',
-            trigger_rule='none_failed',
-        )
-
-        daily_tasks >> date_check >> [do_nothing, monthly_tasks] >> collapse
+        tasks 
 
     with TaskGroup('Загрузка_данных_в_dds_слой') as data_to_dds:
 
