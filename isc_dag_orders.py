@@ -40,7 +40,7 @@ with DAG(
         default_args=default_args,
         description='Получение данных из ИСК. Заявки дилеров',
         start_date=dt.datetime(2023, 1, 1),
-        schedule_interval='@daily',
+        schedule_interval='@monthly',
         catchup=True,
         max_active_runs=1
 ) as dag:
@@ -51,7 +51,7 @@ with DAG(
 
         tasks = []
 
-        for offset in range(13):
+        for offset in range(0,13):
             tasks.append(
                 PythonOperator(
                     task_id=f'get_orders_{offset}',
