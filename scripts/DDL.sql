@@ -147,6 +147,8 @@ CREATE TABLE sttgaz.stage_isc_orders (
     "ProductionMonth" VARCHAR(200),
     "City" VARCHAR(200),
     "Manufacturer" VARCHAR(200),
+    "ProductType" VARCHAR(200),
+    "Contract" VARCHAR(500),
     "quantity" INT,
     "load_date" DATE
 )
@@ -386,23 +388,25 @@ PARTITION BY (date_trunc('MONTH', "Период"));
 
 DROP TABLE IF EXISTS sttgaz.dds_isc_orders;
 CREATE TABLE sttgaz.dds_isc_orders (
-    "Товар_Код65" VARCHAR(500),               ------"ProductCode65" 
-    "Цвет" VARCHAR(500),                       ------"Color"
-    "ВариантСборки" VARCHAR(200),                 ------"BuildOption"
-    "Модельный год" INT,                            ------"ModelYear"
-    "Доп реквизит 14" VARCHAR(200),           ------"AdditionalProps14"
-    "ИГК" VARCHAR(500),                         ------"IGC"
-    "Направление реализации" VARCHAR(500),   ------"DirectionOfImplementation"
-    "Покупатель ID" INT,                       ------"Buyer"
-    "Статус отгрузки" VARCHAR(500),              ------"ShipmentStatus"
-    "Статус" VARCHAR(500),                      ------"Status"
-    "Период контрактации ИСК" VARCHAR(200),             ----"ContractPeriod"
-    "Месяц отгрузки" VARCHAR(200),              ----"ShipmentMonth"
-    "Месяц производства" VARCHAR(200),             ----"ProductionMonth"
-    "Город" VARCHAR(200),                        ---"City"
-    "Производитель" VARCHAR(200),                ----"Manufacturer"
-    "Количество" INT,                             ------"quantity"
-    "Период контрактации VERTICA" DATE                            ------"load_date"
+    "Товар_Код65" VARCHAR(500),                                         ------"ProductCode65" 
+    "Цвет" VARCHAR(500),                                                ------"Color"
+    "ВариантСборки" VARCHAR(200),                                       ------"BuildOption"
+    "Модельный год" INT,                                                ------"ModelYear"
+    "Доп реквизит 14" VARCHAR(200),                                     ------"AdditionalProps14"
+    "ИГК" VARCHAR(500),                                                 ------"IGC"
+    "Направление реализации" VARCHAR(500),                              ------"DirectionOfImplementation"
+    "Покупатель ID" INT REFERENCES sttgaz.dds_isc_counteragent(id),     ------"Buyer"
+    "Статус отгрузки" VARCHAR(500),                                     ------"ShipmentStatus"
+    "Статус" VARCHAR(500),                                              ------"Status"
+    "Период контрактации ИСК" VARCHAR(200),                             ----"ContractPeriod"
+    "Месяц отгрузки" VARCHAR(200),                                      ----"ShipmentMonth"
+    "Месяц производства" VARCHAR(200),                                  ----"ProductionMonth"
+    "Город" VARCHAR(200),                                               ---"City"
+    "Производитель" VARCHAR(200),                                       ----"Manufacturer"
+    "Вид родукции" VARCHAR(200),                                        -----"ProductType",
+    "Договор" VARCHAR(500),                                             --------"Contract",   
+    "Количество" INT,                                                   ------"quantity"
+    "Период контрактации VERTICA" DATE                                 ------"load_date"
 )
 ORDER BY "Период контрактации VERTICA", "Направление реализации", "Покупатель ID"
 PARTITION BY DATE_TRUNC('month', "Период контрактации VERTICA");

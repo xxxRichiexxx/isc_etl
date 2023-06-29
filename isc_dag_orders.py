@@ -39,7 +39,7 @@ with DAG(
         'isc_orders',
         default_args=default_args,
         description='Получение данных из ИСК. Заявки дилеров',
-        start_date=dt.datetime(2022, 10, 1),
+        start_date=dt.datetime(2023, 1, 1),
         schedule_interval='@daily',
         catchup=True,
         max_active_runs=1
@@ -49,20 +49,18 @@ with DAG(
 
     with TaskGroup('Загрузка_данных_в_stage_слой') as data_to_stage:
 
-        months = [1, 2, 3, 4]
-
         tasks = []
 
-        for month in months:
+        for offset in range(13):
             tasks.append(
                 PythonOperator(
-                    task_id=f'get_orders_{month}',
+                    task_id=f'get_orders_{offset}',
                     python_callable=etl,
                     op_kwargs={
                         'data_type': 'orders',
                         'source_engine': source_engine,
                         'dwh_engine': dwh_engine,
-                        'month': month
+                        'offset': offset
                     },
                 )
             )

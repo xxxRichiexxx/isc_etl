@@ -21,6 +21,8 @@ INSERT INTO sttgaz.dds_isc_orders
         "ProductionMonth",
         "City",
         "Manufacturer",
+        "ProductType",
+        "Contract",       
         "quantity",
         "load_date"
     FROM sttgaz.stage_isc_orders AS o

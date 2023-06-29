@@ -139,6 +139,8 @@ def transform(data, execution_date, data_type):
             "ProductionMonth",
             "City",
             "Manufacturer",
+            "ProductType",
+            "Contract",
             "quantity",            
         ]
 
@@ -176,17 +178,18 @@ def load(dwh_engine, data, data_type, execution_date):
         print('Нет новых данных для загрузки.')
 
 
-def etl(source_engine, dwh_engine, data_type, monthly_tasks=False, month=None, **context):
+def etl(source_engine, dwh_engine, data_type, monthly_tasks=False, offset=None, **context):
     """Запускаем ETL-процесс для заданного типа данных."""
-    if monthly_tasks or month == 2:
+    if monthly_tasks:
         execution_date = (context['execution_date'].date().replace(day=1) - dt.timedelta(days=1)) \
                             .replace(day=1)
-    elif month == 1:
-        execution_date = context['execution_date'].date().replace(day=1)
-    elif month == 3:
-        execution_date = ((context['execution_date'].date().replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1)
-    elif month == 4:
-        execution_date = (((context['execution_date'].date().replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1) - dt.timedelta(days=1)).replace(day=1)
+    elif offset:
+        month = context['execution_date'].month - offset
+        if month <= 0:
+            month = 12 + month
+            execution_date = context['execution_date'].date().replace(month = month, year = context['execution_date'].year - 1)
+        else:
+            execution_date = context['execution_date'].date().replace(month = month)
     else:
         execution_date = context['execution_date'].date()
 
