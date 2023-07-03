@@ -220,7 +220,7 @@ def etl(source_engine, dwh_engine, data_type, monthly_tasks=False, offset=None, 
         )
     elif data_type == 'orders':
         context['ti'].xcom_push(
-            key='OrdersCount',
+            key=f'OrdersCount',
             value=sum(data['quantity'])
         )
 

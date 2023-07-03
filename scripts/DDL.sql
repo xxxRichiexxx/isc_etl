@@ -403,7 +403,7 @@ CREATE TABLE sttgaz.dds_isc_orders (
     "Месяц производства" VARCHAR(200),                                  ----"ProductionMonth"
     "Город" VARCHAR(200),                                               ---"City"
     "Производитель" VARCHAR(200),                                       ----"Manufacturer"
-    "Вид родукции" VARCHAR(200),                                        -----"ProductType",
+    "Вид продукции" VARCHAR(200),                                        -----"ProductType",
     "Договор" VARCHAR(500),                                             --------"Contract",   
     "Количество" INT,                                                   ------"quantity"
     "Период контрактации VERTICA" DATE                                 ------"load_date"
