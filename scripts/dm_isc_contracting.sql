@@ -86,7 +86,7 @@ WITH
 			key,
 		 	SUM(Количество) 									AS "Отгрузка в счет следующего месяца" 
 		 FROM base_query
-		 WHERE "Период контрактации VERTICA" = '{{((execution_date.date().replace(day=28) + params.delta_2).replace(day=1)}}' 
+		 WHERE "Период контрактации VERTICA" = '{{(execution_date.date().replace(day=28) + params.delta_2).replace(day=1)}}' 
 		 	AND TO_DATE("Месяц отгрузки", 'YYYY-MM') = '{{(execution_date.date().replace(day=1)}}'
 			AND "Статус отгрузки"  IN ('Отгрузка')
 		GROUP BY key
