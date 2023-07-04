@@ -1,6 +1,6 @@
 SELECT DROP_PARTITIONS(
     'sttgaz.dm_isc_contracting',
-    '{{(execution_date.date().replace(day=1)}}',
+    '{{execution_date.date().replace(day=1)}}',
     '{{execution_date.date().replace(day=1)}}'
 );
 
