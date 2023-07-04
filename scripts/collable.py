@@ -187,11 +187,11 @@ def etl(source_engine, dwh_engine, data_type, monthly_tasks=False, offset=None, 
         month = context['execution_date'].month - offset
         if month <= 0:
             month = 12 + month
-            execution_date = context['execution_date'].date().replace(month = month, year = context['execution_date'].year - 1)
+            execution_date = context['execution_date'].date().replace(month = month, year = context['execution_date'].year - 1, day=1)
         else:
-            execution_date = context['execution_date'].date().replace(month = month)
+            execution_date = context['execution_date'].date().replace(month = month, day=1)
     else:
-        execution_date = context['execution_date'].date()
+        execution_date = context['execution_date'].date().replace(day=1)
 
     data = extract(source_engine, data_type, execution_date)
     data = transform(data, execution_date, data_type)
