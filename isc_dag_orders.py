@@ -98,10 +98,10 @@ with DAG(
                     vertica_conn_id='vertica',
                     sql='scripts/dm_isc_orders_v.sql',
                 )
-        dm_isc_orders = VerticaOperator(
-            task_id='dm_isc_orders',
+        dm_isc_contracting = VerticaOperator(
+            task_id='dm_isc_contracting',
             vertica_conn_id='vertica',
-            sql='scripts/dm_isc_orders.sql',
+            sql='scripts/dm_isc_contracting.sql',
             params={
                 'delta_1': dt.timedelta(days=1),
                 'delta_2': dt.timedelta(days=4),
