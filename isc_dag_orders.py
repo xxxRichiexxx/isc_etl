@@ -98,6 +98,16 @@ with DAG(
                     vertica_conn_id='vertica',
                     sql='scripts/dm_isc_orders_v.sql',
                 )
+        dm_isc_orders = VerticaOperator(
+            task_id='dm_isc_orders',
+            vertica_conn_id='vertica',
+            sql='scripts/dm_isc_orders.sql',
+            params={
+                'delta_1': dt.timedelta(days=1),
+                'delta_2': dt.timedelta(days=4),
+            }
+        )
+        [dm_isc_orders_v, dm_isc_orders]
         
     with TaskGroup('Проверки') as data_checks:
 
@@ -109,6 +119,8 @@ with DAG(
                         'dm': 'dm_isc_orders_v',
                     }
                 )
+        
+        dm_isc_orders_v_check
 
     end = DummyOperator(task_id='Конец')
 

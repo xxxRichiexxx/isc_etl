@@ -1,129 +1,10 @@
+SELECT DROP_PARTITIONS(
+    'sttgaz.dm_isc_contracting',
+    '{{(execution_date.date().replace(day=1)}}',
+    '{{execution_date.date().replace(day=1)}}'
+);
 
- ----------------------Догруз на начало месяца-------------------------------
- SELECT
- 	'2023-06-01' AS "Период",
- 	"Направление реализации",
- 	c.Наименование AS "Дилер",
- 	o.Производитель,
- 	o.Город,
- 	SUM(o.Количество) AS "Догруз на начало месяца"
- FROM sttgaz.dds_isc_orders AS o
- LEFT JOIN sttgaz.dds_isc_counteragent AS c
- 	ON o."Покупатель ID" = c.id
- WHERE o."Статус отгрузки"  IN ('Разнарядка', 'Отгрузка')
-	AND o."Месяц отгрузки" > '2023-05-01' 
-	AND o."Период контрактации VERTICA"  <= '2023-05-01'   
-GROUP BY "Направление реализации", c.Наименование, o.Производитель , o.Город 
-
---------------------------------План контрактации----------------------
- SELECT
- 	'2023-06-01' AS "Период",
- 	"Направление реализации",
- 	c.Наименование AS "Дилер",
- 	o.Производитель,
- 	o.Город,
- 	SUM(o.Количество) AS "План контрактации",
- 	SUM(o.Количество)*0.7 AS "План контрактации. Неделя 1",
- 	SUM(o.Количество)*0.2 AS "План контрактации. Неделя 2",
- 	SUM(o.Количество)*0.05 AS "План контрактации. Неделя 3",
- 	SUM(o.Количество)*0.05 AS "План контрактации. Неделя 4"
- FROM sttgaz.dds_isc_orders AS o
- LEFT JOIN sttgaz.dds_isc_counteragent AS c
- 	ON o."Покупатель ID" = c.id
- WHERE o."Период контрактации VERTICA" = '2023-06-01'
-	AND o.Производитель LIKE '%ГАЗ ПАО%'
-	AND o."Направление реализации" LIKE 'РФ%'
-GROUP BY "Направление реализации", c.Наименование, o.Производитель , o.Город;
-
----------------------------Факт выдачи ОР---------------------------
- SELECT
- 	'2023-06-01' AS "Период",
-	"Направление реализации",
- 	c.Наименование AS "Дилер",
- 	o.Производитель,
- 	o.Город,
- 	SUM(o.Количество) AS "Факт выдачи ОР"
- FROM sttgaz.dds_isc_orders AS o
- LEFT JOIN sttgaz.dds_isc_counteragent AS c
- 	ON o."Покупатель ID" = c.id
- WHERE o."Период контрактации VERTICA" = '2023-06-01' 
-	AND o."Статус отгрузки"  IN ('Разнарядка', 'Отгрузка')
-	AND o.Производитель LIKE '%ГАЗ ПАО%'
-	AND o."Направление реализации" LIKE 'РФ%'
-GROUP BY "Направление реализации", c.Наименование, o.Производитель , o.Город;
-
- ----------------------Догруз на конец месяца-------------------------------
-SELECT
- 	'2023-06-01' AS "Период",
- 	"Направление реализации",
- 	c.Наименование AS "Дилер",
- 	o.Производитель,
- 	o.Город,
- 	SUM(o.Количество) AS "Догруз на конец месяца"
-FROM sttgaz.dds_isc_orders AS o
-LEFT JOIN sttgaz.dds_isc_counteragent AS c
- 	ON o."Покупатель ID" = c.id
-WHERE o."Статус отгрузки"  IN ('Разнарядка', 'Отгрузка')
-	AND o."Месяц отгрузки" > '2023-05-01' 
-GROUP BY "Направление реализации", c.Наименование, o.Производитель , o.Город;
-
-
- SELECT 
--- 	*
- 	SUM(o.Количество)
- FROM sttgaz.dds_isc_orders AS o
- LEFT JOIN sttgaz.dds_isc_counteragent AS c
- 	ON o."Покупатель ID" = c.id
- WHERE o."Статус отгрузки"  IN ('Разнарядка','Отгрузка', 'Пусто', 'Приложение')
-	AND o."Месяц отгрузки" > '2023-06-01'
-	AND o.Производитель LIKE '%ГАЗ ПАО%'
-	AND o."Направление реализации" LIKE 'РФ%';
-	
-
-
-------------------Отгрузка в счет следующего месяца---------------------------
-
- SELECT
- 	'2023-06-01' AS "Период",
-	"Направление реализации",
- 	c.Наименование AS "Дилер",
- 	o.Производитель,
- 	o.Город,
- 	SUM(o.Количество) AS "Отгрузка в счет следующего месяца"
- FROM sttgaz.dds_isc_orders AS o
- LEFT JOIN sttgaz.dds_isc_counteragent AS c
- 	ON o."Покупатель ID" = c.id
- WHERE o."Период контрактации VERTICA" = '2023-07-01'
- 	AND o."Месяц отгрузки" = '2023-06'
-	AND o."Статус отгрузки"  IN ('Отгрузка')
-	AND o.Производитель LIKE '%ГАЗ ПАО%'
-	AND o."Направление реализации" LIKE 'РФ%'
-GROUP BY "Направление реализации", c.Наименование, o.Производитель , o.Город;
-
-
-
-------------------------Отгрузка в предыдущем месяце из плана текущего месяца------------------
- SELECT
- 	'2023-06-01' AS "Период",
-	"Направление реализации",
- 	c.Наименование AS "Дилер",
- 	o.Производитель,
- 	o.Город,
- 	SUM(o.Количество) AS "Отгрузка в предыдущем месяце из плана текущего месяца"
- FROM sttgaz.dds_isc_orders AS o
- LEFT JOIN sttgaz.dds_isc_counteragent AS c
- 	ON o."Покупатель ID" = c.id
- WHERE o."Период контрактации VERTICA" = '2023-06-01'
- 	AND o."Месяц отгрузки" = '2023-05' 
-	AND o."Статус отгрузки"  IN ('Отгрузка')
-	AND o.Производитель LIKE '%ГАЗ ПАО%'
-	AND o."Направление реализации" LIKE 'РФ%'
-GROUP BY "Направление реализации",  c.Наименование, o.Производитель , o.Город;
-
----------------------------------------------------------------------------
-
-DROP VIEW IF EXISTS sttgaz.dm_isc_contracting_v;
-CREATE OR REPLACE VIEW sttgaz.dm_isc_contracting_v AS
+INSERT INTO sttgaz.dm_isc_contracting 
 WITH 
 	base_query AS(
 		 SELECT
@@ -133,20 +14,18 @@ WITH
 				WHEN "Договор" LIKE 'ДР55/4%' THEN 'Отсрочка'
 				WHEN "Договор" LIKE 'ДР55%' THEN 'Предоплата'
 				ELSE 'Неизвестно'			
-			END 													AS "Вид оплаты",
+			END 																									AS "Вид оплаты",
 			HASH("Направление реализации", "Наименование", "Производитель", "Город", "Вид оплаты", "Вид продукции") AS key 		
 		 FROM sttgaz.dds_isc_orders 			AS o
 		 LEFT JOIN sttgaz.dds_isc_counteragent 	AS c
 		 	ON o."Покупатель ID" = c.id
-		 WHERE o."Период контрактации VERTICA" > DATE_TRUNC('month', '2023-06-01'::date - INTERVAL '8 month')::date
-			AND o.Производитель LIKE '%ГАЗ ПАО%'
-			AND o."Направление реализации" LIKE 'РФ%'
+		 WHERE o."Период контрактации VERTICA" > DATE_TRUNC('month', '{{(execution_date.date().replace(day=1)}}'::date - INTERVAL '8 month')::date
 	),
 	matrix AS(
 		SELECT DISTINCT 
-			'2023-06-01' 						AS "Период",
+			'{{(execution_date.date().replace(day=1)}}'		AS "Период",
 			"Направление реализации",
-			Наименование 						AS "Дилер",
+			Наименование 									AS "Дилер",
 			Производитель,
 			Город,
 			"Вид оплаты",
@@ -156,18 +35,18 @@ WITH
 	),
 	sq1 AS(
 		SELECT
-			'2023-06-01' 						AS "Период",
+			'{{(execution_date.date().replace(day=1)}}' 	AS "Период",
 			key,
-			SUM(Количество) 					AS "Догруз на начало месяца"
+			SUM(Количество) 								AS "Догруз на начало месяца"
 		FROM base_query
 		WHERE "Статус отгрузки"  IN ('Разнарядка', 'Отгрузка')
-			AND "Месяц отгрузки" > '2023-05-01' 
-			AND "Период контрактации VERTICA"  <= '2023-05-01'   
+			AND TO_DATE("Месяц отгрузки", 'YYYY-MM') >= '{{(execution_date.date().replace(day=1)}}'
+			AND "Период контрактации VERTICA"  < '{{(execution_date.date().replace(day=1)}}'  
 		GROUP BY key		
 	),
 	sq2 AS(
 		 SELECT
-		 	'2023-06-01' 										AS "Период",
+		 	'{{(execution_date.date().replace(day=1)}}'			AS "Период",
 			key,
 		 	SUM(Количество) 									AS "План контрактации",
 		 	ROUND(SUM(Количество)*0.7, 0) 						AS "План контрактации. Неделя 1",
@@ -177,51 +56,50 @@ WITH
 		 					- ROUND(SUM(Количество)*0.05, 0)
 		 					- ROUND(SUM(Количество)*0.2, 0)		AS "План контрактации. Неделя 4"
 		FROM base_query
-		WHERE "Период контрактации VERTICA" = '2023-06-01'
+		WHERE "Период контрактации VERTICA" = '{{(execution_date.date().replace(day=1)}}'
 		GROUP BY key	
 	),
 	sq3 AS(
 		 SELECT
-		 	'2023-06-01' 				AS "Период",
+		 	'{{(execution_date.date().replace(day=1)}}'				AS "Период",
 			key,
-		 	SUM(Количество) 			AS "Факт выдачи ОР"
+		 	SUM(Количество) 										AS "Факт выдачи ОР"
 		 FROM base_query
-		 WHERE "Период контрактации VERTICA" = '2023-06-01' 
+		 WHERE "Период контрактации VERTICA" = '{{(execution_date.date().replace(day=1)}}' 
 			AND "Статус отгрузки"  IN ('Разнарядка', 'Отгрузка')
 		GROUP BY key
 	),
 	sq4 AS(
 		 SELECT 
-		 	'2023-06-01' 				AS "Период",
+		 	'{{(execution_date.date().replace(day=1)}}' 	AS "Период",
 			key,
-		 	SUM(Количество) 			AS "Догруз на конец месяца"
+		 	SUM(Количество) 								AS "Догруз на конец месяца"
 		 FROM base_query
-		 WHERE "Статус отгрузки"  IN ('Разнарядка','Отгрузка', 'Пусто', 'Приложение')
-			AND "Месяц отгрузки" > '2023-06-01'
+		 WHERE "Период контрактации VERTICA" <= '{{(execution_date.date().replace(day=1)}}'
+		 	AND "Статус отгрузки"  IN ('Разнарядка','Отгрузка', 'Пусто', 'Приложение')
+			AND TO_DATE("Месяц отгрузки", 'YYYY-MM') > '{{(execution_date.date().replace(day=1)}}'
 		 GROUP BY key
 	),
 	sq5 AS(
 		 SELECT
-		 	'2023-06-01' 						AS "Период",
+		 	'{{(execution_date.date().replace(day=1)}}'			AS "Период",
 			key,
-		 	SUM(Количество) 					AS "Отгрузка в счет следующего месяца" ----117
+		 	SUM(Количество) 									AS "Отгрузка в счет следующего месяца" 
 		 FROM base_query
-		 WHERE "Период контрактации VERTICA" = '2023-07-01' 
-		 	AND "Месяц отгрузки" = '2023-06'
+		 WHERE "Период контрактации VERTICA" = '{{((execution_date.date().replace(day=28) + params.delta_2).replace(day=1)}}' 
+		 	AND TO_DATE("Месяц отгрузки", 'YYYY-MM') = '{{(execution_date.date().replace(day=1)}}'
 			AND "Статус отгрузки"  IN ('Отгрузка')
 		GROUP BY key
 	),
 	sq6 AS(
 		 SELECT
-		 	'2023-06-01' 						AS "Период",
+		 	'{{(execution_date.date().replace(day=1)}}'		AS "Период",
 			key,
-		 	SUM(Количество) 					AS "Отгрузка в предыдущем месяце из плана текущего месяца" ---138
+		 	SUM(Количество) 								AS "Отгрузка в предыдущем месяце из плана текущего месяца" 
 		 FROM base_query
-		 WHERE "Период контрактации VERTICA" = '2023-06-01'
-		 	AND "Месяц отгрузки" = '2023-05' 
+		 WHERE "Период контрактации VERTICA" = '{{(execution_date.date().replace(day=1)}}'
+		 	AND TO_DATE("Месяц отгрузки", 'YYYY-MM') = '{{(execution_date.date().replace(day=1) - params.delta_1).replace(day=1)}}' 
 			AND "Статус отгрузки"  IN ('Отгрузка')
-			AND Производитель LIKE '%ГАЗ ПАО%'
-			AND "Направление реализации" LIKE 'РФ%'
 		GROUP BY key
 	)
 SELECT
