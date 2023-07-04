@@ -107,7 +107,7 @@ with DAG(
                 'delta_2': dt.timedelta(days=4),
             }
         )
-        [dm_isc_orders_v, dm_isc_orders]
+        [dm_isc_orders_v, dm_isc_contracting]
         
     with TaskGroup('Проверки') as data_checks:
 
