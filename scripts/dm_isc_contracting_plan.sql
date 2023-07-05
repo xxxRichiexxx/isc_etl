@@ -18,7 +18,7 @@ WITH
 		 WHERE o."Период контрактации VERTICA" = '{{execution_date.date().replace(day=1)}}'::date
 	)
 SELECT
-	'{{execution_date.date()}}'::date 					AS "Дата"
+	'{{execution_date.date()}}'::date 					AS "Дата",
 	"Направление реализации",
 	"Дилер",
 	"Производитель",
