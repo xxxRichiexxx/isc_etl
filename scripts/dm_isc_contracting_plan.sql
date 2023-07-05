@@ -1,7 +1,7 @@
 DELETE FROM sttgaz.dm_isc_contracting_plan 
 WHERE "Дата" = '{{execution_date.date()}}';
 
-INSERT INTO sttgaz.dm_isc_contractin_plan
+INSERT INTO sttgaz.dm_isc_contracting_plan
 WITH 
 	base_query AS(
 		 SELECT
