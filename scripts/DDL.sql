@@ -491,3 +491,21 @@ CREATE TABLE sttgaz.dm_isc_contracting(
 )
 ORDER BY "Период", "Направление реализации"
 PARTITION BY "Период";
+
+
+DROP TABLE IF EXISTS sttgaz.dm_isc_contracting_plan;
+CREATE TABLE sttgaz.dm_isc_contracting_plan(
+    "Дата" DATE NOT NULL,
+    "Направление реализации" VARCHAR(500) NOT NULL,
+    "Дилер" VARCHAR(500),
+    "Производитель" VARCHAR(200) NOT NULL,
+    "Город" VARCHAR(200), 
+    "Вид оплаты" VARCHAR(200), 
+    "Вид продукции" VARCHAR(200) NOT NULL,
+    "План контрактации" INT,
+    "План контрактации. Неделя 1" INT,
+    "План контрактации. Неделя 2" INT,
+    "План контрактации. Неделя 3" INT
+)
+ORDER BY "Дата", "Направление реализации"
+PARTITION BY DATE_TRUNC('month', "Дата");

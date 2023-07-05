@@ -94,10 +94,21 @@ with DAG(
     with TaskGroup('Загрузка_данных_в_dm_слой') as data_to_dm:
 
         dm_isc_orders_v = VerticaOperator(
-                    task_id='dm_isc_orders_v',
-                    vertica_conn_id='vertica',
-                    sql='scripts/dm_isc_orders_v.sql',
-                )
+            task_id='dm_isc_orders_v',
+            vertica_conn_id='vertica',
+            sql='scripts/dm_isc_orders_v.sql',
+        )
+        
+        dm_isc_contracting_plan = VerticaOperator(
+            task_id='dm_isc_contracting_plan',
+            vertica_conn_id='vertica',
+            sql='scripts/dm_isc_contracting_plan.sql',
+            params={
+                'delta_1': dt.timedelta(days=1),
+                'delta_2': dt.timedelta(days=4),
+            }
+        )
+
         dm_isc_contracting = VerticaOperator(
             task_id='dm_isc_contracting',
             vertica_conn_id='vertica',
@@ -107,7 +118,8 @@ with DAG(
                 'delta_2': dt.timedelta(days=4),
             }
         )
-        [dm_isc_orders_v, dm_isc_contracting]
+
+        [dm_isc_orders_v, dm_isc_contracting_plan] >> dm_isc_contracting
         
     with TaskGroup('Проверки') as data_checks:
 
