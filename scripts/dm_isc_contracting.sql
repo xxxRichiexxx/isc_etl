@@ -35,7 +35,6 @@ WITH
 	),
 	sq1 AS(
 		SELECT
-			'{{execution_date.date().replace(day=1)}}'::date 	AS "Период",
 			key,
 			SUM(Количество) 									AS "Догруз на начало месяца"
 		FROM base_query
@@ -46,7 +45,6 @@ WITH
 	),
 	sq2 AS(
 		 SELECT
-		 	'{{execution_date.date().replace(day=1)}}'::date	AS "Период",
 			key,
 		 	SUM(Количество) 									AS "План контрактации",
 		 	ROUND(SUM(Количество)*0.7, 0) 						AS "План контрактации. Неделя 1",
@@ -61,7 +59,6 @@ WITH
 	),
 	sq3 AS(
 		 SELECT
-		 	'{{execution_date.date().replace(day=1)}}'::date		AS "Период",
 			key,
 		 	SUM(Количество) 										AS "Факт выдачи ОР"
 		 FROM base_query
@@ -71,7 +68,6 @@ WITH
 	),
 	sq4 AS(
 		 SELECT 
-		 	'{{execution_date.date().replace(day=1)}}'::date 	AS "Период",
 			key,
 		 	SUM(Количество) 									AS "Догруз на конец месяца"
 		 FROM base_query
@@ -82,7 +78,6 @@ WITH
 	),
 	sq5 AS(
 		 SELECT
-		 	'{{execution_date.date().replace(day=1)}}'::date			AS "Период",
 			key,
 		 	SUM(Количество) 											AS "Отгрузка в счет следующего месяца" 
 		 FROM base_query
@@ -93,7 +88,6 @@ WITH
 	),
 	sq6 AS(
 		 SELECT
-		 	'{{execution_date.date().replace(day=1)}}'::date	AS "Период",
 			key,
 		 	SUM(Количество) 									AS "Отгрузка в предыдущем месяце из плана текущего месяца" 
 		 FROM base_query
@@ -122,14 +116,14 @@ SELECT
 	"Отгрузка в предыдущем месяце из плана текущего месяца"
 FROM matrix AS m
 LEFT JOIN sq1
-	ON m."Период" = sq1."Период" AND m.key = sq1.key
+	ON m.key = sq1.key
 LEFT JOIN sq2
-	ON m."Период" = sq2."Период" AND m.key = sq2.key
+	ON m.key = sq2.key
 LEFT JOIN sq3
-	ON m."Период" = sq3."Период" AND m.key = sq3.key
+	ON m.key = sq3.key
 LEFT JOIN sq4
-	ON m."Период" = sq4."Период" AND m.key = sq4.key
+	ON m.key = sq4.key
 LEFT JOIN sq5
-	ON m."Период" = sq5."Период" AND m.key = sq5.key
+	ON m.key = sq5.key
 LEFT JOIN sq6
-	ON m."Период" = sq6."Период" AND m.key = sq6.key;
+	ON m.key = sq6.key;
