@@ -149,6 +149,7 @@ CREATE TABLE sttgaz.stage_isc_orders (
     "Manufacturer" VARCHAR(200),
     "ProductType" VARCHAR(200),
     "Contract" VARCHAR(500),
+    "ShippingWarehouse" VARCHAR(200),
     "quantity" INT,
     "load_date" DATE
 )
@@ -404,7 +405,8 @@ CREATE TABLE sttgaz.dds_isc_orders (
     "Город" VARCHAR(200),                                               ---"City"
     "Производитель" VARCHAR(200),                                       ----"Manufacturer"
     "Вид продукции" VARCHAR(200),                                        -----"ProductType",
-    "Договор" VARCHAR(500),                                             --------"Contract",   
+    "Договор" VARCHAR(500),                                             --------"Contract",
+    "Склад отгрузки" VARCHAR(200),  
     "Количество" INT,                                                   ------"quantity"
     "Период контрактации VERTICA" DATE                                 ------"load_date"
 )
@@ -471,9 +473,9 @@ DROP TABLE IF EXISTS sttgaz.dm_isc_contracting;
 CREATE TABLE sttgaz.dm_isc_contracting(
     "Период" DATE NOT NULL,
     "Направление реализации" VARCHAR(500) NOT NULL,
-    "Дилер" VARCHAR(500) NOT NULL,
+    "Дилер" VARCHAR(500),
     "Производитель" VARCHAR(200) NOT NULL,
-    "Город" VARCHAR(200) NOT NULL, 
+    "Город" VARCHAR(200), 
     "Вид оплаты" VARCHAR(200), 
     "Вид продукции" VARCHAR(200) NOT NULL,
     "Догруз на начало месяца" INT,

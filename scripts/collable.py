@@ -141,6 +141,7 @@ def transform(data, execution_date, data_type):
             "Manufacturer",
             "ProductType",
             "Contract",
+            "ShippingWarehouse",
             "quantity",            
         ]
 
@@ -231,4 +232,10 @@ def date_check(taskgroup, **context):
     execution_date = context['execution_date'].date()
     if execution_date.day in (1, 2, 3, 4):
         return taskgroup + '.' + 'monthly_tasks'
+    return taskgroup + '.' + 'do_nothing'
+
+def week_check(taskgroup, **context):
+    execution_date = context['execution_date'].date()
+    if execution_date.day in (1, 10, 20):
+        return taskgroup + '.' + 'weekly_tasks'
     return taskgroup + '.' + 'do_nothing'
