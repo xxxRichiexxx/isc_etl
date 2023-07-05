@@ -11,7 +11,7 @@ WITH
 				WHEN "Договор" LIKE 'ДР55/4%' THEN 'Отсрочка'
 				WHEN "Договор" LIKE 'ДР55%' THEN 'Предоплата'
 				ELSE 'Неизвестно'			
-			END 													AS "Вид оплаты"																							AS "Вид оплаты",
+			END 													AS "Вид оплаты"	
 		 FROM sttgaz.dds_isc_orders 								AS o
 		 LEFT JOIN sttgaz.dds_isc_counteragent 						AS c
 		 	ON o."Покупатель ID" = c.id
