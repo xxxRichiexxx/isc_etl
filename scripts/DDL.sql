@@ -505,7 +505,9 @@ CREATE TABLE sttgaz.dm_isc_contracting_plan(
     "План контрактации" INT,
     "План контрактации. Неделя 1" INT,
     "План контрактации. Неделя 2" INT,
-    "План контрактации. Неделя 3" INT
+    "План контрактации. Неделя 3" INT,
+    "План контрактации. Неделя 4" INT,
+    ts TIMESTAMP
 )
 ORDER BY "Дата", "Направление реализации"
 PARTITION BY DATE_TRUNC('month', "Дата");

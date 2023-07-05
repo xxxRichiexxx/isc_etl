@@ -1,6 +1,3 @@
-DELETE FROM sttgaz.dm_isc_contracting_plan 
-WHERE "Дата" = '{{execution_date.date()}}';
-
 INSERT INTO sttgaz.dm_isc_contracting_plan
 WITH 
 	base_query AS(
@@ -31,7 +28,8 @@ SELECT
 	ROUND(SUM(Количество)*0.05, 0) 						AS "План контрактации. Неделя 3",
 	SUM(Количество) - ROUND(SUM(Количество)*0.7, 0) 
 		 			- ROUND(SUM(Количество)*0.05, 0)
-		 			- ROUND(SUM(Количество)*0.2, 0)		AS "План контрактации. Неделя 4"
+		 			- ROUND(SUM(Количество)*0.2, 0)		AS "План контрактации. Неделя 4",
+	NOW()
 FROM base_query
 GROUP BY
 	"Направление реализации",
