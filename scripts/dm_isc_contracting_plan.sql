@@ -11,9 +11,9 @@ WITH
 				WHEN "Договор" LIKE 'ДР55/4%' THEN 'Отсрочка'
 				WHEN "Договор" LIKE 'ДР55%' THEN 'Предоплата'
 				ELSE 'Неизвестно'			
-			END, 																									AS "Вид оплаты",
-		 FROM sttgaz.dds_isc_orders 			AS o
-		 LEFT JOIN sttgaz.dds_isc_counteragent 	AS c
+			END 													AS "Вид оплаты"																							AS "Вид оплаты",
+		 FROM sttgaz.dds_isc_orders 								AS o
+		 LEFT JOIN sttgaz.dds_isc_counteragent 						AS c
 		 	ON o."Покупатель ID" = c.id
 		 WHERE o."Период контрактации VERTICA" = '{{execution_date.date().replace(day=1)}}'::date
 	)
@@ -24,7 +24,7 @@ SELECT
 	"Производитель",
 	"Город",
 	"Вид оплаты",
-	"Вид продукции"
+	"Вид продукции",
 	SUM(Количество) 									AS "План контрактации",
 	ROUND(SUM(Количество)*0.7, 0) 						AS "План контрактации. Неделя 1",
 	ROUND(SUM(Количество)*0.2, 0) 						AS "План контрактации. Неделя 2",
