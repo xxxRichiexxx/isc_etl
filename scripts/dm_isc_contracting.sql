@@ -23,9 +23,9 @@ WITH
 	),
 	matrix AS(
 		SELECT DISTINCT 
-			'{{execution_date.date().replace(day=1)}}'		AS "Период",
+			'{{execution_date.date().replace(day=1)}}'::date		AS "Период",
 			"Направление реализации",
-			Наименование 									AS "Дилер",
+			Наименование 											AS "Дилер",
 			Производитель,
 			Город,
 			"Вид оплаты",
@@ -35,9 +35,9 @@ WITH
 	),
 	sq1 AS(
 		SELECT
-			'{{execution_date.date().replace(day=1)}}' 	AS "Период",
+			'{{execution_date.date().replace(day=1)}}'::date 	AS "Период",
 			key,
-			SUM(Количество) 								AS "Догруз на начало месяца"
+			SUM(Количество) 									AS "Догруз на начало месяца"
 		FROM base_query
 		WHERE "Статус отгрузки"  IN ('Разнарядка', 'Отгрузка')
 			AND TO_DATE("Месяц отгрузки", 'YYYY-MM') >= '{{execution_date.date().replace(day=1)}}'
@@ -46,7 +46,7 @@ WITH
 	),
 	sq2 AS(
 		 SELECT
-		 	'{{execution_date.date().replace(day=1)}}'			AS "Период",
+		 	'{{execution_date.date().replace(day=1)}}'::date	AS "Период",
 			key,
 		 	SUM(Количество) 									AS "План контрактации",
 		 	ROUND(SUM(Количество)*0.7, 0) 						AS "План контрактации. Неделя 1",
@@ -61,7 +61,7 @@ WITH
 	),
 	sq3 AS(
 		 SELECT
-		 	'{{execution_date.date().replace(day=1)}}'				AS "Период",
+		 	'{{execution_date.date().replace(day=1)}}'::date		AS "Период",
 			key,
 		 	SUM(Количество) 										AS "Факт выдачи ОР"
 		 FROM base_query
@@ -71,9 +71,9 @@ WITH
 	),
 	sq4 AS(
 		 SELECT 
-		 	'{{execution_date.date().replace(day=1)}}' 	AS "Период",
+		 	'{{execution_date.date().replace(day=1)}}'::date 	AS "Период",
 			key,
-		 	SUM(Количество) 								AS "Догруз на конец месяца"
+		 	SUM(Количество) 									AS "Догруз на конец месяца"
 		 FROM base_query
 		 WHERE "Период контрактации VERTICA" <= '{{execution_date.date().replace(day=1)}}'
 		 	AND "Статус отгрузки"  IN ('Разнарядка','Отгрузка', 'Пусто', 'Приложение')
@@ -82,9 +82,9 @@ WITH
 	),
 	sq5 AS(
 		 SELECT
-		 	'{{execution_date.date().replace(day=1)}}'			AS "Период",
+		 	'{{execution_date.date().replace(day=1)}}'::date			AS "Период",
 			key,
-		 	SUM(Количество) 									AS "Отгрузка в счет следующего месяца" 
+		 	SUM(Количество) 											AS "Отгрузка в счет следующего месяца" 
 		 FROM base_query
 		 WHERE "Период контрактации VERTICA" = '{{(execution_date.date().replace(day=28) + params.delta_2).replace(day=1)}}' 
 		 	AND TO_DATE("Месяц отгрузки", 'YYYY-MM') = '{{execution_date.date().replace(day=1)}}'
@@ -93,9 +93,9 @@ WITH
 	),
 	sq6 AS(
 		 SELECT
-		 	'{{execution_date.date().replace(day=1)}}'		AS "Период",
+		 	'{{execution_date.date().replace(day=1)}}'::date	AS "Период",
 			key,
-		 	SUM(Количество) 								AS "Отгрузка в предыдущем месяце из плана текущего месяца" 
+		 	SUM(Количество) 									AS "Отгрузка в предыдущем месяце из плана текущего месяца" 
 		 FROM base_query
 		 WHERE "Период контрактации VERTICA" = '{{execution_date.date().replace(day=1)}}'
 		 	AND TO_DATE("Месяц отгрузки", 'YYYY-MM') = '{{(execution_date.date().replace(day=1) - params.delta_1).replace(day=1)}}' 
@@ -132,6 +132,4 @@ LEFT JOIN sq4
 LEFT JOIN sq5
 	ON m."Период" = sq5."Период" AND m.key = sq5.key
 LEFT JOIN sq6
-	ON m."Период" = sq6."Период" AND m.key = sq6.key;  
-
-GRANT SELECT ON TABLE sttgaz.dm_isc_contracting_v TO PowerBI_Integration WITH GRANT OPTION;
+	ON m."Период" = sq6."Период" AND m.key = sq6.key;
