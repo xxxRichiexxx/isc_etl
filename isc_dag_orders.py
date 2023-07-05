@@ -85,7 +85,7 @@ with DAG(
             sql='scripts/dds_isc_orders.sql',
             params={
                 'delta_1': dt.timedelta(days=1),
-                'delta_2': dt.timedelta(days=4),
+                'delta_2': dt.timedelta(days=248),
             }
         )
 
