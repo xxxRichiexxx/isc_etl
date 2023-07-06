@@ -232,7 +232,7 @@ def etl(source_engine, dwh_engine, data_type, monthly_tasks=False, offset=None, 
 
 def date_check(taskgroup, **context):
     execution_date = context['execution_date'].date()
-    if execution_date.day in (1, 2, 3, 4):
+    if execution_date.day in (1, 2, 3, 4, 5):
         return taskgroup + '.' + 'monthly_tasks'
     return taskgroup + '.' + 'do_nothing'
 
@@ -244,6 +244,13 @@ def contracting_calculate(dwh_engine, data_type, monthly_tasks=False, **context)
                             .replace(day=1)
     else:
         execution_date = context['execution_date'].date().replace(day=1)
+
+    if 1 <= context['execution_date'].day <= 9:
+        plan_date = context['execution_date'].date().replace(day=1)
+    elif 10 <= context['execution_date'].day <= 19:
+        plan_date = context['execution_date'].date().replace(day=10)
+    else:
+        plan_date = context['execution_date'].date().replace(day=20)            
 
     with open(
         fr'/home/da/airflow/dags/isc_etl/scripts/dm_isc_{data_type}.sql', 'r'

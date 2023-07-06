@@ -95,6 +95,18 @@ WITH
 		 	AND TO_DATE("Месяц отгрузки", 'YYYY-MM') = '{previous_month}' 
 			AND "Статус отгрузки"  IN ('Отгрузка')
 		GROUP BY key
+	),
+	sq7 AS(
+		SELECT
+			*,
+			'{plan_date}' AS "Дата плана",
+			HASH("Направление реализации", "Наименование", "Производитель", "Город", "Вид оплаты", "Вид продукции") AS key 
+		FROM sttgaz.dm_isc_contracting_plan
+		WHERE DATE_TRUNC('minute', ts) = (
+				SELECT DATE_TRUNC('minute', MIN(ts))
+				FROM sttgaz.dm_isc_contracting_plan
+				WHERE "Дата" = '{plan_date}'
+			)
 	)
 SELECT
 	m."Период",
@@ -126,4 +138,6 @@ LEFT JOIN sq4
 LEFT JOIN sq5
 	ON m.key = sq5.key
 LEFT JOIN sq6
+	ON m.key = sq6.key
+LEFT JOIN sq7
 	ON m.key = sq6.key;
