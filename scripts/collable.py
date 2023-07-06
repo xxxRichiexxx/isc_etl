@@ -259,10 +259,7 @@ def contracting_calculate(dwh_engine, data_type, monthly_tasks=False, **context)
     connection = dwh_engine.raw_connection()
     try:
         cursor = connection.cursor()
-        cursor.execute(command)
-        cursor.fetchall()
-        cursor.nextset()
-        cursor.fetchall()
+        cursor.execute(command, multi=True)
         cursor.close()
     finally:
         connection.close()    
