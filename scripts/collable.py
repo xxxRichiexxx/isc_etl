@@ -1,6 +1,8 @@
 import pandas as pd
 import datetime as dt
 
+from sqlalchemy import text
+
 
 def extract(source_engine, data_type, execution_date):
     """Извлечение данных из источника."""
@@ -254,4 +256,4 @@ def contracting_calculate(dwh_engine, data_type, monthly_tasks=False, **context)
 
     print(command)    
 
-    dwh_engine.execute(command)
+    dwh_engine.execute(text(command))
