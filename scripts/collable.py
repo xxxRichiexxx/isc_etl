@@ -254,9 +254,4 @@ def contracting_calculate(dwh_engine, data_type, monthly_tasks=False, **context)
 
     print(command)    
 
-    pd.read_sql_query(
-        command,
-        dwh_engine,
-        dtype_backend='pyarrow',
-    )
-
+    dwh_engine.execute(command)
