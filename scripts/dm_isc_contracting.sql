@@ -23,7 +23,7 @@ WITH
 	),
 	matrix AS(
 		SELECT DISTINCT 
-			'{{execution_date.date().replace(day=1)}}'::date		AS "Период",
+			'{execution_date}'::date								AS "Период",
 			"Направление реализации",
 			Наименование 											AS "Дилер",
 			Производитель,
