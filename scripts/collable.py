@@ -249,7 +249,7 @@ def contracting_calculate(dwh_engine, data_type, monthly_tasks=False, **context)
         command = f.read().format(
             execution_date=execution_date,
             next_month=(execution_date.replace(day=28) + dt.timedelta(days=4)).replace(day=1),
-            previous_month={(execution_date - dt.timedelta(days=1)).replace(day=1)},
+            previous_month=(execution_date - dt.timedelta(days=1)).replace(day=1),
         )
 
     print(command)    
