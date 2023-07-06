@@ -11,7 +11,7 @@ from airflow.operators.dummy import DummyOperator
 from airflow.contrib.operators.vertica_operator import VerticaOperator
 from airflow.operators.python import BranchPythonOperator
 
-from isc_etl.scripts.collable import etl, date_check
+from isc_etl.scripts.collable import etl, date_check, contracting_calculate
 
 
 source_con = BaseHook.get_connection('isc')
@@ -109,14 +109,13 @@ with DAG(
             }
         )
 
-        dm_isc_contracting = VerticaOperator(
-            task_id='dm_isc_contracting',
-            vertica_conn_id='vertica',
-            sql='scripts/dm_isc_contracting.sql',
-            params={
-                'delta_1': dt.timedelta(days=1),
-                'delta_2': dt.timedelta(days=4),
-            }
+        dm_isc_contracting = PythonOperator(
+            task_id=f'dm_isc_contracting',
+            python_callable=contracting_calculate,
+            op_kwargs={
+                'data_type': 'contracting',
+                'dwh_engine': dwh_engine,
+            },
         )
 
         [dm_isc_orders_v, dm_isc_contracting_plan] >> dm_isc_contracting

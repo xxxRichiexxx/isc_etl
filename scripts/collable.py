@@ -234,8 +234,25 @@ def date_check(taskgroup, **context):
         return taskgroup + '.' + 'monthly_tasks'
     return taskgroup + '.' + 'do_nothing'
 
-def week_check(taskgroup, **context):
-    execution_date = context['execution_date'].date()
-    if execution_date.day in (1, 10, 20):
-        return taskgroup + '.' + 'weekly_tasks'
-    return taskgroup + '.' + 'do_nothing'
+
+def contracting_calculate(dwh_engine, data_type, monthly_tasks=False, **context):
+    """Запускаем Перерасчет витрины за текущий или предыдущий месяц."""
+    if monthly_tasks:
+        execution_date = (context['execution_date'].date().replace(day=1) - dt.timedelta(days=1)) \
+                            .replace(day=1)
+    else:
+        execution_date = context['execution_date'].date().replace(day=1)
+
+    with open(
+        fr'/home/da/airflow/dags/isc_etl/scripts/dm_isc_{data_type}.sql', 'r'
+    ) as f:
+        command = f.read().format(execution_date)
+
+    print(command)    
+
+    pd.read_sql_query(
+        command,
+        dwh_engine,
+        dtype_backend='pyarrow',
+    )
+
