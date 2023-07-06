@@ -256,12 +256,6 @@ def contracting_calculate(dwh_engine, data_type, monthly_tasks=False, **context)
 
     print(command)
 
-    connection = dwh_engine.raw_connection()
-    try:
-        cursor = connection.cursor()
-        cursor.execute(command, multi=True)
-        cursor.close()
-    finally:
-        connection.close()    
-
-    # dwh_engine.execute(text(command), multi=True)
+    for statement in command.split(';'):
+        if len(statement.strip()) > 0:
+             dwh_engine.execute(text(command + ';'))
