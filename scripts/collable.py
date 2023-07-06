@@ -256,4 +256,4 @@ def contracting_calculate(dwh_engine, data_type, monthly_tasks=False, **context)
 
     print(command)    
 
-    dwh_engine.execute(text(command))
+    dwh_engine.execute(text(command), multi=True)
