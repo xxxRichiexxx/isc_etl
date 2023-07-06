@@ -99,7 +99,7 @@ WITH
 	sq7 AS(
 		SELECT
 			*,
-			'{plan_date}' AS "Дата плана",
+			'{plan_date}'::date AS "Дата плана",
 			HASH("Направление реализации", "Дилер", "Производитель", "Город", "Вид оплаты", "Вид продукции") AS key 
 		FROM sttgaz.dm_isc_contracting_plan
 		WHERE DATE_TRUNC('minute', ts) = (
