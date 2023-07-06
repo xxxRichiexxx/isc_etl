@@ -118,7 +118,30 @@ with DAG(
             },
         )
 
-        [dm_isc_orders_v, dm_isc_contracting_plan] >> dm_isc_contracting
+        date_check = BranchPythonOperator(
+            task_id='date_check',
+            python_callable=date_check,
+            op_kwargs={
+                'taskgroup': 'Загрузка_данных_в_dm_слой',
+                },
+        )
+
+        do_nothing = DummyOperator(task_id='do_nothing')
+        monthly_tasks = PythonOperator(
+            task_id='monthly_tasks',
+            python_callable=contracting_calculate,
+            op_kwargs={
+                'data_type': 'contracting',
+                'dwh_engine': dwh_engine,
+                'monthly_tasks': True,
+            },
+        )
+        collapse = DummyOperator(
+            task_id='collapse',
+            trigger_rule='none_failed',
+        )
+
+        [dm_isc_orders_v, dm_isc_contracting_plan] >> dm_isc_contracting >> date_check >> [monthly_tasks, do_nothing] >> collapse
         
     with TaskGroup('Проверки') as data_checks:
 
