@@ -247,7 +247,7 @@ def contracting_calculate(dwh_engine, data_type, monthly_tasks=False, **context)
         fr'/home/da/airflow/dags/isc_etl/scripts/dm_isc_{data_type}.sql', 'r'
     ) as f:
         command = f.read().format(
-            'execution_date'=execution_date,
+            execution_date=execution_date,
             delta_1=dt.timedelta(days=1),
             delta_2=dt.timedelta(days=28),
         )
