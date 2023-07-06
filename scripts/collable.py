@@ -254,6 +254,17 @@ def contracting_calculate(dwh_engine, data_type, monthly_tasks=False, **context)
             previous_month=(execution_date - dt.timedelta(days=1)).replace(day=1),
         )
 
-    print(command)    
+    print(command)
 
-    dwh_engine.execute(text(command), multi=True)
+    connection = dwh_engine.raw_connection()
+    try:
+        cursor = connection.cursor()
+        cursor.execute(command)
+        cursor.fetchall()
+        cursor.nextset()
+        cursor.fetchall()
+        cursor.close()
+    finally:
+        connection.close()    
+
+    # dwh_engine.execute(text(command), multi=True)
