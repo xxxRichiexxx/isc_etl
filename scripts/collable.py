@@ -257,5 +257,4 @@ def contracting_calculate(dwh_engine, data_type, monthly_tasks=False, **context)
     print(command)
 
     for statement in command.split(';'):
-        if len(statement.strip()) > 0:
-             dwh_engine.execute(text(command + ';'))
+        dwh_engine.execute(text(command))
