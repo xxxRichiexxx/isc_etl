@@ -142,4 +142,15 @@ LEFT JOIN sq5
 LEFT JOIN sq6
 	ON m.key = sq6.key
 LEFT JOIN sq7
-	ON m.key = sq7.key;
+	ON m.key = sq7.key
+WHERE
+	"Догруз на начало месяца" IS NOT NULL
+	OR sq2."План контрактации" IS NOT NULL
+	OR sq2."План контрактации. Неделя 1" IS NOT NULL
+	OR sq2."План контрактации. Неделя 2" IS NOT NULL
+	OR sq2."План контрактации. Неделя 3" IS NOT NULL
+	OR sq2."План контрактации. Неделя 4" IS NOT NULL
+	OR "Факт выдачи ОР" IS NOT NULL
+	OR "Догруз на конец месяца" IS NOT NULL
+	OR "Отгрузка в счет следующего месяца" IS NOT NULL
+	OR "Отгрузка в предыдущем месяце из плана текущего месяца" IS NOT NULL;
