@@ -242,15 +242,17 @@ def contracting_calculate(dwh_engine, data_type, monthly_tasks=False, **context)
     if monthly_tasks:
         execution_date = (context['execution_date'].date().replace(day=1) - dt.timedelta(days=1)) \
                             .replace(day=1)
+        plan_date = (context['execution_date'].date().replace(day=1) - dt.timedelta(days=1)) \
+                            .replace(day=20)
     else:
         execution_date = context['execution_date'].date().replace(day=1)
 
-    if 1 <= context['execution_date'].day <= 9:
-        plan_date = context['execution_date'].date().replace(day=1)
-    elif 10 <= context['execution_date'].day <= 19:
-        plan_date = context['execution_date'].date().replace(day=10)
-    else:
-        plan_date = context['execution_date'].date().replace(day=20)            
+        if 1 <= context['execution_date'].day <= 9:
+            plan_date = context['execution_date'].date().replace(day=1)
+        elif 10 <= context['execution_date'].day <= 19:
+            plan_date = context['execution_date'].date().replace(day=10)
+        else:
+            plan_date = context['execution_date'].date().replace(day=20)            
 
     with open(
         fr'/home/da/airflow/dags/isc_etl/scripts/dm_isc_{data_type}.sql', 'r'
