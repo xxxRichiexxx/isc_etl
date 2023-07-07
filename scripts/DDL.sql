@@ -492,7 +492,7 @@ CREATE TABLE sttgaz.dm_isc_contracting(
     "Дата фиксации плана" DATE
 )
 ORDER BY "Период", "Направление реализации"
-PARTITION BY "Период";
+PARTITION BY DATE_TRUNC('month', "Период");
 
 
 DROP TABLE IF EXISTS sttgaz.dm_isc_contracting_plan;
