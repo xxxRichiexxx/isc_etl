@@ -38,4 +38,4 @@ GROUP BY
 	"Город",
 	"Вид оплаты",
 	"Вид продукции"
-HAVING IS NOT NULL;
+HAVING "План контрактации" IS NOT NULL;
