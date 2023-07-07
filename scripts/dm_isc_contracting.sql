@@ -142,4 +142,4 @@ LEFT JOIN sq5
 LEFT JOIN sq6
 	ON m.key = sq6.key
 LEFT JOIN sq7
-	ON m.key = sq6.key;
+	ON m.key = sq7.key;
