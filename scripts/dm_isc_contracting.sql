@@ -107,6 +107,7 @@ WITH
 				FROM sttgaz.dm_isc_contracting_plan
 				WHERE "Дата" = '{plan_date}'
 			)
+			AND "Дата" = '{plan_date}'
 	)
 SELECT
 	m."Период",
