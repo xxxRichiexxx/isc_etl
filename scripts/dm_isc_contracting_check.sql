@@ -5,4 +5,6 @@ SELECT
 	'{{execution_date.date()}}',
     SUM("Догруз на начало месяца") = 608
 FROM sttgaz.{{params.dm}}
-WHERE DATE_TRUNC('MONTH', "Период") = '2023-06-01';
+WHERE DATE_TRUNC('MONTH', "Период") = '2023-06-01'
+	AND "Направление реализации" LIKE 'РФ%'
+	AND Производитель LIKE '%ГАЗ%';
