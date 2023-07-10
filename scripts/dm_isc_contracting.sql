@@ -99,7 +99,6 @@ WITH
 	sq7 AS(
 		SELECT
 			*,
-			'{plan_date}'::date AS "Дата плана",
 			HASH("Направление реализации", "Дилер", "Производитель", "Город", "Вид оплаты", "Вид продукции") AS key 
 		FROM sttgaz.dm_isc_contracting_plan
 		WHERE DATE_TRUNC('minute', ts) = (
@@ -128,7 +127,7 @@ SELECT
 	"Отгрузка в счет следующего месяца",
 	"Отгрузка в предыдущем месяце из плана текущего месяца",
 	sq7."План контрактации",
-	sq7."Дата плана"
+	sq7."ts"::date
 FROM matrix AS m
 LEFT JOIN sq1
 	ON m.key = sq1.key
