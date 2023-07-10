@@ -153,8 +153,17 @@ with DAG(
                         'dm': 'dm_isc_orders_v',
                     }
                 )
+
+        dm_isc_contracting_check = VerticaOperator(
+                    task_id='dm_isc_contracting_check',
+                    vertica_conn_id='vertica',
+                    sql='scripts/dm_isc_contracting_check.sql',
+                    params={
+                        'dm': 'dm_isc_contracting',
+                    }
+                )
         
-        dm_isc_orders_v_check
+        [dm_isc_orders_v_check, dm_isc_contracting_check]
 
     end = DummyOperator(task_id='Конец')
 
