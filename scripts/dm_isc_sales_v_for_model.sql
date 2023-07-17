@@ -57,3 +57,4 @@ SELECT *
 FROM sq4;
 
 GRANT SELECT ON TABLE sttgaz.dm_isc_sales_v_for_model TO PowerBI_Integration WITH GRANT OPTION;
+COMMENT ON VIEW sttgaz.dm_isc_sales_v_for_model IS 'Продажи (LCV, MCV) дилеров по РФ по дням. Витрина данных для мат модели NOVO BI.'

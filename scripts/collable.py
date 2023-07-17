@@ -64,6 +64,9 @@ def transform(data, execution_date, data_type):
             "clientsHolding",
             "BalanceAtBeginningOfPeriod",
             "BalanceAtEndOfPeriod",
+            "1",
+            "2",
+            "3",
         ]
     elif data_type == 'realization':
         data.columns = [

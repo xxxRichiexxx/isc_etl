@@ -121,3 +121,4 @@ WHERE
 	OR "Реализовано с начала прошлого года" IS NOT NULL;
 
 GRANT SELECT ON TABLE sttgaz.dm_isc_realization_v TO PowerBI_Integration WITH GRANT OPTION;
+COMMENT ON VIEW sttgaz.dm_isc_realization_v IS 'Реализация ТС. Витрина данных с посчитанными метриками.';

@@ -5,3 +5,5 @@
  FROM sttgaz.dds_isc_orders AS o
  LEFT JOIN sttgaz.dds_isc_counteragent AS c
  	ON o."Покупатель ID" = c.id;
+
+COMMENT ON VIEW sttgaz.dm_isc_orders_v IS 'Заявки дилеров. Детализированная витрина.';

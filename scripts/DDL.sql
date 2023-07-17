@@ -37,6 +37,8 @@ CREATE TABLE sttgaz.stage_isc_sales (
 ORDER BY load_date, Recipient, division, SalesTerritory
 PARTITION BY DATE_TRUNC('MONTH', load_date);
 
+COMMENT ON TABLE sttgaz.stage_isc_sales IS 'Продажи ТС дилеров';
+
 
 DROP TABLE IF EXISTS sttgaz.stage_isc_classifier;
 CREATE TABLE sttgaz.stage_isc_classifier (
@@ -130,6 +132,10 @@ CREATE TABLE sttgaz.stage_isc_realization(
 ORDER BY load_date
 PARTITION BY DATE_TRUNC('month', "load_date");
 
+COMMENT ON TABLE sttgaz.stage_isc_realization IS 'Реализация ТС';
+
+
+
 DROP TABLE IF EXISTS sttgaz.stage_isc_orders;
 CREATE TABLE sttgaz.stage_isc_orders (
     "ProductCode65" VARCHAR(500),
@@ -155,6 +161,8 @@ CREATE TABLE sttgaz.stage_isc_orders (
 )
 ORDER BY "DirectionOfImplementation", "Buyer"
 PARTITION BY DATE_TRUNC('month', "load_date");
+
+COMMENT ON table sttgaz.stage_isc_orders IS 'Заявки дилеров(контрактация)';
 
 
 ---------------DDS------------------------
@@ -189,6 +197,9 @@ CREATE TABLE sttgaz.dds_isc_sales (
 ORDER BY "Период", "Дилер ID", "Покупатель ID"
 PARTITION BY DATE_TRUNC('MONTH', "Период");
 
+COMMENT ON TABLE sttgaz.dds_isc_sales IS 'Продажи ТС дилеров';
+
+
 
 DROP TABLE IF EXISTS sttgaz.dds_isc_dealer;
 CREATE TABLE sttgaz.dds_isc_dealer (
@@ -199,6 +210,8 @@ CREATE TABLE sttgaz.dds_isc_dealer (
     ts TIMESTAMP
 )
 ORDER BY id;
+
+COMMENT ON TABLE sttgaz.dds_isc_dealer IS 'Справочник дилерских площадок. Связан с "Продажи дилнров".';
 
 
 DROP TABLE IF EXISTS sttgaz.dds_isc_buyer;
@@ -214,6 +227,8 @@ CREATE TABLE sttgaz.dds_isc_buyer (
     ts TIMESTAMP
 )
 ORDER BY id;
+
+COMMENT ON TABLE sttgaz.dds_isc_buyer IS 'Справочник конечных покупателей. Связан с "Продажи дилнров".';
 
 
 DROP TABLE IF EXISTS sttgaz.dds_isc_classifier;
@@ -266,10 +281,16 @@ CREATE TABLE sttgaz.dds_isc_DirectionOfImplementationWithUKP (
 	"Направление реализации с учетом УКП" VARCHAR(500)
 );
 
+COMMENT ON TABLE sttgaz.dds_isc_DirectionOfImplementationWithUKP IS 'Справочник направлений реализации с УКП. Связан с "реализация".';
+
+
 CREATE TABLE sttgaz.dds_isc_counteragent (
 	"id" AUTO_INCREMENT PRIMARY KEY,
     "Наименование" VARCHAR(500)
 );
+
+COMMENT ON TABLE sttgaz.dds_isc_counteragent IS 'Справочник контрагентов. Связан с "реализация" и "заявки дилеров".';
+
 
 CREATE TABLE sttgaz.dds_isc_dealer_unit (
 	"id" AUTO_INCREMENT PRIMARY KEY,
@@ -279,17 +300,24 @@ CREATE TABLE sttgaz.dds_isc_dealer_unit (
     "ts" TIMESTAMP 
 );
 
+COMMENT ON TABLE sttgaz.dds_isc_dealer_unit IS 'Справочник дилерских площадок. Связан с "реализация".';
+
+
 CREATE TABLE sttgaz.dds_isc_manufacturer(
 	"id" AUTO_INCREMENT PRIMARY KEY,
 	"Наименование" VARCHAR(200)
 )
 ORDER BY id;
 
+COMMENT ON TABLE sttgaz.dds_isc_division IS 'Справочник производителей. Связан с продуктами.';
+
 CREATE TABLE sttgaz.dds_isc_division(
 	"id" AUTO_INCREMENT PRIMARY KEY,
 	"Наименование" VARCHAR(20)
 )
 ORDER BY id;
+
+COMMENT ON TABLE sttgaz.dds_isc_division IS 'Справочник дивизионов. Связан с продуктами.';
 
 CREATE TABLE sttgaz.dds_isc_product (
 	"id" AUTO_INCREMENT PRIMARY KEY,
@@ -318,6 +346,8 @@ CREATE TABLE sttgaz.dds_isc_product (
     CONSTRAINT dds_isc_product_unique UNIQUE("Вариант сборки", "Вариант сборки свернутый", "ВИН", "Номерной товар ИД")
 )
 ORDER BY id;
+
+COMMENT ON TABLE sttgaz.dds_isc_product IS 'Справочник продуктов (ТС). Связан с реализацией.';
 
 CREATE TABLE sttgaz.dds_isc_realization (
 	"id" AUTO_INCREMENT PRIMARY KEY,
@@ -360,6 +390,10 @@ CREATE TABLE sttgaz.dds_isc_realization (
 )
 ORDER BY "Период", "Контрагент ID", "Продукт ID"
 PARTITION BY DATE_TRUNC('month', "Период");
+
+COMMENT ON TABLE sttgaz.dds_isc_realization IS 'Реализация ТС';
+
+
 
 CREATE TABLE sttgaz.dds_isc_dealer_sales
 (
@@ -413,7 +447,7 @@ CREATE TABLE sttgaz.dds_isc_orders (
 ORDER BY "Период контрактации VERTICA", "Направление реализации", "Покупатель ID"
 PARTITION BY DATE_TRUNC('month', "Период контрактации VERTICA");
 
-
+COMMENT ON TABLE sttgaz.dds_isc_orders IS 'Заявки дилеров(контрактация)';
 
 
 ----------marts---------------------
@@ -441,6 +475,7 @@ ORDER BY "Продажа Дата", "Дивизион", "Напр реализ �
 PARTITION BY "Месяц";
 
 GRANT SELECT ON TABLE sttgaz.dm_isc_dealer_sales_RF TO PowerBI_Integration WITH GRANT OPTION;
+COMMENT ON TABLE sttgaz.dm_isc_dealer_sales_RF IS 'Продажи (ТС) дилеров по РФ. Витрина данных с посчитанными метриками.'
 
 
 DROP TABLE IF EXISTS sttgaz.dm_isc_sales_RF_CIS;
@@ -467,6 +502,7 @@ ORDER BY "Продажа Дата", "Дивизион", "Напр реализ �
 PARTITION BY "Месяц";
 
 GRANT SELECT ON TABLE sttgaz.dm_isc_sales_RF_CIS TO PowerBI_Integration WITH GRANT OPTION;
+COMMENT ON TABLE sttgaz.dm_isc_sales_RF_CIS IS 'Продажи (ТС) дилеров по РФ и СНГ. Витрина данных с посчитанными метриками.'
 
 
 DROP TABLE IF EXISTS sttgaz.dm_isc_contracting;
@@ -498,6 +534,7 @@ CREATE TABLE sttgaz.dm_isc_contracting(
 ORDER BY "Период", "Направление реализации"
 PARTITION BY DATE_TRUNC('month', "Период");
 
+COMMENT ON TABLE sttgaz.dm_isc_contracting IS 'Заявки дилеров(контрактация). Витрина данных с посчитанными метриками.';
 
 DROP TABLE IF EXISTS sttgaz.dm_isc_contracting_plan;
 CREATE TABLE sttgaz.dm_isc_contracting_plan(
@@ -517,3 +554,5 @@ CREATE TABLE sttgaz.dm_isc_contracting_plan(
 )
 ORDER BY "Дата", "Направление реализации"
 PARTITION BY DATE_TRUNC('month', "Дата");
+
+COMMENT ON TABLE sttgaz.dm_isc_contracting_plan IS 'Заявки дилеров(контрактация). План, сохраненный по дням (контрольные точки).';

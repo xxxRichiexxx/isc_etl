@@ -78,3 +78,4 @@ SELECT
 FROM sq4;
 
 GRANT SELECT ON TABLE sttgaz.dm_isc_sales_v TO PowerBI_Integration WITH GRANT OPTION;
+COMMENT ON VIEW sttgaz.dm_isc_sales_v IS 'Продажи (ТС) дилеров по РФ, СНГ и прочим направлениям с детализацией по месяцам. Витрина данных с посчитанными метриками.'
