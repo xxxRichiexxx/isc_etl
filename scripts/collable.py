@@ -38,6 +38,7 @@ def transform(data, execution_date, data_type):
             "division",
             "code",
             "SalesTerritory",
+            "RecipientID",
             "Recipient",
             "RecipientFullName",
             "BuyersRegion",
@@ -64,9 +65,8 @@ def transform(data, execution_date, data_type):
             "clientsHolding",
             "BalanceAtBeginningOfPeriod",
             "BalanceAtEndOfPeriod",
-            "1",
-            "2",
-            "3",
+            "DiscountCRMTotal",
+            "DiscountCRMDealer",
         ]
     elif data_type == 'realization':
         data.columns = [
