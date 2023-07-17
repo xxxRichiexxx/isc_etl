@@ -1,11 +1,12 @@
 INSERT INTO sttgaz.dds_isc_dealer
-("Дивизион", "Название", "Полное название (организация)", ts)
+("ИСК ID", "Дивизион", "Название", "Полное название (организация)", ts)
 WITH 
     sq AS(
         SELECT HASH("Дивизион", "Название", "Полное название (организация)")
         FROM sttgaz.dds_isc_dealer
     )
 SELECT DISTINCT
+        "RecipientID",
         "division",
         "Recipient",
         "RecipientFullName",

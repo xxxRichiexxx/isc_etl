@@ -6,6 +6,7 @@ CREATE TABLE sttgaz.stage_isc_sales (
     "division" VARCHAR(50), --"Дивизион"
     "code" VARCHAR(500), --"Внутренний код"
     "SalesTerritory" VARCHAR(2000), --"Территория продаж"
+    "RecipientID" INT,
     "Recipient" VARCHAR(2000), --"Название" (Дилер)
     "RecipientFullName" VARCHAR(2000), --"Полное название (организация)"
     "BuyersRegion" VARCHAR(2000), --"Регион"
@@ -32,6 +33,8 @@ CREATE TABLE sttgaz.stage_isc_sales (
     "clientsHolding" VARCHAR(500),
     "BalanceAtBeginningOfPeriod" INT,
     "BalanceAtEndOfPeriod" INT,
+    "DiscountCRMTotal" NUMERIC(11,2),
+    "DiscountCRMDealer" NUMERIC(11,2),
     "load_date" DATE
 )
 ORDER BY load_date, Recipient, division, SalesTerritory
@@ -192,6 +195,8 @@ CREATE TABLE sttgaz.dds_isc_sales (
     "Двигатель" VARCHAR(200),
     "Остатки на НП" INT,
     "Остатки на КП" INT,
+    "Скидка CRM ИТОГО" NUMERIC(11,2),
+    "Скидка CRM дилера" NUMERIC(11,2),
     "Период" DATE
 )
 ORDER BY "Период", "Дилер ID", "Покупатель ID"
@@ -203,7 +208,8 @@ COMMENT ON TABLE sttgaz.dds_isc_sales IS 'Продажи ТС дилеров';
 
 DROP TABLE IF EXISTS sttgaz.dds_isc_dealer;
 CREATE TABLE sttgaz.dds_isc_dealer (
-    id AUTO_INCREMENT PRIMARY KEY,                         
+    id AUTO_INCREMENT PRIMARY KEY,
+    "ИСК ID" INT,                         
     "Дивизион" VARCHAR(50),  --"division"
     "Название" VARCHAR(2000), --"Recipient"
     "Полное название (организация)" VARCHAR(2000), --"RecipientFullName"

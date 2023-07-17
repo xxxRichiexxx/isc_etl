@@ -9,7 +9,8 @@ INSERT INTO sttgaz.dds_isc_dealer_sales
  "Спец программа реализации", "Дата отгрузки", "Дата продажи", "Дата записи продажи в БД",
  "Продано в розницу", "Продано физ лицам", "Остатки на НП", "Остатки на НП в пути",
  "Остатки на КП", "Остатки на КП в пути", "Направление реализации по приложению",
- "Направление реализации с учетом УКП ID", "Направление реализации площадки", "Период")
+ "Направление реализации с учетом УКП ID", "Направление реализации площадки",
+ "Скидка CRM ИТОГО", "Скидка CRM дилера", "Период")
 WITH sq AS(
     SELECT *
     FROM sttgaz.stage_isc_sales
@@ -36,6 +37,8 @@ SELECT
     "DirectionOfImplementationByApplication"    AS "Направление реализации по приложению",
     d.id                                        AS "Направление реализации с учетом УКП ID",
     "DirectionOfImplementationPlace"            AS "Направление реализации площадки",
+    "DiscountCRMTotal",
+    "DiscountCRMDealer",
     DATE_TRUNC('MONTH', load_date)              AS "Период"    
 FROM sq                                         AS s
 LEFT JOIN sttgaz.dds_isc_dealer_unit                        AS d
