@@ -35,7 +35,7 @@ SELECT
     "BalanceAtEndOfPeriod"                      AS "Остатки на КП",
     "BalanceAtEndOfPeriodOnRoad"                AS "Остатки на КП в пути",
     "DirectionOfImplementationByApplication"    AS "Направление реализации по приложению",
-    d.id                                        AS "Направление реализации с учетом УКП ID",
+    dir.id                                      AS "Направление реализации с учетом УКП ID",
     "DirectionOfImplementationPlace"            AS "Направление реализации площадки",
     "DiscountCRMTotal",
     "DiscountCRMDealer",

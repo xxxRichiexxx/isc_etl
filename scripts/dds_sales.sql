@@ -10,7 +10,7 @@ INSERT INTO sttgaz.dds_isc_sales
  "Продано в розницу", "Продано физ лицам", "Остатки на НП в пути", "Остатки на КП в пути",
  "Номерной товар ИД", "Направление реализации по приложению", "Направление реализации с учетом УКП",
  "Направление реализации площадки", "Вариант сборки", "Вариант сборки свернутый", "Двигатель",
- "Остатки на НП", "Остатки на КП", "Период")
+ "Остатки на НП", "Остатки на КП", "Скидка CRM ИТОГО", "Скидка CRM дилера", "Период")
 WITH sq AS(
     SELECT *
     FROM sttgaz.stage_isc_sales
@@ -43,6 +43,8 @@ SELECT
     "Engine"                                    AS "Двигатель",
     "BalanceAtBeginningOfPeriod"                AS "Остатки на НП",
     "BalanceAtEndOfPeriod"                      AS "Остатки на КП",
+    "DiscountCRMTotal",
+    "DiscountCRMDealer",
     DATE_TRUNC('MONTH', load_date)              AS "Период"    
 FROM sq                         AS s
 LEFT JOIN sttgaz.dds_isc_dealer AS d
