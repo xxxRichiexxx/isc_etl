@@ -110,6 +110,7 @@ WITH
 			sq3."Территория продаж",
 			sq3."Внутренний код",
 			sq3."Дивизион",
+			sq3."Дилер",
 			sq3."Направление реализации с учетом УКП",
 			sq3."Вариант сборки",
 			COALESCE(s1_1."Продано в розницу", 0)														AS "Продажи в розницу",
@@ -132,10 +133,10 @@ WITH
 			ON EXTRACT(YEAR FROM sq3."Дата") = EXTRACT(YEAR FROM s2."Дата продажи") + 1
 			AND EXTRACT(MONTH FROM sq3."Дата") = EXTRACT(MONTH FROM s2."Дата продажи")
 			AND EXTRACT(DAY FROM sq3."Дата") = EXTRACT(DAY FROM s2."Дата продажи") 
-			AND sq3.key = sales_2.key
+			AND sq3.key = s2.key
 		LEFT JOIN balance																				AS b
 			ON DATE_TRUNC('MONTH', sq3."Дата") = b."Период"
-			AND sq3.key = balanse.key
+			AND sq3.key = b.key
 	),
 	sq5 AS(
 		SELECT
