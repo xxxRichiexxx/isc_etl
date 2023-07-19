@@ -54,6 +54,7 @@ WITH
         GROUP BY
             "Дата продажи",
 			"key"
+	),
     sales_2 AS(
         SELECT
             "Дата продажи",
