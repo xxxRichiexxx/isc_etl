@@ -489,6 +489,7 @@ CREATE TABLE sttgaz.dm_isc_sales_RF_CIS (
     id AUTO_INCREMENT PRIMARY KEY,
     "Продажа Дата" DATE,
     "Дивизион" VARCHAR(50),
+    "Дилер" VARCHAR(2000),
     "Территория РФ" VARCHAR(2000),
     "Напр реализ по прилож с учетом УКП" VARCHAR(500),
     "Внутренний код" VARCHAR(500),
