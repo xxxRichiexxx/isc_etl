@@ -235,7 +235,7 @@ def etl(source_engine, dwh_engine, data_type, monthly_tasks=False, offset=None, 
 
 def date_check(taskgroup, **context):
     execution_date = context['execution_date'].date()
-    if execution_date.day in (1, 2, 3, 4, 5):
+    if execution_date.day <= 15:
         return taskgroup + '.' + 'monthly_tasks'
     return taskgroup + '.' + 'do_nothing'
 
