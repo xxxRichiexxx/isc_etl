@@ -467,6 +467,7 @@ CREATE TABLE sttgaz.dm_isc_dealer_sales_RF (
     "Территория РФ" VARCHAR(2000),
     "Cубъект РФ покупателя" VARCHAR(2000),
     "Напр реализ по прилож с учетом УКП" VARCHAR(500),
+    "Спец программа реализации" VARCHAR(2000), 
     "Внутренний код" VARCHAR(500),
     "ВИН" VARCHAR(500),
     "Вариант сборки" VARCHAR(500),
