@@ -126,6 +126,7 @@ def transform(data, execution_date, data_type):
             "ClassifierGBO",
             "ClassifierNumberOfSeats",
             "ClassifierEcologicalClass",
+            "CustomerFromDiscountSystem",
         ]
     elif data_type == 'orders':
         data.columns = [
