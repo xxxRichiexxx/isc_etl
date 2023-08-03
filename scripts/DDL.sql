@@ -214,6 +214,7 @@ CREATE TABLE sttgaz.dds_isc_dealer (
     "Дивизион" VARCHAR(50),  --"division"
     "Название" VARCHAR(2000), --"Recipient"
     "Полное название (организация)" VARCHAR(2000), --"RecipientFullName"
+    "Название из системы скидок" VARCHAR(1000),
     ts TIMESTAMP
 )
 ORDER BY id;
@@ -226,7 +227,6 @@ CREATE TABLE sttgaz.dds_isc_buyer (
     id AUTO_INCREMENT PRIMARY KEY,
     "Регион" VARCHAR(2000), --"BuyersRegion"
     "Название" VARCHAR(2000), --"FinalBuyer"
-    "Название из системы скидок" VARCHAR(1000),
     "ИНН" VARCHAR(500), --"BuyerINN"
     "ОКВЭД"  VARCHAR(500), --"okved"
     "Род занятий(сфера деятельности)" VARCHAR(500), --"LineOfWork"
