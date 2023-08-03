@@ -35,6 +35,7 @@ CREATE TABLE sttgaz.stage_isc_sales (
     "BalanceAtEndOfPeriod" INT,
     "DiscountCRMTotal" NUMERIC(11,2),
     "DiscountCRMDealer" NUMERIC(11,2),
+    "CustomerFromDiscountSystem" VARCHAR(1000),
     "load_date" DATE
 )
 ORDER BY load_date, Recipient, division, SalesTerritory
@@ -225,6 +226,7 @@ CREATE TABLE sttgaz.dds_isc_buyer (
     id AUTO_INCREMENT PRIMARY KEY,
     "Регион" VARCHAR(2000), --"BuyersRegion"
     "Название" VARCHAR(2000), --"FinalBuyer"
+    "Название из системы скидок" VARCHAR(1000),
     "ИНН" VARCHAR(500), --"BuyerINN"
     "ОКВЭД"  VARCHAR(500), --"okved"
     "Род занятий(сфера деятельности)" VARCHAR(500), --"LineOfWork"
