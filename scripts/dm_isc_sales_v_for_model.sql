@@ -7,7 +7,7 @@ WITH
             s."Дата продажи",
             c.id AS "Классификатор ID",
             s."Продано в розницу"
-        FROM (SELECT * FROM sttgaz.dds_isc_sales WHERE "Дата продажи" IS NOT NULL AND "Дата продажи" < '2022-07-01') AS s
+        FROM (SELECT * FROM sttgaz.dds_isc_sales WHERE "Дата продажи" IS NOT NULL AND "Дата продажи" < '2023-08-01') AS s
         LEFT JOIN sttgaz.dds_isc_dealer AS d
             ON s."Дилер ID" = d.id
         LEFT JOIN sttgaz.dds_isc_classifier_2 AS c
@@ -26,7 +26,7 @@ WITH
 	),
 	sq2 AS(
         SELECT DISTINCT DATE_TRUNC('DAY', ts)::date AS "Дата"
-        FROM (SELECT '2020-01-01 00:00:00'::TIMESTAMP as tm UNION ALL SELECT '2022-06-30 00:00:00'::TIMESTAMP) as t
+        FROM (SELECT '2020-01-01 00:00:00'::TIMESTAMP as tm UNION ALL SELECT '2023-07-31 00:00:00'::TIMESTAMP) as t
         TIMESERIES ts as '1 DAY' OVER (ORDER BY t.tm)
 	),
 	sq3 AS(
@@ -43,10 +43,9 @@ WITH
 			COALESCE(SUM("Продано в розницу"), 0)									AS "Количество"
 		FROM sq3
 		LEFT JOIN dds_data AS s
-			ON sq3."Дата" = s."Дата продажи" 
-			AND sq3."Дилер ID" = s."Дилер ID"
-			AND sq3."Территория продаж" = s."Территория продаж"
-			AND sq3."Классификатор ID" = s."Классификатор ID"
+			ON
+			HASH(sq3."Дата", sq3."Дилер ID", sq3."Территория продаж", sq3."Классификатор ID") =
+			HASH(s."Дата продажи", s."Дилер ID", s."Территория продаж", s."Классификатор ID")
 		GROUP BY
 			to_char(sq3."Дата",'DD.MM.YYYY'),
 			sq3."Дилер ID",
