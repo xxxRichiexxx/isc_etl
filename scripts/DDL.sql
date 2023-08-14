@@ -171,7 +171,7 @@ COMMENT ON table sttgaz.stage_isc_orders IS 'Заявки дилеров(кон�
 
 DROP TABLE IF EXISTS sttgaz.stage_isc_properties_guide;
 CREATE TABLE sttgaz.stage_isc_properties_guide (
-    "id" int,
+    "id" INT,
     "kind" VARCHAR(500),
     "name" VARCHAR(200),
     "load_date" DATE
@@ -180,11 +180,25 @@ ORDER BY "id"
 PARTITION BY DATE_TRUNC('month', "load_date");
 
 
-DROP TABLE IF EXISTS sttgaz.property_value_guide;
-CREATE TABLE sttgaz.property_value_guide (
-    "property_id" int,
-    "property_value_id" int,
+DROP TABLE IF EXISTS sttgaz.stage_isc_property_value_guide;
+CREATE TABLE sttgaz.stage_isc_property_value_guide (
+    "property_id" INT,
+    "property_value_id" INT,
     "property_value_name" VARCHAR(500),
+    "load_date" DATE
+)
+ORDER BY "property_id"
+PARTITION BY DATE_TRUNC('month', "load_date");
+
+
+DROP TABLE IF EXISTS sttgaz.stage_isc_gaz_property_binding_guide;
+CREATE TABLE sttgaz.stage_isc_gaz_property_binding_guide (
+    "property_id" INT,
+    "property_value_id" INT,
+    "property_value_name" VARCHAR(500),
+    "product_id" INT,
+    "product_id_KISU" INT,
+    "product_name" VARCHAR(500),      
     "load_date" DATE
 )
 ORDER BY "property_id"

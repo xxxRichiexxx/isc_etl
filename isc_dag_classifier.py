@@ -51,7 +51,7 @@ with DAG(
 
         tables = (
             'property_value_guide',
-            # 'СправочникПривязкаСвойствАвтобусы',
+            'gaz_property_binding_guide',
             # 'СправочникПривязкаСвойствАвтобусы',
             'properties_guide',
         )

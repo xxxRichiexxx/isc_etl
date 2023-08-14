@@ -163,6 +163,16 @@ def transform(data, execution_date, data_type):
             "property_value_name",
         ]
 
+    elif data_type == 'gaz_property_binding_guide':
+        data.columns = [
+            "property_id",
+            "property_value_id",
+            "property_value_name",
+            "product_id",
+            "product_id_KISU",
+            "product_name",
+        ]        
+
     data['load_date'] = execution_date.replace(day=1)
     return data
 
