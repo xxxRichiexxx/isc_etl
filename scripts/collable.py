@@ -14,7 +14,7 @@ def extract(source_engine, data_type, execution_date):
         .replace(day=1) - dt.timedelta(days=1)
 
     with open(
-        fr'/home/da/airflow/dags/isc_etl/scripts/stg_classifier.sql', 'r'
+        fr'/home/da/airflow/dags/isc_etl/scripts/stg_{data_type}.sql', 'r'
     ) as f:
         command = f.read().format(date_from, date_to, data_type)
 

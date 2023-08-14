@@ -1,1 +1,0 @@
-EXECUTE dbo.хп_{2};
