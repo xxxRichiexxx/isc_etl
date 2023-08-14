@@ -169,6 +169,19 @@ PARTITION BY DATE_TRUNC('month', "load_date");
 COMMENT ON table sttgaz.stage_isc_orders IS 'Заявки дилеров(контрактация)';
 
 
+DROP TABLE IF EXISTS sttgaz.stage_isc_properties_guide;
+CREATE TABLE sttgaz.stage_isc_properties_guide (
+    "id" int,
+    "kind" VARCHAR(500),
+    "name" VARCHAR(200),
+    "load_date" DATE
+)
+ORDER BY "id"
+PARTITION BY DATE_TRUNC('month', "load_date");
+
+
+
+
 ---------------DDS------------------------
 DROP TABLE IF EXISTS sttgaz.dds_isc_sales;
 CREATE TABLE sttgaz.dds_isc_sales (

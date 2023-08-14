@@ -12,11 +12,11 @@ def extract(source_engine, data_type, execution_date):
     date_from = execution_date.replace(day=1)
     date_to = (execution_date.replace(day=28) + dt.timedelta(days=4)) \
         .replace(day=1) - dt.timedelta(days=1)
-    
+
     with open(
-        fr'/home/da/airflow/dags/isc_etl/scripts/stg_{data_type}.sql', 'r'
+        fr'/home/da/airflow/dags/isc_etl/scripts/stg_classifier.sql', 'r'
     ) as f:
-        command = f.read().format(date_from, date_to) if data_type in ('sales', 'realization') else f.read().format(date_from)
+        command = f.read().format(date_from, date_to, data_type)
 
     print(command)
 
