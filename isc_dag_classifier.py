@@ -36,7 +36,7 @@ default_args = {
     'retry_delay': dt.timedelta(minutes=30),
 }
 with DAG(
-        'isc_orders',
+        'isc_classifier',
         default_args=default_args,
         description='Получение данных из ИСК. Классификатор.',
         start_date=dt.datetime(2023, 1, 1),
@@ -50,9 +50,9 @@ with DAG(
     with TaskGroup('Загрузка_данных_в_stage_слой') as data_to_stage:
 
         tables = {
-            'СправочникЗначенийСвойств',                
-            'СправочникПривязкаСвойствАвтобусы',
-            'СправочникПривязкаСвойствАвтобусы',
+            # 'СправочникЗначенийСвойств',                
+            # 'СправочникПривязкаСвойствАвтобусы',
+            # 'СправочникПривязкаСвойствАвтобусы',
             'СправочникСвойств',
         }
 
