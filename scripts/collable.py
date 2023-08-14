@@ -155,7 +155,6 @@ def transform(data, execution_date, data_type):
             "id", 
             "kind",
             "name",
-            "load_date",
         ]
 
     data['load_date'] = execution_date.replace(day=1)
