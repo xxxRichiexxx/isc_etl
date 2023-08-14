@@ -39,7 +39,7 @@ with DAG(
         'isc_classifier',
         default_args=default_args,
         description='Получение данных из ИСК. Классификатор.',
-        start_date=dt.datetime(2023, 1, 1),
+        start_date=dt.datetime(2023, 7, 1),
         schedule_interval='@daily',
         catchup=True,
         max_active_runs=1
