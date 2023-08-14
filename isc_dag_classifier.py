@@ -39,7 +39,7 @@ with DAG(
         'isc_classifier',
         default_args=default_args,
         description='Получение данных из ИСК. Классификатор.',
-        start_date=dt.datetime(2023, 7, 1),
+        start_date=dt.datetime(2023, 8, 13),
         schedule_interval='@daily',
         catchup=True,
         max_active_runs=1
@@ -50,7 +50,7 @@ with DAG(
     with TaskGroup('Загрузка_данных_в_stage_слой') as data_to_stage:
 
         tables = (
-            # 'СправочникЗначенийСвойств',                
+            'property_value_guide',
             # 'СправочникПривязкаСвойствАвтобусы',
             # 'СправочникПривязкаСвойствАвтобусы',
             'properties_guide',

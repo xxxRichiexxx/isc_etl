@@ -156,6 +156,12 @@ def transform(data, execution_date, data_type):
             "kind",
             "name",
         ]
+    elif data_type == 'property_value_guide':
+        data.columns = [
+            "property_id",
+            "property_value_id",
+            "property_value_name",
+        ]
 
     data['load_date'] = execution_date.replace(day=1)
     return data

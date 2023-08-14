@@ -180,6 +180,18 @@ ORDER BY "id"
 PARTITION BY DATE_TRUNC('month', "load_date");
 
 
+DROP TABLE IF EXISTS sttgaz.property_value_guide;
+CREATE TABLE sttgaz.property_value_guide (
+    "property_id" int,
+    "property_value_id" int,
+    "property_value_name" VARCHAR(500),
+    "load_date" DATE
+)
+ORDER BY "property_id"
+PARTITION BY DATE_TRUNC('month', "load_date");
+
+
+
 
 
 ---------------DDS------------------------
