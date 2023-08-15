@@ -171,7 +171,17 @@ def transform(data, execution_date, data_type):
             "product_id",
             "product_id_KISU",
             "product_name",
-        ]        
+        ]
+    elif data_type == 'nomenclature_guide':
+        data.columns = [
+            "Name",
+            "CDNuber",
+            "Code65",
+            "ManufactureModel",
+            "Status",
+            "Division",
+            "Manufacture",
+        ]       
 
     data['load_date'] = execution_date.replace(day=1)
     return data

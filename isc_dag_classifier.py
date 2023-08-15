@@ -53,6 +53,7 @@ with DAG(
             'property_value_guide',
             'gaz_property_binding_guide',
             # 'СправочникПривязкаСвойствАвтобусы',
+            'nomenclature_guide',
             'properties_guide',
         )
 

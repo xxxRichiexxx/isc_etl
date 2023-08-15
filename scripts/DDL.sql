@@ -205,6 +205,22 @@ ORDER BY "property_id"
 PARTITION BY DATE_TRUNC('month', "load_date");
 
 
+DROP TABLE IF EXISTS sttgaz.stage_isc_nomenclature_guide;
+CREATE TABLE sttgaz.stage_isc_nomenclature_guide (
+    "Name" VARCHAR(500),
+    "CDNuber" VARCHAR(500),
+    "Code65" VARCHAR(500),
+    "ManufactureModel" VARCHAR(500),
+    "Status" VARCHAR(500),
+    "Division" VARCHAR(500),
+    "Manufacture" VARCHAR(500),
+    "load_date" DATE
+)
+ORDER BY "Code65"
+PARTITION BY DATE_TRUNC('month', "load_date");
+
+
+
 
 
 
