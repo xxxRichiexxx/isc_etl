@@ -48,14 +48,8 @@ SELECT
     DATE_TRUNC('MONTH', load_date)              AS "Период"    
 FROM sq                         AS s
 LEFT JOIN sttgaz.dds_isc_dealer AS d
-    ON    d."Дивизион" = s.division
-    AND   d."Название" = s.Recipient
-    AND   d."Полное название (организация)" = s.RecipientFullName
+    ON    HASH(d."Дивизион", d."Название", d."Полное название (организация)") =
+          HASH(s.division, s.Recipient, s.RecipientFullName)
 LEFT JOIN sttgaz.dds_isc_buyer  AS b
-    ON    b."Регион" = s.BuyersRegion
-    AND   b."Название" = s.FinalBuyer
-    AND   b."ИНН" = s.BuyerINN
-    AND   b."ОКВЭД" = s.okved
-    AND   b."Род занятий(сфера деятельности)" = s.LineOfWork
-    AND   b."Сфера использования" = s.ScopeOfUse
-    AND   b."Холдинг" = s.clientsHolding;
+    ON    HASH(b."Регион", b."Название", b."ИНН", b."ОКВЭД", b."Род занятий(сфера деятельности)", b."Сфера использования", b."Холдинг") =
+          HASH(s.BuyersRegion, s.FinalBuyer, s.BuyerINN, s.okved, s.LineOfWork, s.ScopeOfUse, s.clientsHolding);
