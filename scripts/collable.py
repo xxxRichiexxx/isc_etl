@@ -31,6 +31,8 @@ def transform(data, execution_date, data_type):
     """Преобразование/трансформация данных."""
 
     print('ТРАНСФОРМАЦИЯ ДАННЫХ')
+    print(data)
+    
     if data_type == 'sales':
         data.columns = [
             "ModelYear",
@@ -181,7 +183,7 @@ def transform(data, execution_date, data_type):
             "Status",
             "Division",
             "Manufacture",
-        ]       
+        ]
 
     data['load_date'] = execution_date.replace(day=1)
     return data
