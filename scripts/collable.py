@@ -176,6 +176,7 @@ def transform(data, execution_date, data_type):
         ]
     elif data_type == 'nomenclature_guide':
         data.columns = [
+            "ProductID",
             "Name",
             "CDNuber",
             "Code65",
