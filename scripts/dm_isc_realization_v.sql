@@ -2,6 +2,7 @@ DROP VIEW IF EXISTS sttgaz.dm_isc_realization_v;
 
 CREATE OR REPLACE VIEW sttgaz.dm_isc_realization_v AS
 WITH 
+
 sq1 AS(
 	SELECT
 		DATE_TRUNC('month', "День документа")::date		AS "Месяц",
@@ -65,7 +66,14 @@ matrix AS(
 ),
 data AS (
 	SELECT
-		m."Месяц",
+		CASE 
+			WHEN m."Месяц" = '2022-01-01' 
+				 AND m."Направление реализации с учетом УКП" = 'УКП - Государственный сектор'
+				 AND m."Дивизион" = 'BUS'
+			THEN '2021-09-01'
+			ELSE
+				m."Месяц"
+		END AS "Месяц",
 		m."Направление реализации с учетом УКП",
 		m."Дивизион",
 		m."Производитель",
