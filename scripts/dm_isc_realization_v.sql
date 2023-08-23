@@ -1,3 +1,5 @@
+BEGIN TRANSACTION;
+
 DROP VIEW IF EXISTS sttgaz.dm_isc_realization_v;
 
 CREATE OR REPLACE VIEW sttgaz.dm_isc_realization_v AS
@@ -66,6 +68,8 @@ matrix AS(
 ),
 data AS (
 	SELECT
+		------ ниже делаем столбец для удовлетворения требований бизнеса:
+		-------некоторые реализации нужно отразить другой датой.
 		CASE 
 			WHEN m."Месяц" = '2022-01-01' 
 				 AND m."Направление реализации с учетом УКП" = 'УКП - Государственный сектор'
@@ -166,3 +170,5 @@ WHERE
 
 GRANT SELECT ON TABLE sttgaz.dm_isc_realization_v TO PowerBI_Integration WITH GRANT OPTION;
 COMMENT ON VIEW sttgaz.dm_isc_realization_v IS 'Реализация ТС. Витрина данных с посчитанными метриками.';
+
+COMMIT TRANSACTION;
