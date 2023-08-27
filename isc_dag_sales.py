@@ -39,8 +39,8 @@ with DAG(
         'isc_dealer_sales',
         default_args=default_args,
         description='Получение данных из ИСК. Продажи дилеров.',
-        start_date=dt.datetime(2020, 1, 1),
-        schedule_interval='@daily',
+        start_date=dt.datetime(2016, 1, 1),
+        schedule_interval='@monthly',
         catchup=True,
         max_active_runs=1
 ) as dag:
