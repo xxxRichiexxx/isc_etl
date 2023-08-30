@@ -12,13 +12,14 @@ sq1 AS(
 		"Направление реализации с учетом УКП"
 	FROM sttgaz.dm_erp_kit_sales_v 												AS s
 	LEFT JOIN sttgaz.stage_isc_nomenclature_guide								AS n
-		ON s.Контрагент = n.Manufacture 
+		ON s.Контрагент = n.Proizvoditel 
 			AND(
-				REGEXP_REPLACE(s."Чертежный номер комплекта", '^А', 'A') = REGEXP_REPLACE(n.ManufactureModel, '^А', 'A')
-				OR REGEXP_REPLACE(s."Чертежный номер комплекта", '^С', 'C') = REGEXP_REPLACE(n.ManufactureModel, '^С', 'C')
+				REGEXP_REPLACE(s."Чертежный номер комплекта", '^А', 'A') = REGEXP_REPLACE(n.ModelNaZavode, '^А', 'A')
+				OR REGEXP_REPLACE(s."Чертежный номер комплекта", '^С', 'C') = REGEXP_REPLACE(n.ModelNaZavode, '^С', 'C')
 				OR REPLACE(REGEXP_REPLACE(s."Чертежный номер комплекта", '^А', 'A'), '-00', '-') = REGEXP_REPLACE(n.Code65 , '^А', 'A')
 				OR REPLACE(REGEXP_REPLACE(s."Чертежный номер комплекта", '^С', 'C'), '-00', '-') = REGEXP_REPLACE(n.Code65 , '^С', 'C')
 			)
+			AND n.Division IN ('LCV', 'MCV', 'BUS')
 ),
 sq2 AS(
 	SELECT
@@ -115,48 +116,23 @@ COMMENT ON TABLE sttgaz.dm_TEST_isc_sales IS 'Продажи ТС из ИСК';
 
 DROP TABLE IF EXISTS sttgaz.dm_TEST_isc_balance;
 CREATE TABLE sttgaz.dm_TEST_isc_balance AS
-WITH  
- dds_data AS (
  	SELECT 
- 		s.Период,
+ 		(date_trunc('MONTH'::varchar(5), s.Период))::date   AS "Месяц",
  		d.Дивизион,
         s."Внутренний код",
---        s."Вариант сборки",
+        s."Вариант сборки",
         s."Направление реализации с учетом УКП",
-        s."Остатки на КП",
-        abs((s."Остатки на КП в пути" - s."Остатки на КП")) 			AS "Остатки в пути"
- 	FROM sttgaz.dds_isc_sales s 
+        SUM(s."Остатки на НП в пути")								AS "Остатки на НП",
+        SUM(s."Остатки на КП в пути")								AS "Остатки на КП"
+ 	FROM sttgaz.dds_isc_sales 								AS s 
  	LEFT  JOIN sttgaz.dds_isc_dealer d ON s."Дилер ID" = d.id
- )
- SELECT
- 		(date_trunc('MONTH'::varchar(5), s.Период))::date AS Период,
-        s.Дивизион,
+  	GROUP BY 
+  		(date_trunc('MONTH'::varchar(5), s.Период))::date,
+        d.Дивизион,
         s."Внутренний код",
---        s."Вариант сборки",
-        sum(s."Остатки на КП") AS Остатки,
-        s."Направление реализации с учетом УКП"
---        'Остатки на складе'::varchar(32) AS Признак
- FROM  dds_data s
- GROUP BY (date_trunc('MONTH'::varchar(5), s.Период))::date,
-          s.Дивизион,
-          s."Внутренний код",
-          s."Направление реализации с учетом УКП"
---          s."Вариант сборки"
- UNION ALL
- SELECT
- 		(date_trunc('MONTH'::varchar(5), s.Период))::date AS Период,
-        s.Дивизион,
-        s."Внутренний код",
---        s."Вариант сборки",
-        sum(s."Остатки в пути"),
-        s."Направление реализации с учетом УКП"
---'Остатки в пути'::varchar(26) AS Признак
- FROM  dds_data s
- GROUP BY (date_trunc('MONTH'::varchar(5), s.Период))::date,
-          s.Дивизион,
-          s."Внутренний код",
-          s."Направление реализации с учетом УКП";
---          s."Вариант сборки";
+        s."Вариант сборки",
+		s."Направление реализации с учетом УКП";
+
  
 GRANT SELECT ON TABLE sttgaz.dm_TEST_isc_balance TO PowerBI_Integration WITH GRANT OPTION;
 COMMENT ON TABLE sttgaz.dm_TEST_isc_balance IS 'Остатки готовых ТС из ИСК';         
