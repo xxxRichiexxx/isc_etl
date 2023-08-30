@@ -13,7 +13,7 @@ SELECT
 		ELSE 'Собранные ТС'
 	END 																					AS "Тип продукции" 
 FROM sttgaz.dm_isc_realization_v r
-UNION
+UNION ALL
 SELECT
 	*,
 	'Автокомплекты' 																		AS "Тип продукции" 
