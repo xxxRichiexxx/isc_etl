@@ -207,14 +207,21 @@ PARTITION BY DATE_TRUNC('month', "load_date");
 
 DROP TABLE IF EXISTS sttgaz.stage_isc_nomenclature_guide;
 CREATE TABLE sttgaz.stage_isc_nomenclature_guide (
-    "ProductID" INT,
+    "ID" INT,
     "Name" VARCHAR(500),
     "CDNuber" VARCHAR(500),
     "Code65" VARCHAR(500),
-    "ManufactureModel" VARCHAR(500),
+    "ModelNaZavode" VARCHAR(500),
     "Status" VARCHAR(500),
     "Division" VARCHAR(500),
-    "Manufacture" VARCHAR(500),
+    "Proizvoditel" VARCHAR(500),
+    "VidTovaraID" INT,
+    "VidTovara" VARCHAR(500),
+    "AutoKit" VARCHAR(500),
+    "KisuID" INT,
+    "AdabasID" INT,
+    "VidProductaID" INT,
+    "VidProducta" VARCHAR(500),    
     "load_date" DATE
 )
 ORDER BY "Code65"
