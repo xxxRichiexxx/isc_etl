@@ -19,7 +19,7 @@ CREATE TABLE sttgaz.dds_isc_nomenclature_guide (
     load_date date  
 );
 
-INSERT INTO sttgaz.dds_isc_nomenclature_guide;
+INSERT INTO sttgaz.dds_isc_nomenclature_guide
 SELECT 
     ID,
     Name,
