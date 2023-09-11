@@ -109,7 +109,7 @@ WITH
 			AND "Дата" = '{plan_date}'
 	)
 SELECT
-	COALESCE(m."Период", DATE_TRUNC('MONTH', sq7.Дата) 					AS "Период",
+	COALESCE(m."Период", DATE_TRUNC('MONTH', sq7.Дата))					AS "Период",
 	COALESCE(m."Направление реализации", sq7."Направление реализации") 	AS "Направление реализации",
 	COALESCE(m."Дилер", sq7."Дилер") 									AS "Дилер",
 	COALESCE(m."Производитель", sq7."Производитель")					AS "Производитель",
