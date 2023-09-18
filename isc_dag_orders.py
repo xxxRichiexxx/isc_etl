@@ -127,6 +127,7 @@ with DAG(
         )
 
         do_nothing = DummyOperator(task_id='do_nothing')
+
         monthly_tasks = PythonOperator(
             task_id='monthly_tasks',
             python_callable=contracting_calculate,
@@ -136,6 +137,7 @@ with DAG(
                 'monthly_tasks': True,
             },
         )
+        
         collapse = DummyOperator(
             task_id='collapse',
             trigger_rule='none_failed',

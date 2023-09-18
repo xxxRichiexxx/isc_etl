@@ -60,7 +60,7 @@ WITH
 	sq3 AS(
 		 SELECT
 			key,
-		 	SUM(Количество) 										AS "Факт выдачи ОР"
+		 	SUM(Количество) 									AS "Факт выдачи ОР"
 		 FROM base_query
 		 WHERE "Период контрактации VERTICA" = '{execution_date}' 
 			AND "Статус отгрузки"  IN ('Разнарядка', 'Отгрузка')
@@ -72,14 +72,14 @@ WITH
 		 	SUM(Количество) 									AS "Догруз на конец месяца"
 		 FROM base_query
 		 WHERE "Период контрактации VERTICA" <= '{execution_date}'
-		 	AND "Статус отгрузки"  IN ('Разнарядка','Отгрузка', 'Пусто', 'Приложение')
+		 	AND "Статус отгрузки"  IN ('Разнарядка', 'Пусто', 'Приложение')
 			AND TO_DATE("Месяц отгрузки", 'YYYY-MM') > '{execution_date}'
 		 GROUP BY key
 	),
 	sq5 AS(
 		 SELECT
 			key,
-		 	SUM(Количество) 											AS "Отгрузка в счет следующего месяца" 
+		 	SUM(Количество) 									AS "Отгрузка в счет следующего месяца" 
 		 FROM base_query
 		 WHERE "Период контрактации VERTICA" = '{next_month}' 
 		 	AND TO_DATE("Месяц отгрузки", 'YYYY-MM') = '{execution_date}'

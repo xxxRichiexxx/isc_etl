@@ -85,96 +85,17 @@ with DAG(
                 'delta_2': dt.timedelta(days=4),
             }
         )
-
-        # orders = VerticaOperator(
-        #     task_id='dds_isc_orders',
-        #     vertica_conn_id='vertica',
-        #     sql='scripts/dds_isc_orders.sql',
-        #     params={
-        #         'delta_1': dt.timedelta(days=1),
-        #         'delta_2': dt.timedelta(days=248),
-        #     }
-        # )
-
-        # counteragent >> orders
+        
 
     with TaskGroup('Загрузка_данных_в_dm_слой') as data_to_dm:
 
         pass
 
-        # dm_isc_orders_v = VerticaOperator(
-        #     task_id='dm_isc_orders_v',
-        #     vertica_conn_id='vertica',
-        #     sql='scripts/dm_isc_orders_v.sql',
-        # )
-        
-        # dm_isc_contracting_plan = VerticaOperator(
-        #     task_id='dm_isc_contracting_plan',
-        #     vertica_conn_id='vertica',
-        #     sql='scripts/dm_isc_contracting_plan.sql',
-        #     params={
-        #         'delta_1': dt.timedelta(days=1),
-        #         'delta_2': dt.timedelta(days=4),
-        #     }
-        # )
-
-        # dm_isc_contracting = PythonOperator(
-        #     task_id=f'dm_isc_contracting',
-        #     python_callable=contracting_calculate,
-        #     op_kwargs={
-        #         'data_type': 'contracting',
-        #         'dwh_engine': dwh_engine,
-        #     },
-        # )
-
-        # date_check = BranchPythonOperator(
-        #     task_id='date_check',
-        #     python_callable=date_check,
-        #     op_kwargs={
-        #         'taskgroup': 'Загрузка_данных_в_dm_слой',
-        #         },
-        # )
-
-        # do_nothing = DummyOperator(task_id='do_nothing')
-        # monthly_tasks = PythonOperator(
-        #     task_id='monthly_tasks',
-        #     python_callable=contracting_calculate,
-        #     op_kwargs={
-        #         'data_type': 'contracting',
-        #         'dwh_engine': dwh_engine,
-        #         'monthly_tasks': True,
-        #     },
-        # )
-        # collapse = DummyOperator(
-        #     task_id='collapse',
-        #     trigger_rule='none_failed',
-        # )
-
-        # [dm_isc_orders_v, dm_isc_contracting_plan] >> dm_isc_contracting >> date_check >> [monthly_tasks, do_nothing] >> collapse
         
     with TaskGroup('Проверки') as data_checks:
 
         pass
 
-        # dm_isc_orders_v_check = VerticaOperator(
-        #             task_id='dm_isc_orders_v_check',
-        #             vertica_conn_id='vertica',
-        #             sql='scripts/dm_isc_orders_v_check.sql',
-        #             params={
-        #                 'dm': 'dm_isc_orders_v',
-        #             }
-        #         )
-
-        # dm_isc_contracting_check = VerticaOperator(
-        #             task_id='dm_isc_contracting_check',
-        #             vertica_conn_id='vertica',
-        #             sql='scripts/dm_isc_contracting_check.sql',
-        #             params={
-        #                 'dm': 'dm_isc_contracting',
-        #             }
-        #         )
-        
-        # [dm_isc_orders_v_check, dm_isc_contracting_check]
 
     end = DummyOperator(task_id='Конец')
 
