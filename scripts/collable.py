@@ -150,6 +150,7 @@ def transform(data, execution_date, data_type):
             "ProductType",
             "Contract",
             "ShippingWarehouse",
+            "ShipmentDate",
             "quantity",            
         ]
     elif data_type == 'properties_guide':
