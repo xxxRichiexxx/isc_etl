@@ -161,6 +161,7 @@ CREATE TABLE sttgaz.stage_isc_orders (
     "Contract" VARCHAR(500),
     "ShippingWarehouse" VARCHAR(200),
     "quantity" INT,
+    "ShipmentDate" DATE,
     "load_date" DATE
 )
 ORDER BY "DirectionOfImplementation", "Buyer"
