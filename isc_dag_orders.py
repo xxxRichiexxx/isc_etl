@@ -9,9 +9,8 @@ from airflow.utils.task_group import TaskGroup
 from airflow.hooks.base import BaseHook
 from airflow.operators.dummy import DummyOperator
 from airflow.contrib.operators.vertica_operator import VerticaOperator
-from airflow.operators.python import BranchPythonOperator
 
-from isc_etl.scripts.collable import etl, date_check, contracting_calculate
+from isc_etl.scripts.collable import etl, contracting_calculate
 
 
 source_con = BaseHook.get_connection('isc')
@@ -40,7 +39,7 @@ with DAG(
         default_args=default_args,
         description='Получение данных из ИСК. Заявки дилеров',
         start_date=dt.datetime(2023, 1, 1),
-        schedule_interval='@monthly',
+        schedule_interval='@daily',
         catchup=True,
         max_active_runs=1
 ) as dag:
