@@ -75,7 +75,7 @@ WITH
 		 FROM base_query
 		 WHERE "Период контрактации VERTICA" <= '{execution_date}'
 		 	AND "Статус отгрузки"  IN ('Разнарядка', 'Отгрузка', 'Пусто', 'Приложение')
-			AND "Дата отгрузки" IS NULL 
+			AND ("Дата отгрузки" IS NULL OR DATE_TRUNC('MONTH', "Дата отгрузки") > '{execution_date}')
 			AND  TO_DATE("Месяц отгрузки", 'YYYY-MM') > '{execution_date}'		 ------ Дата отгрузки вместо месяца отгрузки
 		 GROUP BY key
 	),
