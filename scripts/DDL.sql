@@ -507,6 +507,7 @@ CREATE TABLE sttgaz.dds_isc_orders (
     "Статус" VARCHAR(500),                                              ------"Status"
     "Период контрактации ИСК" VARCHAR(200),                             ----"ContractPeriod"
     "Месяц отгрузки" VARCHAR(200),                                      ----"ShipmentMonth"
+    "Дата отгрузки" DATE,                                                ----"ShipmentDate"
     "Месяц производства" VARCHAR(200),                                  ----"ProductionMonth"
     "Город" VARCHAR(200),                                               ---"City"
     "Производитель" VARCHAR(200),                                       ----"Manufacturer"

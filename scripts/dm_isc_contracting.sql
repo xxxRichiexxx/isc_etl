@@ -39,7 +39,7 @@ WITH
 			SUM(Количество) 									AS "Догруз на начало месяца"
 		FROM base_query
 		WHERE "Статус отгрузки"  IN ('Разнарядка', 'Отгрузка')
-			AND TO_DATE("Месяц отгрузки", 'YYYY-MM') >= '{execution_date}'
+			AND DATE_TRUNC('MONTH', "Дата отгрузки") >= '{execution_date}'  ------ Дата отгрузки вместо месяца отгрузки
 			AND "Период контрактации VERTICA"  < '{execution_date}'  
 		GROUP BY key		
 	),
@@ -72,8 +72,8 @@ WITH
 		 	SUM(Количество) 									AS "Догруз на конец месяца"
 		 FROM base_query
 		 WHERE "Период контрактации VERTICA" <= '{execution_date}'
-		 	AND "Статус отгрузки"  IN ('Разнарядка', 'Отгрузка', 'Пусто', 'Приложение')
-			AND TO_DATE("Месяц отгрузки", 'YYYY-MM') > '{execution_date}'
+		 	AND "Статус отгрузки"  IN ('Разнарядка', 'Отгрузка', 'Пусто', 'Приложение')   
+			AND  DATE_TRUNC('MONTH', "Дата отгрузки") > '{execution_date}'		 ------ Дата отгрузки вместо месяца отгрузки
 		 GROUP BY key
 	),
 	sq5 AS(
@@ -82,7 +82,7 @@ WITH
 		 	SUM(Количество) 									AS "Отгрузка в счет следующего месяца" 
 		 FROM base_query
 		 WHERE "Период контрактации VERTICA" = '{next_month}' 
-		 	AND TO_DATE("Месяц отгрузки", 'YYYY-MM') = '{execution_date}'
+		 	AND DATE_TRUNC('MONTH', "Дата отгрузки") = '{execution_date}'		------ Дата отгрузки вместо месяца отгрузки
 			AND "Статус отгрузки"  IN ('Отгрузка')
 		GROUP BY key
 	),
@@ -92,7 +92,7 @@ WITH
 		 	SUM(Количество) 									AS "Отгрузка в предыдущем месяце из плана текущего месяца" 
 		 FROM base_query
 		 WHERE "Период контрактации VERTICA" = '{execution_date}'
-		 	AND TO_DATE("Месяц отгрузки", 'YYYY-MM') = '{previous_month}' 
+		 	AND DATE_TRUNC('MONTH', "Дата отгрузки") = '{previous_month}' 
 			AND "Статус отгрузки"  IN ('Отгрузка')
 		GROUP BY key
 	),

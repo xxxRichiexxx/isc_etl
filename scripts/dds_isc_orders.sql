@@ -18,6 +18,7 @@ INSERT INTO sttgaz.dds_isc_orders
         "Status",
         "ContractPeriod",
         "ShipmentMonth",
+        "ShipmentDate",
         "ProductionMonth",
         "City",
         "Manufacturer",
