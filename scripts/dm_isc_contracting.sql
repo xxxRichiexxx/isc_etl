@@ -39,7 +39,7 @@ WITH
 			SUM(Количество) 									AS "Догруз на начало месяца"
 		FROM base_query
 		WHERE "Статус отгрузки"  IN ('Разнарядка', 'Отгрузка')
-			-- AND "Дата отгрузки" IS NULL 
+			AND ("Дата отгрузки" IS NULL OR "Дата отгрузки" > '{execution_date}')
 			AND TO_DATE("Месяц отгрузки", 'YYYY-MM') >= '{execution_date}'
 			-- AND COALESCE(DATE_TRUNC('MONTH', "Дата отгрузки"), TO_DATE("Месяц отгрузки", 'YYYY-MM')) >= '{execution_date}'  ------ Дата отгрузки вместо месяца отгрузки
 			AND "Период контрактации VERTICA"  < '{execution_date}'  
