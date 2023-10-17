@@ -39,7 +39,7 @@ WITH
 			SUM(Количество) 									AS "Догруз на начало месяца"
 		FROM base_query
 		WHERE "Статус отгрузки"  IN ('Разнарядка', 'Отгрузка')
-			AND ("Дата отгрузки" IS NULL OR "Дата отгрузки" > '{execution_date}') ------ Дата отгрузки вместо месяца отгрузки
+			AND ("Дата отгрузки" IS NULL OR "Дата отгрузки" >= '{execution_date}') ------ Дата отгрузки вместо месяца отгрузки
 			AND TO_DATE("Месяц отгрузки", 'YYYY-MM') >= '{execution_date}'
 			AND "Период контрактации VERTICA"  < '{execution_date}'  
 		GROUP BY key		
