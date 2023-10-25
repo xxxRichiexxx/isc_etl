@@ -36,6 +36,18 @@ CREATE TABLE sttgaz.stage_isc_sales (
     "DiscountCRMTotal" NUMERIC(11,2),
     "DiscountCRMDealer" NUMERIC(11,2),
     "CustomerFromDiscountSystem" VARCHAR(1000),
+    "StoyankaID" INT,
+    "Stoyanka"  VARCHAR(1000),
+    "StoyankaCityID"  INT,
+    "StoyankaCity"  VARCHAR(1000),
+    "NomenclatureID" INT,
+    "ClassifierCabType" VARCHAR(500),
+    "ClassifierDrive" VARCHAR(500),
+    "ClassifierDetailedByDivision" VARCHAR(500),
+    "ClassifierProductType" VARCHAR(500),
+    "ClassifierGBO" VARCHAR(500),
+    "ClassifierNumberOfSeats" VARCHAR(100),
+    "ClassifierEcologicalClass" INT,
     "load_date" DATE
 )
 ORDER BY load_date, Recipient, division, SalesTerritory

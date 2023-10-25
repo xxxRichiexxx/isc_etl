@@ -70,6 +70,18 @@ def transform(data, execution_date, data_type):
             "DiscountCRMTotal",
             "DiscountCRMDealer",
             "CustomerFromDiscountSystem",
+            "StoyankaID",
+            "Stoyanka",
+            "StoyankaCityID",
+            "StoyankaCity",
+            "NomenclatureID",
+            "ClassifierCabType",
+            "ClassifierDrive",
+            "ClassifierDetailedByDivision",
+            "ClassifierProductType",
+            "ClassifierGBO",
+            "ClassifierNumberOfSeats",
+            "ClassifierEcologicalClass",
         ]
     elif data_type == 'realization':
         data.columns = [
