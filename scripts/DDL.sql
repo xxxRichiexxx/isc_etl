@@ -287,10 +287,10 @@ CREATE TABLE sttgaz.dds_isc_sales (
     id AUTO_INCREMENT PRIMARY KEY,
     "Модельный год" INT,  --"ModelYear"
     "ВИН" VARCHAR(500),  --"vin"
-    "Дилер ID" INT,                         
+    "Дилер ID" INT REFERENCES sttgaz.dds_isc_dealer(id),                         
     "Внутренний код" VARCHAR(500), --"code"
     "Территория продаж" VARCHAR(2000), --"SalesTerritory"
-    "Покупатель ID" INT,                                                                     
+    "Покупатель ID" INT REFERENCES sttgaz.dds_isc_buyer(id),                                                                     
     "Спец программа реализации" VARCHAR(2000), --"ImplementationProgram"
     "Дата отгрузки" DATE, --"ShipmentDate"
     "Дата продажи" DATE, --"DateOfSale"

@@ -30,5 +30,5 @@ WHERE DATE_TRUNC('MONTH', load_date) IN(
 				'{{(execution_date.date().replace(day=1) - params.delta_1).replace(day=1)}}'
             )
     AND HASH("RecipientID", "Recipient", "RecipientFullName", "CustomerFromDiscountSystem", 
-             "StoyankaID", "Stoyanka", "StoyankaCityID", "StoyankaCity",)
+             "StoyankaID", "Stoyanka", "StoyankaCityID", "StoyankaCity")
         NOT IN (SELECT * FROM sq); 
