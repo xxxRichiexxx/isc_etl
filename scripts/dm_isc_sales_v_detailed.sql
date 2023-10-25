@@ -2,7 +2,7 @@ CREATE OR REPLACE VIEW sttgaz.dm_isc_sales_v_detailed AS
 WITH
 	dds_data AS(
 		SELECT
-        	d."Дивизион",
+        	s."Дивизион",
             d."Название" 															AS "Дилер",
             s."Территория продаж",
             s."Дата продажи",

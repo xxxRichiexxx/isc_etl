@@ -10,7 +10,10 @@ INSERT INTO sttgaz.dds_isc_sales
  "Продано в розницу", "Продано физ лицам", "Остатки на НП в пути", "Остатки на КП в пути",
  "Номерной товар ИД", "Направление реализации по приложению", "Направление реализации с учетом УКП",
  "Направление реализации площадки", "Вариант сборки", "Вариант сборки свернутый", "Двигатель",
- "Остатки на НП", "Остатки на КП", "Скидка CRM ИТОГО", "Скидка CRM дилера", "Период")
+ "Остатки на НП", "Остатки на КП", "Скидка CRM ИТОГО", "Скидка CRM дилера", 
+ "Номенклатура ID", "Дивизион", "Классификатор дивизион тип кабины", "Классификатор привод",
+ "Классификатор подробно по дивизионам 22", "Классификатор вид товара", "Классификатор ГБО",
+ "Классификатор число посадочных мест", "Классификатор экологический класс", "Период")
 WITH sq AS(
     SELECT *
     FROM sttgaz.stage_isc_sales
@@ -45,11 +48,20 @@ SELECT
     "BalanceAtEndOfPeriod"                      AS "Остатки на КП",
     "DiscountCRMTotal",
     "DiscountCRMDealer",
+    "NomenclatureID",
+    "division",
+    "ClassifierCabType",
+    "ClassifierDrive",
+    "ClassifierDetailedByDivision",
+    "ClassifierProductType",
+    "ClassifierGBO",
+    "ClassifierNumberOfSeats",
+    "ClassifierEcologicalClass",
     DATE_TRUNC('MONTH', load_date)              AS "Период"    
 FROM sq                         AS s
 LEFT JOIN sttgaz.dds_isc_dealer AS d
-    ON    HASH(d."ИСК ID", d."Дивизион", d."Название", d."Полное название (организация)", d."Название из системы скидок") =
-          HASH(s."RecipientID", s."division", s."Recipient", s."RecipientFullName", s."CustomerFromDiscountSystem")
+    ON    HASH(d."ИСК ID", d."Название", d."Полное название (организация)", d."Название из системы скидок", d."Стоянка ID", d."Стоянка", d."Город стоянки ID", d."Город стоянки") =
+          HASH(s."RecipientID", s."Recipient", s."RecipientFullName", s."CustomerFromDiscountSystem", s."StoyankaID", s."Stoyanka", s."StoyankaCityID", s."StoyankaCity")
 LEFT JOIN sttgaz.dds_isc_buyer  AS b
     ON    HASH(b."Регион", b."Название", b."ИНН", b."ОКВЭД", b."Род занятий(сфера деятельности)", b."Сфера использования", b."Холдинг") =
           HASH(s.BuyersRegion, s.FinalBuyer, s.BuyerINN, s.okved, s.LineOfWork, s.ScopeOfUse, s.clientsHolding);

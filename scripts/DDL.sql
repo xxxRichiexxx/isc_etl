@@ -247,6 +247,42 @@ PARTITION BY DATE_TRUNC('month', "load_date");
 
 ---------------DDS------------------------
 DROP TABLE IF EXISTS sttgaz.dds_isc_sales;
+DROP TABLE IF EXISTS sttgaz.dds_isc_dealer;
+DROP TABLE IF EXISTS sttgaz.dds_isc_buyer;
+
+CREATE TABLE sttgaz.dds_isc_dealer (
+    id AUTO_INCREMENT PRIMARY KEY,
+    "ИСК ID" INT,                         
+    "Название" VARCHAR(2000), --"Recipient"
+    "Полное название (организация)" VARCHAR(2000), --"RecipientFullName"
+    "Название из системы скидок" VARCHAR(1000),
+    "Стоянка ID" INT,
+    "Стоянка"  VARCHAR(1000),
+    "Город стоянки ID"  INT,
+    "Город стоянки"  VARCHAR(1000),
+    ts TIMESTAMP
+)
+ORDER BY id;
+
+COMMENT ON TABLE sttgaz.dds_isc_dealer IS 'Справочник дилерских площадок. Связан с "Продажи дилнров".';
+
+CREATE TABLE sttgaz.dds_isc_buyer (
+    id AUTO_INCREMENT PRIMARY KEY,
+    "Регион" VARCHAR(2000), --"BuyersRegion"
+    "Название" VARCHAR(2000), --"FinalBuyer"
+    "ИНН" VARCHAR(500), --"BuyerINN"
+    "ОКВЭД"  VARCHAR(500), --"okved"
+    "Род занятий(сфера деятельности)" VARCHAR(500), --"LineOfWork"
+    "Сфера использования" VARCHAR(2000), --"ScopeOfUse"
+    "Холдинг" VARCHAR(500),
+    ts TIMESTAMP
+)
+ORDER BY id;
+
+COMMENT ON TABLE sttgaz.dds_isc_buyer IS 'Справочник конечных покупателей. Связан с "Продажи дилнров".';
+
+
+
 CREATE TABLE sttgaz.dds_isc_sales (
     id AUTO_INCREMENT PRIMARY KEY,
     "Модельный год" INT,  --"ModelYear"
@@ -274,6 +310,15 @@ CREATE TABLE sttgaz.dds_isc_sales (
     "Остатки на КП" INT,
     "Скидка CRM ИТОГО" NUMERIC(11,2),
     "Скидка CRM дилера" NUMERIC(11,2),
+    "Номенклатура ID" INT,
+    "Дивизион" VARCHAR(50),  --"division"
+	"Классификатор дивизион тип кабины" VARCHAR(500),
+	"Классификатор привод" VARCHAR(500),
+	"Классификатор подробно по дивизионам 22" VARCHAR(500),
+	"Классификатор вид товара" VARCHAR(500),
+	"Классификатор ГБО" VARCHAR(500),
+	"Классификатор число посадочных мест" VARCHAR(500),
+	"Классификатор экологический класс" INT,
     "Период" DATE
 )
 ORDER BY "Период", "Дилер ID", "Покупатель ID"
@@ -281,38 +326,6 @@ PARTITION BY DATE_TRUNC('MONTH', "Период");
 
 COMMENT ON TABLE sttgaz.dds_isc_sales IS 'Продажи ТС дилеров';
 
-
-
-DROP TABLE IF EXISTS sttgaz.dds_isc_dealer;
-CREATE TABLE sttgaz.dds_isc_dealer (
-    id AUTO_INCREMENT PRIMARY KEY,
-    "ИСК ID" INT,                         
-    "Дивизион" VARCHAR(50),  --"division"
-    "Название" VARCHAR(2000), --"Recipient"
-    "Полное название (организация)" VARCHAR(2000), --"RecipientFullName"
-    "Название из системы скидок" VARCHAR(1000),
-    ts TIMESTAMP
-)
-ORDER BY id;
-
-COMMENT ON TABLE sttgaz.dds_isc_dealer IS 'Справочник дилерских площадок. Связан с "Продажи дилнров".';
-
-
-DROP TABLE IF EXISTS sttgaz.dds_isc_buyer;
-CREATE TABLE sttgaz.dds_isc_buyer (
-    id AUTO_INCREMENT PRIMARY KEY,
-    "Регион" VARCHAR(2000), --"BuyersRegion"
-    "Название" VARCHAR(2000), --"FinalBuyer"
-    "ИНН" VARCHAR(500), --"BuyerINN"
-    "ОКВЭД"  VARCHAR(500), --"okved"
-    "Род занятий(сфера деятельности)" VARCHAR(500), --"LineOfWork"
-    "Сфера использования" VARCHAR(2000), --"ScopeOfUse"
-    "Холдинг" VARCHAR(500),
-    ts TIMESTAMP
-)
-ORDER BY id;
-
-COMMENT ON TABLE sttgaz.dds_isc_buyer IS 'Справочник конечных покупателей. Связан с "Продажи дилнров".';
 
 
 DROP TABLE IF EXISTS sttgaz.dds_isc_classifier;

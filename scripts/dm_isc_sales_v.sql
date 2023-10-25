@@ -2,7 +2,7 @@ CREATE OR REPLACE VIEW sttgaz.dm_isc_sales_v AS
 WITH
     dds_data AS(
         SELECT
-            d."Дивизион",
+            s."Дивизион",
             d."Название" AS 'Дилер',
 			s."Внутренний код", 
             s."Территория продаж",
@@ -18,7 +18,7 @@ WITH
         LEFT JOIN sttgaz.dds_isc_buyer  AS b 
             ON s."Покупатель ID" = b.id
         GROUP BY 
-        	d."Дивизион",
+        	s."Дивизион",
             d."Название",
 			s."Внутренний код", 
             s."Территория продаж",
