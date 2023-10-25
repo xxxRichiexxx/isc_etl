@@ -14,7 +14,7 @@ WITH
         	ON s."Внутренний код" = c."Внутренний код"
         LEFT JOIN sttgaz.dds_isc_sales_territory AS t
         	ON s."Территория продаж" = t.name
-		WHERE d."Дивизион" IN ('LCV', 'MCV')
+		WHERE s."Дивизион" IN ('LCV', 'MCV')
 			AND s."Направление реализации по приложению" LIKE 'РФ-%'
     ),
 	sq1 AS(
