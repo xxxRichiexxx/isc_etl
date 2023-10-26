@@ -177,7 +177,7 @@ with DAG(
         dm_isc_balance = VerticaOperator(
                     task_id='dm_isc_balance',
                     vertica_conn_id='vertica',
-                    sql='scripts/dm_isc_balance.sql',
+                    sql='scripts/dm_isc_balance_v.sql',
                 )
 
         [dm_isc_sales_v, dm_isc_dealer_sales_RF, dm_isc_sales_RF_CIS,
