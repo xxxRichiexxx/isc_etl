@@ -167,9 +167,22 @@ with DAG(
                     vertica_conn_id='vertica',
                     sql='scripts/dm_isc_sales_v_detailed.sql',
                 )
+        
+        dm_isc_dealer_sales_w_stoianka_v = VerticaOperator(
+                    task_id='dm_isc_dealer_sales_w_stoianka_v',
+                    vertica_conn_id='vertica',
+                    sql='scripts/dm_isc_dealer_sales_w_stoianka_v.sql',
+                )
+        
+        dm_isc_balance = VerticaOperator(
+                    task_id='dm_isc_balance',
+                    vertica_conn_id='vertica',
+                    sql='scripts/dm_isc_balance.sql',
+                )
 
-        [dm_isc_sales_v, dm_isc_dealer_sales_RF,
-         dm_isc_sales_v_for_model, dm_isc_sales_v_detailed]
+        [dm_isc_sales_v, dm_isc_dealer_sales_RF, dm_isc_sales_RF_CIS,
+         dm_isc_sales_v_for_model, dm_isc_sales_v_detailed, dm_isc_dealer_sales_w_stoianka_v,
+         dm_isc_balance]
 
     with TaskGroup('Проверки') as data_checks:
 
