@@ -39,11 +39,11 @@ def transform(data, execution_date, data_type):
             "vin",
             "division",
             "code",
-            "SalesTerritory",
+            "SalesTerritory",  ######################################  Территория площадки
             "RecipientID",
             "Recipient",
             "RecipientFullName",
-            "BuyersRegion",
+            "BuyersRegion", ########################### Территория покупателя
             "FinalBuyer",
             "BuyerINN",
             "okved",
