@@ -1,4 +1,3 @@
-	
 CREATE OR REPLACE VIEW sttgaz.dm_isc_dealer_sales_w_stoianka_v AS
 WITH data AS (
 	SELECT
@@ -222,6 +221,10 @@ WITH data AS (
 		ON s."Дилер ID" = d.id
 	LEFT JOIN sttgaz.dds_isc_buyer b
 		ON s."Покупатель ID" = b.id
+	WHERE ("Направление реализации с учетом УКП" LIKE 'РФ-%'
+			OR "Направление реализации с учетом УКП" = 'Товарный'
+			OR "Направление реализации с учетом УКП" = 'УКП - Московский регион')
+			AND s.Дивизион IN ('LCV', 'MCV')
 	GROUP BY 
 		s.Период 
 		,d."ИСК ID"
