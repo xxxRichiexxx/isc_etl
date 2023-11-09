@@ -187,13 +187,13 @@ with DAG(
     with TaskGroup('Проверки') as data_checks:
 
         dm_isc_sales_v_check = VerticaOperator(
-                    task_id='dm_isc_sales_v_check',
-                    vertica_conn_id='vertica',
-                    sql='scripts/dm_isc_sales_v_check.sql',
-                    params={
-                        'dm': 'dm_isc_sales_v',
-                    }
-                )
+            task_id='dm_isc_sales_v_check',
+            vertica_conn_id='vertica',
+            sql='scripts/dm_isc_sales_v_check.sql',
+            params={
+                'dm': 'dm_isc_sales_v',
+            }
+        )
 
         marts = ('dm_isc_dealer_sales_RF', 'dm_isc_sales_RF_CIS')
         check_tasks = []
@@ -209,8 +209,23 @@ with DAG(
                     }
                 )
             )
+        
+        dm_isc_dealer_sales_w_stoianka_check_1 = VerticaOperator(
+            task_id='dm_isc_dealer_sales_w_stoianka_check_1',
+            vertica_conn_id='vertica',
+            sql='scripts/dm_isc_dealer_sales_w_stoianka_check_1.sql',
+        )
 
-        [dm_isc_sales_v_check] + check_tasks
+        dm_isc_dealer_sales_w_stoianka_check_2 = VerticaOperator(
+            task_id='dm_isc_dealer_sales_w_stoianka_check_2',
+            vertica_conn_id='vertica',
+            sql='scripts/dm_isc_dealer_sales_w_stoianka_check_2.sql',
+        )
+
+        [dm_isc_sales_v_check,
+         dm_isc_dealer_sales_w_stoianka_check_1,
+         dm_isc_dealer_sales_w_stoianka_check_2,
+        ] + check_tasks
 
     end = DummyOperator(task_id='Конец')
 
