@@ -4,13 +4,13 @@ WITH
 		SELECT 
 			SUM(s1."Продано в розницу")
 		FROM sttgaz.dm_isc_dealer_sales_w_stoianka_v s1
-		WHERE s1.Месяц = '{{execution_date}}'	
+		WHERE s1.Месяц = '{{execution_date.date().replace(day=1)}}'	
 	),
 	sq2 AS(
 		SELECT 
 			SUM(s2."Розница ТП")
 		FROM sttgaz.dm_isc_dealer_sales_RF s2
-		WHERE s2.Месяц = '{{execution_date}}'
+		WHERE s2.Месяц = '{{execution_date.date().replace(day=1)}}'
 	)
 SELECT
 	'dm_isc_dealer_sales_w_stoianka'
