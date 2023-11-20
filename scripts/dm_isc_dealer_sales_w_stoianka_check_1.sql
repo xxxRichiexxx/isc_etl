@@ -14,6 +14,6 @@ WITH
 	)
 SELECT
 	'dm_isc_dealer_sales_w_stoianka'
-	,'dm_isc_dealer_sales_w_stoianka and dm_isc_dealer_sales_RF compare: ' || (SELECT * FROM sq1) || '=' || (SELECT * FROM sq2)
+	,'dm_isc_dealer_sales_w_stoianka and dm_isc_dealer_sales_RF compare'
     ,'{{execution_date}}'
 	,(SELECT * FROM sq1) = (SELECT * FROM sq2);
