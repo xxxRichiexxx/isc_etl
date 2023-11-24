@@ -116,8 +116,9 @@ WITH
 		 	SUM(Количество) 									AS "Прогноз до конца недели" 
 		 FROM base_query
 		 WHERE "Период контрактации VERTICA" = DATE_TRUNC('MONTH', NOW())::date
+		 	AND (o."Статус отгрузки" = 'Приложение' OR o."Статус отгрузки" IS NULL)
 		 	AND DATE_TRUNC('week', NOW()) <= ПрогнозДатаВыдачиОР
-			AND ПрогнозДатаВыдачиОР <= DATE_TRUNC('week', NOW()) + INTERVAL '6 day'
+			AND ПрогнозДатаВыдачиОР <= DATE_TRUNC('week', NOW()) + INTERVAL '5 day'
 		GROUP BY key
 	),
 	sq9 AS(
@@ -126,7 +127,8 @@ WITH
 		 	SUM(Количество) 									AS "Прогноз до конца месяца" 
 		 FROM base_query
 		 WHERE "Период контрактации VERTICA" = DATE_TRUNC('MONTH', NOW())::date
-			AND (ПрогнозДатаВыдачиОР >= DATE_TRUNC('week', NOW()) + INTERVAL '6 day'
+		 	AND (o."Статус отгрузки" = 'Приложение' OR o."Статус отгрузки" IS NULL)
+			AND (ПрогнозДатаВыдачиОР >= DATE_TRUNC('week', NOW()) + INTERVAL '7 day'
 				 OR ПрогнозДатаВыдачиОР IS NULL)
 		GROUP BY key
 	)
