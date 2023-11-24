@@ -115,9 +115,9 @@ WITH
 			key,
 		 	SUM(Количество) 									AS "Прогноз до конца недели" 
 		 FROM base_query
-		 WHERE "Период контрактации VERTICA" = DATE_TRUNC('MONTH', TIMESTAMP NOW())
-		 	AND DATE_TRUNC('week', TIMESTAMP NOW()) <= ПрогнозДатаВыдачиОР
-			AND ПрогнозДатаВыдачиОР <= DATE_TRUNC('week', TIMESTAMP NOW()) + INTERVAL '6 day'
+		 WHERE "Период контрактации VERTICA" = DATE_TRUNC('MONTH', NOW())
+		 	AND DATE_TRUNC('week', NOW()) <= ПрогнозДатаВыдачиОР
+			AND ПрогнозДатаВыдачиОР <= DATE_TRUNC('week', NOW()) + INTERVAL '6 day'
 		GROUP BY key
 	),
 	sq9 AS(
@@ -125,11 +125,11 @@ WITH
 			key,
 		 	SUM(Количество) 									AS "Прогноз до конца месяца" 
 		 FROM base_query
-		 WHERE "Период контрактации VERTICA" = DATE_TRUNC('MONTH', TIMESTAMP NOW())
-			AND (ПрогнозДатаВыдачиОР >= DATE_TRUNC('week', TIMESTAMP NOW()) + INTERVAL '7 day'
+		 WHERE "Период контрактации VERTICA" = DATE_TRUNC('MONTH', NOW())
+			AND (ПрогнозДатаВыдачиОР >= DATE_TRUNC('week', NOW()) + INTERVAL '7 day'
 				 OR ПрогнозДатаВыдачиОР IS NULL)
 		GROUP BY key
-	),
+	)
 SELECT
 	COALESCE(m."Период", DATE_TRUNC('MONTH', sq7.Дата))					AS "Период",
 	COALESCE(m."Направление реализации", sq7."Направление реализации") 	AS "Направление реализации",
