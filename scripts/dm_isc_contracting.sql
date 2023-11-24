@@ -115,7 +115,7 @@ WITH
 			key,
 		 	SUM(Количество) 									AS "Прогноз до конца недели" 
 		 FROM base_query
-		 WHERE "Период контрактации VERTICA" = DATE_TRUNC('MONTH', NOW())
+		 WHERE "Период контрактации VERTICA" = DATE_TRUNC('MONTH', NOW())::date
 		 	AND DATE_TRUNC('week', NOW()) <= ПрогнозДатаВыдачиОР
 			AND ПрогнозДатаВыдачиОР <= DATE_TRUNC('week', NOW()) + INTERVAL '6 day'
 		GROUP BY key
@@ -125,8 +125,8 @@ WITH
 			key,
 		 	SUM(Количество) 									AS "Прогноз до конца месяца" 
 		 FROM base_query
-		 WHERE "Период контрактации VERTICA" = DATE_TRUNC('MONTH', NOW())
-			AND (ПрогнозДатаВыдачиОР >= DATE_TRUNC('week', NOW()) + INTERVAL '7 day'
+		 WHERE "Период контрактации VERTICA" = DATE_TRUNC('MONTH', NOW())::date
+			AND (ПрогнозДатаВыдачиОР >= DATE_TRUNC('week', NOW()) + INTERVAL '6 day'
 				 OR ПрогнозДатаВыдачиОР IS NULL)
 		GROUP BY key
 	)
