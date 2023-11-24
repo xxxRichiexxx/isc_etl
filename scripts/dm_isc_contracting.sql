@@ -153,7 +153,7 @@ SELECT
 	sq7."План контрактации. Неделя 2",
 	sq7."План контрактации. Неделя 3",
 	sq7."План контрактации. Неделя 4",
-	sq7."ts"::date
+	sq7."ts"::date,
 	CASE
 		WHEN '{execution_date}' = DATE_TRUNC('MONTH', NOW())::DATE
 			THEN sq8."Прогноз до конца недели"
