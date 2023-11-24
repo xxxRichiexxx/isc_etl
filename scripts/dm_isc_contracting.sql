@@ -198,4 +198,6 @@ WHERE
 	OR sq7."План контрактации. Неделя 1" IS NOT NULL
 	OR sq7."План контрактации. Неделя 2" IS NOT NULL
 	OR sq7."План контрактации. Неделя 3" IS NOT NULL
-	OR sq7."План контрактации. Неделя 4" IS NOT NULL;
+	OR sq7."План контрактации. Неделя 4" IS NOT NULL
+	OR sq8."Прогноз до конца недели" IS NOT NULL
+	OR sq9."Прогноз до конца месяца" IS NOT NULL;
