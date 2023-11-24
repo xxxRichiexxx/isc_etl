@@ -109,7 +109,27 @@ WITH
 				WHERE "Дата" = '{plan_date}'
 			)
 			AND "Дата" = '{plan_date}'
-	)
+	),
+	sq8 AS(
+		 SELECT
+			key,
+		 	SUM(Количество) 									AS "Прогноз до конца недели" 
+		 FROM base_query
+		 WHERE "Период контрактации VERTICA" = DATE_TRUNC('MONTH', TIMESTAMP NOW())
+		 	AND DATE_TRUNC('week', TIMESTAMP NOW()) <= ПрогнозДатаВыдачиОР
+			AND ПрогнозДатаВыдачиОР <= DATE_TRUNC('week', TIMESTAMP NOW()) + INTERVAL '6 day'
+		GROUP BY key
+	),
+	sq9 AS(
+		 SELECT
+			key,
+		 	SUM(Количество) 									AS "Прогноз до конца месяца" 
+		 FROM base_query
+		 WHERE "Период контрактации VERTICA" = DATE_TRUNC('MONTH', TIMESTAMP NOW())
+			AND (ПрогнозДатаВыдачиОР >= DATE_TRUNC('week', TIMESTAMP NOW()) + INTERVAL '7 day'
+				 OR ПрогнозДатаВыдачиОР IS NULL)
+		GROUP BY key
+	),
 SELECT
 	COALESCE(m."Период", DATE_TRUNC('MONTH', sq7.Дата))					AS "Период",
 	COALESCE(m."Направление реализации", sq7."Направление реализации") 	AS "Направление реализации",
@@ -134,6 +154,16 @@ SELECT
 	sq7."План контрактации. Неделя 3",
 	sq7."План контрактации. Неделя 4",
 	sq7."ts"::date
+	CASE
+		WHEN '{execution_date}' = DATE_TRUNC('MONTH', NOW())::DATE
+			THEN sq8."Прогноз до конца недели"
+		ELSE "Факт выдачи ОР"
+	END																	AS "Прогноз до конца недели",
+	CASE
+		WHEN '{execution_date}' = DATE_TRUNC('MONTH', NOW())::DATE
+			THEN sq9."Прогноз до конца месяца"
+		ELSE "Факт выдачи ОР"
+	END																	AS "Прогноз до конца месяца"
 FROM matrix AS m
 LEFT JOIN sq1
 	ON m.key = sq1.key
@@ -149,6 +179,10 @@ LEFT JOIN sq6
 	ON m.key = sq6.key
 FULL JOIN sq7
 	ON m.key = sq7.key
+LEFT JOIN sq8
+	ON m.key = sq8.key
+LEFT JOIN sq9
+	ON m.key = sq9.key
 WHERE
 	"Догруз на начало месяца" IS NOT NULL
 	OR sq2."План контрактации" IS NOT NULL
