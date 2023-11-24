@@ -155,12 +155,12 @@ SELECT
 	sq7."План контрактации. Неделя 4",
 	sq7."ts"::date,
 	CASE
-		WHEN '{execution_date}' = DATE_TRUNC('MONTH', NOW())::DATE
+		WHEN '{execution_date}'::DATE = DATE_TRUNC('MONTH', NOW())::DATE
 			THEN sq8."Прогноз до конца недели"
 		ELSE "Факт выдачи ОР"
 	END																	AS "Прогноз до конца недели",
 	CASE
-		WHEN '{execution_date}' = DATE_TRUNC('MONTH', NOW())::DATE
+		WHEN '{execution_date}'::DATE = DATE_TRUNC('MONTH', NOW())::DATE
 			THEN sq9."Прогноз до конца месяца"
 		ELSE "Факт выдачи ОР"
 	END																	AS "Прогноз до конца месяца"
