@@ -156,7 +156,7 @@ DROP TABLE IF EXISTS sttgaz.stage_isc_orders;
 CREATE TABLE sttgaz.stage_isc_orders (
     "ProductCode65" VARCHAR(500),
     "Color" VARCHAR(500),
-    "BuildOption" VARCHAR(200),
+    "BuildOption" VARCHAR(300),
     "ModelYear" INT,
     "AdditionalProps14" VARCHAR(200),
     "IGC" VARCHAR(500),
@@ -174,6 +174,8 @@ CREATE TABLE sttgaz.stage_isc_orders (
     "ShippingWarehouse" VARCHAR(200),
     "quantity" INT,
     "ShipmentDate" DATE,
+    "PrognozDataVidachiOR" TIMESTAMP,
+    "TypePerehodaPS" VARCHAR,
     "load_date" DATE
 )
 ORDER BY "DirectionOfImplementation", "Buyer"
@@ -522,7 +524,7 @@ DROP TABLE IF EXISTS sttgaz.dds_isc_orders;
 CREATE TABLE sttgaz.dds_isc_orders (
     "Товар_Код65" VARCHAR(500),                                         ------"ProductCode65" 
     "Цвет" VARCHAR(500),                                                ------"Color"
-    "ВариантСборки" VARCHAR(200),                                       ------"BuildOption"
+    "ВариантСборки" VARCHAR(300),                                       ------"BuildOption"
     "Модельный год" INT,                                                ------"ModelYear"
     "Доп реквизит 14" VARCHAR(200),                                     ------"AdditionalProps14"
     "ИГК" VARCHAR(500),                                                 ------"IGC"
@@ -538,7 +540,9 @@ CREATE TABLE sttgaz.dds_isc_orders (
     "Производитель" VARCHAR(200),                                       ----"Manufacturer"
     "Вид продукции" VARCHAR(200),                                        -----"ProductType",
     "Договор" VARCHAR(500),                                             --------"Contract",
-    "Склад отгрузки" VARCHAR(200),  
+    "Склад отгрузки" VARCHAR(200), 
+    "ПрогнозДатаВыдачиОР" TIMESTAMP,
+    "ТипПереходаПС" VARCHAR,
     "Количество" INT,                                                   ------"quantity"
     "Период контрактации VERTICA" DATE                                 ------"load_date"
 )
