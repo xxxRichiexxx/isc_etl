@@ -38,11 +38,14 @@ WITH
 			key,
 			SUM(Количество) 									AS "Догруз на начало месяца"
 		FROM base_query
-		WHERE ("Статус отгрузки"  IN ('Разнарядка', 'Отгрузка')
-			AND ("Дата отгрузки" IS NULL OR "Дата отгрузки" >= '{execution_date}') ------ Дата отгрузки вместо месяца отгрузки
-			AND TO_DATE("Месяц отгрузки", 'YYYY-MM') >= '{execution_date}'
-			AND "Период контрактации VERTICA"  < '{execution_date}')
-			-- OR ("Статус отгрузки"  IN ('Отгрузка') AND ТипПереходаПС = 'Позднее')  
+		WHERE 
+			("Статус отгрузки"  IN ('Разнарядка', 'Отгрузка')
+				AND ("Дата отгрузки" IS NULL OR "Дата отгрузки" >= '{execution_date}') ------ Дата отгрузки вместо месяца отгрузки
+				AND TO_DATE("Месяц отгрузки", 'YYYY-MM') >= '{execution_date}'
+				AND "Период контрактации VERTICA"  < '{execution_date}')
+			OR ("Статус отгрузки"  IN ('Отгрузка') 
+				AND ТипПереходаПС = 'Позднее'
+				AND "Период контрактации VERTICA"  < '{execution_date}')  
 		GROUP BY key		
 	),
 	sq2 AS(
@@ -73,11 +76,14 @@ WITH
 			key,
 		 	SUM(Количество) 									AS "Догруз на конец месяца"
 		 FROM base_query
-		 WHERE ("Период контрактации VERTICA" <= '{execution_date}'
-		 	AND "Статус отгрузки"  IN ('Разнарядка', 'Отгрузка', 'Пусто', 'Приложение')
-			AND ("Дата отгрузки" IS NULL OR DATE_TRUNC('MONTH', "Дата отгрузки") > '{execution_date}')------ Дата отгрузки вместо месяца отгрузки
-			AND  TO_DATE("Месяц отгрузки", 'YYYY-MM') > '{execution_date}')
-			-- OR ("Статус отгрузки"  IN ('Отгрузка') AND ТипПереходаПС = 'Позднее')  					 
+		 WHERE 
+		 	("Период контрактации VERTICA" <= '{execution_date}'
+		 		AND "Статус отгрузки"  IN ('Разнарядка', 'Отгрузка', 'Пусто', 'Приложение')
+				AND ("Дата отгрузки" IS NULL OR DATE_TRUNC('MONTH', "Дата отгрузки") > '{execution_date}')------ Дата отгрузки вместо месяца отгрузки
+				AND  TO_DATE("Месяц отгрузки", 'YYYY-MM') > '{execution_date}')
+			OR ("Статус отгрузки"  IN ('Отгрузка') 
+				AND ТипПереходаПС = 'Позднее'
+				AND "Период контрактации VERTICA" <= '{execution_date}')   					 
 		 GROUP BY key
 	),
 	sq5 AS(
