@@ -199,7 +199,7 @@ DROP TABLE IF EXISTS sttgaz.stage_isc_property_value_guide;
 CREATE TABLE sttgaz.stage_isc_property_value_guide (
     "property_id" INT,
     "property_value_id" INT,
-    "property_value_name" VARCHAR(500),
+    "property_value_name" VARCHAR(600),
     "load_date" DATE
 )
 ORDER BY "property_id"
