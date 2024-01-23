@@ -24,7 +24,7 @@ def extract(source_engine, data_type, execution_date):
         command,
         source_engine,
         dtype_backend='pyarrow',
-        na_values='',
+        dtype=str,
     )
 
 
