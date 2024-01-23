@@ -148,7 +148,7 @@ def transform(data, execution_date, data_type):
             "Color",
             "BuildOption",
             "ModelYear",
-            "PriznakRezerv",  --------------
+            "PriznakRezervirovania",
             "IGC",
             "DirectionOfImplementation",
             "Buyer",
@@ -157,7 +157,7 @@ def transform(data, execution_date, data_type):
             "ContractPeriod",
             "ShipmentMonth",
             "ProductionMonth",      
-            "ProductionMonthAZ",    -----------
+            "ProductionMonthAZ",
             "City",
             "Manufacturer",
             "ProductType",
@@ -287,11 +287,11 @@ def etl(source_engine, dwh_engine, data_type, monthly_tasks=False, offset=None, 
             key='RealizationCount',
             value=sum(data['Availability'])
         )
-    # elif data_type == 'orders':
-    #     context['ti'].xcom_push(
-    #         key=f'OrdersCount',
-    #         value=sum(data['quantity'])
-    #     )
+    elif data_type == 'orders':
+        context['ti'].xcom_push(
+            key=f'OrdersCount',
+            value=sum(data['quantity'])
+        )
 
     load(dwh_engine, data, data_type, execution_date)
 
