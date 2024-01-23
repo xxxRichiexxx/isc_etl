@@ -148,7 +148,7 @@ def transform(data, execution_date, data_type):
             "Color",
             "BuildOption",
             "ModelYear",
-            "AdditionalProps14",
+            "PriznakRezervirovania",  --------------
             "IGC",
             "DirectionOfImplementation",
             "Buyer",
@@ -156,7 +156,8 @@ def transform(data, execution_date, data_type):
             "Status",
             "ContractPeriod",
             "ShipmentMonth",
-            "ProductionMonth",
+            "ProductionMonth",      
+            "ProductionMonthAZ",    -----------
             "City",
             "Manufacturer",
             "ProductType",
