@@ -24,7 +24,7 @@ def extract(source_engine, data_type, execution_date):
         command,
         source_engine,
         dtype_backend='pyarrow',
-    )
+    ).fillna(0)
 
 
 def transform(data, execution_date, data_type):
