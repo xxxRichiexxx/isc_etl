@@ -24,7 +24,7 @@ def extract(source_engine, data_type, execution_date):
         command,
         source_engine,
         dtype_backend='pyarrow',
-    ).fillna(0)
+    )
 
 
 def transform(data, execution_date, data_type):
@@ -143,6 +143,7 @@ def transform(data, execution_date, data_type):
             "ClassifierEcologicalClass",
         ]
     elif data_type == 'orders':
+        data["PriznakRezerv"] = data["PriznakRezerv"].fillna(0)
         data.columns = [
             "ProductCode65",
             "Color",
