@@ -8,7 +8,7 @@ INSERT INTO sttgaz.dds_isc_orders
         "Color",
         "BuildOption",
         "ModelYear",
-        "AdditionalProps14",
+        "PriznakRezervirovania",
         "IGC",
         "DirectionOfImplementation",
         c.id,

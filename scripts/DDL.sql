@@ -531,7 +531,7 @@ CREATE TABLE sttgaz.dds_isc_orders (
     "Цвет" VARCHAR(500),                                                ------"Color"
     "ВариантСборки" VARCHAR(300),                                       ------"BuildOption"
     "Модельный год" INT,                                                ------"ModelYear"
-    "Доп реквизит 14" VARCHAR(200),                                     ------"AdditionalProps14"
+    "Признак Резервирования" VARCHAR(200),                              ------"AdditionalProps14"
     "ИГК" VARCHAR(500),                                                 ------"IGC"
     "Направление реализации" VARCHAR(500),                              ------"DirectionOfImplementation"
     "Покупатель ID" INT REFERENCES sttgaz.dds_isc_counteragent(id),     ------"Buyer"
