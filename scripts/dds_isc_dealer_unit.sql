@@ -2,15 +2,15 @@ INSERT INTO sttgaz.dds_isc_dealer_unit
 ("Наименование_дилера", "Площадка_дилера_ISK_ID", "Площадка_дилера", "ts")
 WITH sq1 AS(
     SELECT DISTINCT
-        HASH("Наименование_дилера",
+        HASH("Наименование_дилера",     
              "Площадка_дилера_ISK_ID",
              "Площадка_дилера")
     FROM sttgaz.dds_isc_dealer_unit
 )
 SELECT DISTINCT
-    "DealersName",
-	"DealersUnitID",
-	"DealersUnit",
+    "DealersName",                      ---КонтрагентПлощадкиДилера
+	"DealersUnitID",                    ---ПлощадкаДилера_Ид
+	"DealersUnit",                      ---ПлощадкаДилера
 	NOW()
 FROM sttgaz.stage_isc_realization r
 WHERE DATE_TRUNC('MONTH', load_date) IN(

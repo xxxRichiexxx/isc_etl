@@ -85,9 +85,9 @@ def transform(data, execution_date, data_type):
         ]
     elif data_type == 'realization':
         data.columns = [
-            "Client",
-            "DealersUnit",
-            "DealersName",
+            "Client",               #Клиент
+            "DealersUnit",          #ПлощадкаДилера
+            "DealersName",          #КонтрагентПлощадкиДилера
             "Doc",
             "BuildOption",
             "BuildOptionСollapsed",
@@ -107,7 +107,7 @@ def transform(data, execution_date, data_type):
             "AttachmentNumber",
             "DischargeNumber",
             "ProductIdentifier",
-            "Recipient",
+            "Recipient",                    #Получатель
             "Company",
             "Seller",
             "Warehouse",
@@ -119,7 +119,7 @@ def transform(data, execution_date, data_type):
             "RequestNumber",
             "RequestDischarge",
             "RequestResource",
-            "ClientHolding",
+            "ClientHolding",                #ХолдингКонечныйКлиент
             "Availability",
             "Turnover",
             "ExpenseVAT",
@@ -133,7 +133,7 @@ def transform(data, execution_date, data_type):
             "SumMOTotal",
             "ProductIdentifier2",
             "DocID",
-            "DealersUnitID",
+            "DealersUnitID",                #ПлощадкаДилера_Ид
             "ClassifierCabType",
             "ClassifierDrive",
             "ClassifierDetailedByDivision",
@@ -165,6 +165,10 @@ def transform(data, execution_date, data_type):
             "ShipmentDate",
             "PrognozDataVidachiOR",
             "TypePerehodaPS",
+            "ResursAZDataSdachiPlan",
+            "ResursAZDataSdachiFakt",
+            "ResursDataSdachiPlan",
+            "ResursDataSdachiFakt",           
             "quantity",            
         ]
     elif data_type == 'properties_guide':

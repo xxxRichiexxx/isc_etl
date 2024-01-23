@@ -87,9 +87,9 @@ CREATE TABLE sttgaz.stage_isc_classifier_2 (
 
 DROP TABLE IF EXISTS sttgaz.stage_isc_realization;
 CREATE TABLE sttgaz.stage_isc_realization(
-    "Client" VARCHAR(500),
-    "DealersUnit" VARCHAR(500),
-    "DealersName" VARCHAR(500),
+    "Client" VARCHAR(500),                              ---Клиент
+    "DealersUnit" VARCHAR(500),                         ---ПлощадкаДилера
+    "DealersName" VARCHAR(500),                         ---КонтрагентПлощадкиДилера
     "Doc" VARCHAR(500),
     "BuildOption" VARCHAR(200),
     "BuildOptionСollapsed" VARCHAR(200),
@@ -109,7 +109,7 @@ CREATE TABLE sttgaz.stage_isc_realization(
     "AttachmentNumber" VARCHAR(100),
     "DischargeNumber" INT,
     "ProductIdentifier" INT,
-    "Recipient" VARCHAR(500),
+    "Recipient" VARCHAR(500),                             ---Получатель
     "Company" VARCHAR(500),
     "Seller" VARCHAR(500),
     "Warehouse" VARCHAR(500),
@@ -121,7 +121,7 @@ CREATE TABLE sttgaz.stage_isc_realization(
     "RequestNumber" INT,
     "RequestDischarge" VARCHAR(500),
     "RequestResource" INT,
-    "ClientHolding" VARCHAR(500),
+    "ClientHolding" VARCHAR(500),                         ---ХолдингКонечныйКлиент
     "Availability" INT,
     "Turnover" NUMERIC(12,2),
     "ExpenseVAT" NUMERIC(12,2),
@@ -135,7 +135,7 @@ CREATE TABLE sttgaz.stage_isc_realization(
     "SumMOTotal" NUMERIC(12,2),
     "ProductIdentifier2" INT,
     "DocID" INT,
-    "DealersUnitID" INT,
+    "DealersUnitID" INT,                                   ---ПлощадкаДилера_Ид
     "ClassifierCabType" VARCHAR(500),
     "ClassifierDrive" VARCHAR(500),
     "ClassifierDetailedByDivision" VARCHAR(500),
@@ -172,10 +172,14 @@ CREATE TABLE sttgaz.stage_isc_orders (
     "ProductType" VARCHAR(200),
     "Contract" VARCHAR(500),
     "ShippingWarehouse" VARCHAR(200),
-    "quantity" INT,
     "ShipmentDate" DATE,
     "PrognozDataVidachiOR" TIMESTAMP,
     "TypePerehodaPS" VARCHAR,
+    "ResursAZDataSdachiPlan" TIMESTAMP,
+    "ResursAZDataSdachiFakt" TIMESTAMP,
+    "ResursDataSdachiPlan" TIMESTAMP,
+    "ResursDataSdachiFakt" TIMESTAMP,
+    "quantity" INT,
     "load_date" DATE
 )
 ORDER BY "DirectionOfImplementation", "Buyer"
@@ -385,7 +389,7 @@ COMMENT ON TABLE sttgaz.dds_isc_DirectionOfImplementationWithUKP IS 'Справ�
 
 CREATE TABLE sttgaz.dds_isc_counteragent (
 	"id" AUTO_INCREMENT PRIMARY KEY,
-    "Наименование" VARCHAR(500)
+    "Наименование" VARCHAR(500)                 ---Клиент  ---Получатель
 );
 
 COMMENT ON TABLE sttgaz.dds_isc_counteragent IS 'Справочник контрагентов. Связан с "реализация" и "заявки дилеров".';
@@ -393,9 +397,9 @@ COMMENT ON TABLE sttgaz.dds_isc_counteragent IS 'Справочник контр
 
 CREATE TABLE sttgaz.dds_isc_dealer_unit (
 	"id" AUTO_INCREMENT PRIMARY KEY,
-    "Наименование_дилера" VARCHAR(500),
-    "Площадка_дилера_ISK_ID" INT,
-    "Площадка_дилера" VARCHAR(500),
+    "Наименование_дилера" VARCHAR(500),         ---КонтрагентПлощадкиДилера
+    "Площадка_дилера_ISK_ID" INT,               ---ПлощадкаДилера_Ид
+    "Площадка_дилера" VARCHAR(500),             ---ПлощадкаДилера
     "ts" TIMESTAMP 
 );
 
@@ -450,9 +454,9 @@ COMMENT ON TABLE sttgaz.dds_isc_product IS 'Справочник продукт�
 
 CREATE TABLE sttgaz.dds_isc_realization (
 	"id" AUTO_INCREMENT PRIMARY KEY,
-    "Контрагент ID" INT REFERENCES sttgaz.dds_isc_counteragent(id),
-    "Получатель ID" INT REFERENCES sttgaz.dds_isc_counteragent(id),
-    "Площадка дилера ID" INT REFERENCES sttgaz.dds_isc_dealer_unit(id),
+    "Контрагент ID" INT REFERENCES sttgaz.dds_isc_counteragent(id),     ---Клиент 
+    "Получатель ID" INT REFERENCES sttgaz.dds_isc_counteragent(id),     ---Получатель
+    "Площадка дилера ID" INT REFERENCES sttgaz.dds_isc_dealer_unit(id), 
 	"Документ" VARCHAR(500),
 	"Продукт ID" INT REFERENCES sttgaz.dds_isc_product(id),
 	"Вид оплаты" VARCHAR(100), 
