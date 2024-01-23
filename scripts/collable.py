@@ -143,7 +143,7 @@ def transform(data, execution_date, data_type):
             "ClassifierEcologicalClass",
         ]
     elif data_type == 'orders':
-        data["ПризнакРезервирования"] = data["ПризнакРезервирования"].fillna(0)
+        data["ПризнакРезервирования"] = data["ПризнакРезервирования"].fillna(False)
         data.columns = [
             "ProductCode65",
             "Color",
