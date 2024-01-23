@@ -24,7 +24,6 @@ def extract(source_engine, data_type, execution_date):
         command,
         source_engine,
         dtype_backend='pyarrow',
-        dtype=str,
     )
 
 
@@ -143,36 +142,36 @@ def transform(data, execution_date, data_type):
             "ClassifierNumberOfSeats",
             "ClassifierEcologicalClass",
         ]
-    elif data_type == 'orders':
-        data.columns = [
-            "ProductCode65",
-            "Color",
-            "BuildOption",
-            "ModelYear",
-            "PriznakRezervirovania",  --------------
-            "IGC",
-            "DirectionOfImplementation",
-            "Buyer",
-            "ShipmentStatus",
-            "Status",
-            "ContractPeriod",
-            "ShipmentMonth",
-            "ProductionMonth",      
-            "ProductionMonthAZ",    -----------
-            "City",
-            "Manufacturer",
-            "ProductType",
-            "Contract",
-            "ShippingWarehouse",
-            "ShipmentDate",
-            "PrognozDataVidachiOR",
-            "TypePerehodaPS",
-            "ResursAZDataSdachiPlan",
-            "ResursAZDataSdachiFakt",
-            "ResursDataSdachiPlan",
-            "ResursDataSdachiFakt",           
-            "quantity",            
-        ]
+    # elif data_type == 'orders':
+    #     data.columns = [
+    #         "ProductCode65",
+    #         "Color",
+    #         "BuildOption",
+    #         "ModelYear",
+    #         "PriznakRezervirovania",  --------------
+    #         "IGC",
+    #         "DirectionOfImplementation",
+    #         "Buyer",
+    #         "ShipmentStatus",
+    #         "Status",
+    #         "ContractPeriod",
+    #         "ShipmentMonth",
+    #         "ProductionMonth",      
+    #         "ProductionMonthAZ",    -----------
+    #         "City",
+    #         "Manufacturer",
+    #         "ProductType",
+    #         "Contract",
+    #         "ShippingWarehouse",
+    #         "ShipmentDate",
+    #         "PrognozDataVidachiOR",
+    #         "TypePerehodaPS",
+    #         "ResursAZDataSdachiPlan",
+    #         "ResursAZDataSdachiFakt",
+    #         "ResursDataSdachiPlan",
+    #         "ResursDataSdachiFakt",           
+    #         "quantity",            
+    #     ]
     elif data_type == 'properties_guide':
         data.columns = [
             "id", 
