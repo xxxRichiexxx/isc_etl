@@ -137,7 +137,7 @@ WITH
 		 WHERE "Период контрактации VERTICA" = DATE_TRUNC('MONTH', NOW())::date
 		 	AND ("Статус отгрузки" = 'Приложение' OR "Статус отгрузки" IS NULL)
 			AND (ПрогнозДатаВыдачиОР >= DATE_TRUNC('week', NOW()) + INTERVAL '7 day'
-				 OR ПрогнозДатаВыдачиОР IS NULL)
+				 and ПрогнозДатаВыдачиОР <= date_trunc('month', now()) + INTERVAL '1 month' - INTERVAL '1 day')
 		GROUP BY key
 	)
 SELECT
